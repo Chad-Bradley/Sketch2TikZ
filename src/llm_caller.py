@@ -23,12 +23,14 @@ PLATFORM_BASE_URL = {
     "modelscope":   "https://api-inference.modelscope.cn/v1",
     "siliconflow":  "https://api.siliconflow.cn/v1",
     "zhipu":        "https://open.bigmodel.cn/api/paas/v4",
+    "deepseek":     "https://api.deepseek.com",
 }
 
 PLATFORM_ENV_KEY = {
     "modelscope":   "MODELSCOPE_API_KEY",
     "siliconflow":  "SILICONFLOW_API_KEY",
     "zhipu":        "ZHIPU_API_KEY",
+    "deepseek":     "DEEPSEEK_API_KEY",
 }
 
 # Per-platform default models
@@ -39,8 +41,9 @@ _VISION_MODELS = {
 }
 
 _CODE_MODELS = {
-    "modelscope":   os.getenv("CODE_MODEL", "Qwen/Qwen3-Coder-480B-A35B-Instruct"),
-    "siliconflow":  "deepseek-ai/DeepSeek-R1-0528-Qwen3-8B",
+    "deepseek":     os.getenv("CODE_MODEL", "deepseek-chat"),
+    "modelscope":   "Qwen/Qwen3-Coder-480B-A35B-Instruct",
+    "siliconflow":  "Qwen/Qwen3-8B",
     "zhipu":        "glm-4.7-flash",
 }
 
@@ -189,7 +192,7 @@ def text_to_text(
         RuntimeError: If all platforms fail.
     """
     if platforms is None:
-        platforms = ["modelscope", "siliconflow", "zhipu"]
+        platforms = ["deepseek", "modelscope", "siliconflow", "zhipu"]
 
     def _call(p):
         m = model or _CODE_MODELS.get(p, _CODE_MODELS["modelscope"])

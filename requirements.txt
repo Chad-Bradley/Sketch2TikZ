@@ -2,3 +2,14 @@ openai>=1.0.0
 python-dotenv>=1.0.0
 pandas>=2.0.0
 pyarrow>=14.0.0
+# SciTikZ academic metrics
+torch>=2.0.0
+torchmetrics>=1.0.0
+torchvision>=0.15.0
+pygments>=2.15.0
+sacremoses>=0.1.0
+crystalbleu>=0.1.0
+nltk>=3.8.0
+pytorch-msssim>=1.0.0
+lpips>=0.1.4
+Pillow>=10.0.0

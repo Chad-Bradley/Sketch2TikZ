@@ -27,10 +27,12 @@ from pathlib import Path
 if sys.platform == "win32":
     sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 
+import torch
 import pandas as pd
 
 from src.llm_caller import image_to_text, text_to_text
 from src.pipeline import safe_print, fix_for_xelatex, clean_tikz_output, compile_latex
+from src.academic_metrics import AcademicCodeMetrics, AcademicImageMetrics, CodeMetricResult, ImageMetricResult
 
 ROOT = Path(__file__).resolve().parent
 DATA_DIR = ROOT / "data"
@@ -112,6 +114,8 @@ CRITIC_PROMPT = (
     "Compare them on: layout structure, shapes, labels, relative positions, "
     "and overall visual similarity. "
     "Score from 1.0 (no resemblance) to 5.0 (nearly identical). "
+    "CRITICAL: If shapes are severely distorted vs the original (stretched, "
+    "squashed, wrong aspect ratio, disproportionate scaling), assign score = 0.0. "
     "Output ONLY a JSON object:\n"
     '  {"score": <float 1.0-5.0>, "is_pass": <true/false>}\n'
     "is_pass should be true if score >= 3.0."
@@ -160,6 +164,30 @@ def critic_evaluate(original_img_path: str, output_pdf_path: str, workdir: str) 
     if not pdf_to_png(output_pdf_path, render_path):
         safe_print("  [CRITIC] PDF->PNG conversion failed, score=0")
         return {"score": 0.0, "is_pass": False}
+
+    # ---- Aspect-ratio gate: if generated content is >2x or <0.5x the
+    #      original's aspect ratio, it's geometrically broken → score=0
+    try:
+        from PIL import Image, ImageChops
+        def _content_bbox(path):
+            img = Image.open(path).convert("RGB")
+            bg = Image.new("RGB", img.size, (255, 255, 255))
+            bbox = ImageChops.difference(img, bg).convert("L").getbbox()
+            if bbox is None:
+                return img.width, img.height
+            return bbox[2] - bbox[0], bbox[3] - bbox[1]
+
+        gw, gh = _content_bbox(original_img_path)
+        pw, ph = _content_bbox(render_path)
+        ar_gt = gw / max(gh, 1)
+        ar_pr = pw / max(ph, 1)
+        ratio = ar_pr / ar_gt if ar_gt > 0 else 1.0
+        if ratio > 2.0 or ratio < 0.5:
+            safe_print(f"  [CRITIC] Aspect-ratio mismatch: gt={ar_gt:.2f} pred={ar_pr:.2f} "
+                       f"(ratio={ratio:.2f}) -> score=0")
+            return {"score": 0.0, "is_pass": False}
+    except Exception as e:
+        safe_print(f"  [CRITIC] Aspect-ratio check failed: {e}")
 
     # Build message with TWO images: original + generated rendering
     from src.llm_caller import _encode_image, _get_client, _VISION_MODELS, _VISION_PLATFORMS
@@ -214,7 +242,9 @@ def critic_evaluate(original_img_path: str, output_pdf_path: str, workdir: str) 
         return {"score": 0.0, "is_pass": False}
 
 
-def run_sample(row, idx: int, workdir: str, skip_critic: bool = False) -> dict:
+def run_sample(row, idx: int, workdir: str, skip_critic: bool = False,
+               code_metrics: AcademicCodeMetrics = None,
+               image_metrics: AcademicImageMetrics = None) -> dict:
     """Run the full AI pipeline on a single data row.
 
     No fallback to Ground Truth — if any API call fails across all platforms,
@@ -231,6 +261,11 @@ def run_sample(row, idx: int, workdir: str, skip_critic: bool = False) -> dict:
         "critic_score": 0.0,
         "critic_pass": False,
         "gen_code_len": 0,
+        # Academic metrics (SciTikZ)
+        "ted_sim": 0.0,
+        "crystalbleu": 0.0,
+        "ssim": 0.0,
+        "lpips_sim": 0.0,
     }
 
     # ---- Decode image ----
@@ -258,7 +293,7 @@ def run_sample(row, idx: int, workdir: str, skip_critic: bool = False) -> dict:
             {"role": "user",
              "content": f"Generate TikZ code based on this description:\n{description}"},
         ],
-        platforms=["modelscope", "siliconflow", "zhipu"],
+        platforms=["deepseek", "modelscope", "siliconflow", "zhipu"],
         temperature=0.05,
         max_tokens=4096,
     )
@@ -284,6 +319,27 @@ def run_sample(row, idx: int, workdir: str, skip_critic: bool = False) -> dict:
         result["critic_pass"] = critic["is_pass"]
     # If compile failed, score stays 0.0 — code that can't compile is worthless.
 
+    # ---- Step 5: Academic metrics (SciTikZ TED/CrystalBLEU/SSIM/LPIPS) ----
+    if compile_ok and code_metrics is not None:
+        try:
+            gt_code = row["code"]
+            cm = code_metrics.compute(gt_code, tikz_code)
+            result["ted_sim"] = cm.ted_sim
+            result["crystalbleu"] = cm.crystalbleu
+        except Exception as e:
+            safe_print(f"  [METRICS] Code metrics failed: {e}")
+
+    if compile_ok and image_metrics is not None:
+        try:
+            pdf_path = tex_path.replace(".tex", ".pdf")
+            render_path = os.path.join(workdir, f"metric_render_{idx}.png")
+            if pdf_to_png(pdf_path, render_path):
+                im = image_metrics.compute(img_path, render_path)
+                result["ssim"] = im.ssim
+                result["lpips_sim"] = im.lpips_sim
+        except Exception as e:
+            safe_print(f"  [METRICS] Image metrics failed: {e}")
+
     return result
 
 
@@ -296,20 +352,19 @@ def print_dashboard(results: list, difficulty: str):
 
     compile_pass = sum(1 for r in results if r["compile_ok"])
     critic_pass = sum(1 for r in results if r["critic_pass"])
-    scores = [r["critic_score"] for r in results if r["critic_score"] > 0]
-    avg_score = sum(scores) / len(scores) if scores else 0.0
+    avg_score = sum(r["critic_score"] for r in results) / n
     avg_vision = sum(r["vision_time"] for r in results) / n
     avg_codegen = sum(r["codegen_time"] for r in results) / n
 
     safe_print(f"\n{'=' * 55}")
     safe_print(f"  Evaluation Dashboard — {difficulty.upper()}")
     safe_print(f"{'=' * 55}")
-    safe_print(f"  Samples tested:        {n}")
-    safe_print(f"  Compile pass rate:     {compile_pass}/{n}  ({100*compile_pass/n:.1f}%)")
-    safe_print(f"  Critic pass rate:      {critic_pass}/{n}  ({100*critic_pass/n:.1f}%)")
-    safe_print(f"  Avg fidelity score:    {avg_score:.2f} / 5.0")
-    safe_print(f"  Avg vision time:       {avg_vision:.1f}s")
-    safe_print(f"  Avg codegen time:      {avg_codegen:.1f}s")
+    safe_print(f"  Samples tested:          {n}")
+    safe_print(f"  Compile pass rate:       {compile_pass}/{n}  ({100*compile_pass/n:.1f}%)")
+    safe_print(f"  Critic pass rate:        {critic_pass}/{n}  ({100*critic_pass/n:.1f}%)")
+    safe_print(f"  Avg fidelity score:      {avg_score:.2f} / 5.0")
+    safe_print(f"  Avg vision time:         {avg_vision:.1f}s")
+    safe_print(f"  Avg codegen time:        {avg_codegen:.1f}s")
     safe_print(f"{'=' * 55}")
 
 
@@ -329,6 +384,10 @@ def main():
         "--skip-critic", action="store_true",
         help="Skip the critic scoring step (faster, but no quality scores)"
     )
+    parser.add_argument(
+        "--academic", action="store_true",
+        help="Enable SciTikZ metrics (TED/CrystalBLEU/SSIM/LPIPS). Off by default."
+    )
     args = parser.parse_args()
 
     safe_print(f"Loading dataset: {args.difficulty} (max {args.num_samples} samples)")
@@ -337,19 +396,40 @@ def main():
 
     safe_print(f"  Available: {len(df)} rows, testing: {len(samples)}")
 
+    # Init academic metrics with GT corpus from the dataset
+    code_metrics = None
+    image_metrics = None
+    if args.academic:
+        try:
+            device = "cuda" if torch.cuda.is_available() else "cpu"
+            if device == "cpu":
+                safe_print(f"  [INFO] No GPU detected. LPIPS on CPU is slow (~3-10s/image).")
+            gt_codes = df["code"].head(200).tolist()
+            code_metrics = AcademicCodeMetrics(gt_codes)
+            image_metrics = AcademicImageMetrics(device=device)
+            safe_print(f"  Academic metrics: TED + CrystalBLEU + SSIM + LPIPS ({device.upper()})")
+        except Exception as e:
+            safe_print(f"  [WARN] Academic metrics unavailable: {e}")
+
     workdir = "output"
+    if os.path.exists(workdir):
+        for f in os.listdir(workdir):
+            os.remove(os.path.join(workdir, f))
     os.makedirs(workdir, exist_ok=True)
     results = []
     for i, (_, row) in enumerate(samples.iterrows()):
         safe_print(f"\n[{i+1}/{len(samples)}] Processing {row.get('uri', 'N/A')}")
         try:
-            r = run_sample(row, i + 1, workdir, skip_critic=args.skip_critic)
+            r = run_sample(row, i + 1, workdir, skip_critic=args.skip_critic,
+                          code_metrics=code_metrics, image_metrics=image_metrics)
             results.append(r)
             status = "OK" if r["compile_ok"] else "FAIL"
-            safe_print(
-                f"  -> Compile: {status} | Critic: {r['critic_score']:.1f} | "
-                f"Vision: {r['vision_time']}s | CodeGen: {r['codegen_time']}s"
-            )
+            line = (f"  -> Compile: {status} | Critic: {r['critic_score']:.1f} | "
+                    f"V: {r['vision_time']}s C: {r['codegen_time']}s")
+            if args.academic:
+                line += (f" | TED: {r['ted_sim']:.2f} CBLEU: {r['crystalbleu']:.2f}"
+                         f" SSIM: {r['ssim']:.2f} LPIPS: {r['lpips_sim']:.2f}")
+            safe_print(line)
         except RuntimeError as e:
             safe_print(f"\n{'=' * 55}")
             safe_print(f"FATAL: All API platforms exhausted on sample {i+1}.")

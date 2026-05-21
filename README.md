@@ -12,15 +12,16 @@ A vision model describes the image, a code model generates LaTeX/TikZ, then XeLa
 ```
 Sketch2TikZ/
 ├── src/
-│   ├── llm_caller.py     # Multi-platform API wrapper (3 providers, auto-fallback)
-│   └── pipeline.py       # XeLaTeX compiler + preprocessor
+│   ├── llm_caller.py       # Multi-platform API wrapper (4 providers, auto-fallback)
+│   ├── pipeline.py         # XeLaTeX compiler + preprocessor
+│   └── academic_metrics.py # SciTikZ metrics: TED, CrystalBLEU, SSIM, LPIPS (opt-in)
 ├── scripts/
-│   └── setup_data.py     # Extract difficulty-level zip datasets
-├── evaluate.py           # Full benchmark: vision → code → compile → critic
-├── output/               # Generated .tex / .pdf / .png (persisted after run)
-├── data/                 # Extracted parquet datasets (gitignored)
-├── .env                  # API keys + XeLaTeX path (gitignored, NEVER commit)
-├── .env.example          # Template for .env
+│   └── setup_data.py       # Extract difficulty-level zip datasets
+├── evaluate.py             # Full benchmark: vision → code → compile → critic
+├── output/                 # Generated .tex / .pdf / .png (auto-cleaned each run)
+├── data/                   # Extracted parquet datasets (gitignored)
+├── .env                    # API keys + XeLaTeX path (gitignored, NEVER commit)
+├── .env.example            # Template for .env
 ├── .gitignore
 └── requirements.txt
 ```
@@ -74,13 +75,14 @@ cp .env.example .env
 # Edit .env — fill in keys for the platforms you intend to use
 ```
 
-Three platforms are supported. The pipeline tries them **in order** and falls back automatically:
+Four platforms are supported. The pipeline tries them **in order** and falls back automatically:
 
-| Platform | Vision model | Code model | Rate limit |
-|----------|-------------|------------|------------|
-| ModelScope | `Qwen/Qwen3-VL-235B-A22B-Instruct` | `Qwen/Qwen3-Coder-480B-A35B-Instruct` | ~2000 calls/day |
-| ZhipuAI | `glm-4v-flash` | `glm-4.7-flash` | Free tier |
-| SiliconFlow | (not available) | `Qwen/Qwen3-8B` | Free tier |
+| Platform | Vision model | Code model | Priority |
+|----------|-------------|------------|----------|
+| DeepSeek | (not available) | `deepseek-chat` | Code #1 |
+| ModelScope | `Qwen/Qwen3-VL-235B-A22B-Instruct` | `Qwen/Qwen3-Coder-480B-A35B-Instruct` | Vision #1, Code #2 |
+| ZhipuAI | `glm-4v-flash` | `glm-4.7-flash` | Vision #2, Code #4 |
+| SiliconFlow | (not available) | `Qwen/Qwen3-8B` | Code #3 |
 
 `.env` is **gitignored** and must never be committed.
 
@@ -107,12 +109,10 @@ Populates `data/easy/`, `data/medium/`, `data/hard/`.
 
 ## Usage
 
-### Full benchmark
-
 ```bash
 python evaluate.py --difficulty easy --num_samples 10
 python evaluate.py --difficulty medium --num_samples 5 --skip-critic
-python evaluate.py --difficulty hard --num_samples 10
+python evaluate.py --difficulty hard --num_samples 10 --academic
 ```
 
 | Flag | Effect |
@@ -120,8 +120,17 @@ python evaluate.py --difficulty hard --num_samples 10
 | `--difficulty {easy,medium,hard}` | Which dataset to evaluate (default: easy) |
 | `--num_samples N` | How many rows to test (default: 10) |
 | `--skip-critic` | Skip visual Critic scoring (faster, no fidelity scores) |
+| `--academic` | Enable SciTikZ metrics: TED, CrystalBLEU, SSIM, LPIPS (off by default) |
 
-All generated `.tex`, `.pdf`, and rendered PNGs are persisted in `output/`.
+All generated files are written to `output/`. The directory is **auto-cleaned** at the start of each run.
+
+### Pipeline per sample
+
+1. Vision model describes the image
+2. Code model generates TikZ LaTeX
+3. XeLaTeX compiles → PDF (pass/fail)
+4. **Aspect-ratio gate**: if generated shapes are >2x or <0.5x the original aspect ratio, score = 0
+5. Vision Critic scores visual similarity 1.0–5.0 (only if compile passed)
 
 ### Dashboard metrics
 
@@ -129,45 +138,44 @@ All generated `.tex`, `.pdf`, and rendered PNGs are persisted in `output/`.
 |--------|---------|
 | Compile pass rate | % of AI-generated TikZ that compiles to PDF |
 | Critic pass rate | % rated ≥ 3.0 by vision-based comparison |
-| Avg fidelity score | Mean visual similarity score (1.0–5.0) |
+| Avg fidelity score | Mean score across ALL samples (failures count as 0) |
 | Avg vision / codegen time | Latency per pipeline stage |
 
 ---
 
 ## API Fallback Behavior
 
-`src/llm_caller.py` accepts a **list** of platforms (e.g. `["modelscope", "zhipu", "siliconflow"]`) and tries them in order. If a platform returns 401/429/403, the next is tried immediately. If **all** platforms fail, the program exits with a diagnostic telling you which keys to fix.
-
-No Ground Truth fallback — if AI generation fails, the sample is recorded as FAIL. The benchmark measures AI capability honestly.
+Each API call accepts a **list** of platforms and tries them in order. If a platform returns 401/429/403, the next is tried immediately. If **all** platforms fail, the program exits with a diagnostic showing which platform failed and why.
 
 ---
 
 ## Notes
 
-- ModelScope's free tier is ~2000 calls/day; SiliconFlow and ZhipuAI provide additional quota headroom.
-- XeLaTeX success is determined by **PDF file existence**, not exit code (XeLaTeX may return non-zero on warnings).
-- Niche packages (`MnSymbol`, `mathrsfs`) are auto-stripped by the preprocessor since they're absent from TeX Live.
-- Use `Ctrl+C` to interrupt a run — partial results are preserved in `output/`.
+- XeLaTeX success is determined by **PDF file existence**, not exit code.
+- Niche packages (`MnSymbol`, `mathrsfs`) are auto-stripped by the preprocessor.
+- `--academic` metrics (LPIPS especially) are slow on CPU — GPU recommended.
+- Ghostscript is auto-discovered from PATH, or set `GS_PATH` in `.env`.
 
 ---
 
 ## <a name="chinese">中文</a>
 
-Sketch2TikZ 是一个多模型 LLM 流水线：手绘草图 → 视觉模型描述 → 代码模型生成 TikZ → XeLaTeX 编译 → 视觉 Critic 对比原图打分。
+Sketch2TikZ 是一个多模型 LLM 流水线：手绘草图 → 视觉模型描述 → 代码模型生成 TikZ → XeLaTeX 编译 → 宽高比门禁 → 视觉 Critic 对比原图打分。
 
-### 环境配置要点
+### 环境配置
 
 1. 安装 TeX Live（推荐清华镜像）+ `tlmgr install pgf standalone xecjk ctex fontspec pgfplots subfigure bbm-macros revtex`
-2. `conda install -c conda-forge -y ghostscript`（Critic 评分需要 PDF 转 PNG）
-3. `cp .env.example .env` 并填入至少一个平台的 API Key
-4. `python scripts/setup_data.py` 解压数据集
-5. `python evaluate.py --difficulty easy --num_samples 10` 运行评估
-
-生成的 `.tex`、`.pdf`、渲染 PNG 均保存在 `output/` 目录，不会被自动删除。
+2. `conda install -c conda-forge -y ghostscript`
+3. `cp .env.example .env` 并填入 API Key
+4. `pip install -r requirements.txt`
+5. `python scripts/setup_data.py` 解压数据集
 
 ### API 平台优先级
 
 视觉模型：ModelScope → ZhipuAI
-代码模型：ModelScope → SiliconFlow → ZhipuAI
+代码模型：DeepSeek → ModelScope → SiliconFlow → ZhipuAI
 
-任一平台失败自动切换，全平台耗尽则程序报错退出。
+### 评估指标
+
+编译通过率、Critic 通过率（1.0–5.0 分，含形变门禁）、平均保真度（编译失败 = 0 分）。
+需要学术指标时加 `--academic`，输出 TED / CrystalBLEU / SSIM / LPIPS。
