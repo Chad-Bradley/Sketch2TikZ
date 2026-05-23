@@ -24,6 +24,9 @@ def main():
     args = parser.parse_args()
 
     test_dir = os.path.join(ROOT, "test", "data", args.difficulty)
+    out_dir = os.path.join(ROOT, "output")
+    os.makedirs(out_dir, exist_ok=True)
+
     if not os.path.isdir(test_dir):
         safe_print(f"Test data not found: {test_dir}")
         return
@@ -32,16 +35,17 @@ def main():
     n = len(samples)
     safe_print(f"Benchmark: {args.difficulty}  samples: {n}")
     safe_print(f"Test data: {test_dir}")
+    safe_print(f"Output: {out_dir}")
 
     results = []
     for i, png_path in enumerate(samples):
         safe_print(f"\n[{i+1}/{n}] {os.path.basename(png_path)}")
         t0 = time.time()
 
-        r = generate(png_path, i)
+        r = generate(png_path, i, output_dir=out_dir)
 
         if r.compile_ok and not args.skip_judge:
-            j = evaluate(png_path, r.gen_pdf_path, test_dir)
+            j = evaluate(png_path, r.gen_pdf_path, out_dir)
             r.critic_score = j["score"]
             r.critic_pass = j["is_pass"]
             r.diagnosis = j["diagnosis"]

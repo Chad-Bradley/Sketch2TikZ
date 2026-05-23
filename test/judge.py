@@ -63,8 +63,23 @@ def evaluate(original_path: str, generated_pdf_path: str, render_dir: str) -> di
     if not os.path.exists(render_path) or os.path.getsize(render_path) == 0:
         return {"score": 0.0, "is_pass": False, "diagnosis": "PDF rendering failed"}
 
-    b64_orig = _encode(original_path)
-    b64_gen = _encode(render_path)
+    # Resize images that exceed 2048 on any side (ModelScope limit)
+    from PIL import Image as PILImage
+    orig_path = original_path
+    rend_path = render_path
+    for label, p in [("orig", orig_path), ("rend", rend_path)]:
+        im = PILImage.open(p)
+        if max(im.size) > 2048:
+            ratio = 2048 / max(im.size)
+            new_size = (int(im.width * ratio), int(im.height * ratio))
+            im = im.resize(new_size, PILImage.LANCZOS)
+            new_p = os.path.join(os.path.dirname(p), f"resized_{label}.png")
+            im.save(new_p)
+            if label == "orig": orig_path = new_p
+            else: rend_path = new_p
+
+    b64_orig = _encode(orig_path)
+    b64_gen = _encode(rend_path)
 
     key = os.getenv("MODELSCOPE_API_KEY")
     if not key: raise RuntimeError("MODELSCOPE_API_KEY not set")
