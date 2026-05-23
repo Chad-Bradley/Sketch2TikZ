@@ -1,0 +1,29 @@
+\documentclass[tikz]{standalone}
+\usetikzlibrary{calc}
+\begin{document}
+\foreach \h in {-1.2,-1.4,...,-5}{
+\begin{tikzpicture}
+\draw (0,0) ellipse (1 and .3);
+\draw (-1,0)--(-1,-5);
+\draw (1,0)--(1,-5);
+\draw (-1,-5) arc (180:360:1);
+
+\fill[red!50] (-1,\h)--(-1,-5) arc (180:360:1) -- (1,\h) --cycle;
+\path[fill=red!40!white,] (0,\h) ellipse (1 and .3);
+
+\foreach \y/\x in {-5/1,
+                   -4/2,
+                   -3/3,
+                   -2/4%
+                   }
+    {
+    \draw (-0.2,\y)--(0.2,\y) node[right](\x){\x};
+
+    \foreach \z in {0.2,0.4,0.6,0.8}
+                    {\draw ($(-0.1,\z) + (0,\y)$)--($(0.1,\z)+(0,\y)$);}
+    };
+
+
+\end{tikzpicture}
+}
+\end{document}

@@ -1,0 +1,32 @@
+\documentclass[border=3mm,tikz]{standalone}
+\usepackage{pgfplots}
+
+\begin{document}
+\begin{tikzpicture}
+\begin{axis}[
+    axis lines = middle,
+    xlabel = {$x$},
+    ylabel = {$y$},
+        ]
+    \addplot [domain=0:10]{x};
+    \draw
+      (axis cs:3, 3) coordinate (tmp) % start point
+      ++(-30:5mm)
+      node[
+        below right,
+        align=left,
+      ] (test) {Test Text Test\\Text Test}
+      (test.west) -- (tmp)
+    ;
+    \draw
+      (axis cs:6, 6) coordinate (tmp) % start point
+      ++(-30:5mm)
+      node[
+        below right,
+        align=left,
+      ] (test) {Test Text Test\\Text Test}
+      (test.north) -- (tmp)
+    ;
+\end{axis}
+\end{tikzpicture}
+\end{document}

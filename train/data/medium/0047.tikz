@@ -1,0 +1,36 @@
+\documentclass{article}
+\usepackage{tikz}
+\usepackage{etoolbox}
+
+\makeatletter
+\def\ae@path{}
+\newcommand{\Emmett}[6]{% points, advance, rand factor, options, end label
+  \def\ae@last@y{0}
+  \def\ae@initial@portion{\draw[#4] (0,0)}
+  \xdef\ae@path{\expandonce\ae@initial@portion}
+  \foreach \x [remember=\x as \lastx (initially 0)]in {1,...,749}
+  {   
+    \typeout{==>--------------------------------------------------}%%
+    \typeout{==>(x=\x) ==> (old y=\ae@last@y)}%%
+    \pgfmathparse{rand*#3 + #2*(#6-\ae@last@y)/(#1-\x)}
+    \xdef\ae@last@y{\pgfmathresult}
+    \typeout{==>(x=\x) ==> (new y=\ae@last@y)}%%
+    \xdef\ae@path{\expandonce\ae@path -- ++(#2,\expandonce\ae@last@y)}
+  }
+  \ae@path node[right] {#5};
+}
+\makeatother
+
+\begin{document}
+
+    \scalebox{0.5}{   
+    \begin{tikzpicture}
+      \draw[help lines] (0,-5) grid (15,5);
+      \Emmett{750}{0.02}{0.2}{red}{first one}{2.0}
+      \Emmett{750}{0.02}{0.2}{green}{second one}{-1.0}
+      \Emmett{750}{0.02}{0.2}{blue}{third one}{-2.0}
+    \end{tikzpicture}
+    }
+    %\pgfmathsetseed{1337}
+
+\end{document}

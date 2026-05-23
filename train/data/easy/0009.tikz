@@ -1,0 +1,39 @@
+\documentclass{article}
+\usepackage{tikz}
+\usetikzlibrary{calc}
+
+\begin{document}
+
+\begin{tikzpicture}
+% Define the coordinates of the vertices of the triangle
+\coordinate (A) at (0,0);
+\coordinate (B) at (3,0);
+\coordinate (C) at (1.5,2.5);
+
+% Draw the triangle
+\draw (A) -- (B) -- (C) -- cycle;
+
+% Fill the triangle with a color
+\fill[blue!50] (A) -- (B) -- (C) -- cycle;
+
+% Draw a line segment from the midpoint of AB to the midpoint of AC
+\coordinate (MAB) at ($(A)!0.5!(B)$);
+\coordinate (MAC) at ($(A)!0.5!(C)$);
+\draw (MAB) -- (MAC);
+
+% Draw a line segment from the midpoint of AC to the midpoint of BC
+\coordinate (MBC) at ($(B)!0.5!(C)$);
+\draw (MAC) -- (MBC);
+
+% Draw a line segment from the midpoint of AB to the midpoint of BC
+\draw (MAB) -- (MBC);
+
+% Draw a small circle at the top of the flagpole
+\filldraw[black] (A) circle (0.1);
+
+% Draw a line segment representing the flagpole
+\draw (A) -- (C);
+
+\end{tikzpicture}
+
+\end{document}

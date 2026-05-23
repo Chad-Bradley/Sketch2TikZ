@@ -1,0 +1,14 @@
+\documentclass[border=2pt]{standalone}
+\usepackage{tikz}
+\begin{document}
+
+\newcommand{\Ball}[1]{
+  \draw(#1) circle(2cm);
+}
+
+\begin{tikzpicture}
+  \coordinate (O) at (1, 4);
+  \Ball{O};
+\end{tikzpicture}
+
+\end{document}

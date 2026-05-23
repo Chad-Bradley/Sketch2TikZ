@@ -1,0 +1,51 @@
+\documentclass[tikz]{standalone}
+\usepackage{etoolbox}
+\makeatletter
+\def\tikz@valign{c}
+\tikzset{
+  enforce alignment/.code={% even without text width
+    \csname if#1\endcsname
+      \def\tikz@text@width
+        {\pgfkeysvalueof{/pgf/minimum width}-2*(\pgfkeysvalueof{/pgf/inner xsep})}%
+    \else
+      \let\tikz@text@width\pgfutil@empty
+    \fi},
+  enforce alignment/.default=true,
+  valign/.is choice,
+  valign/top/.code=\def\tikz@valign{t},
+  valign/center/.code=\def\tikz@valign{c},
+  valign/bottom/.code=\def\tikz@valign{b},
+  valign height/.initial=%
+    \pgfkeysvalueof{/pgf/minimum height}-2*(\pgfkeysvalueof{/pgf/inner ysep})}
+\patchcmd\tikz@fig@continue{\tikz@node@transformations}{%
+  \pgfmathsetlength\pgf@x{\pgfkeysvalueof{/tikz/valign height}}%
+  \pgf@y\ht\pgfnodeparttextbox
+  \advance\pgf@y\dp\pgfnodeparttextbox
+  \ifdim\pgf@y<\pgf@x
+  \if\tikz@valign b%
+    \advance\pgf@x-\dp\pgfnodeparttextbox
+    \setbox\pgfnodeparttextbox\vbox to \pgf@x{\vfill\hbox{\unhbox\pgfnodeparttextbox}}%
+  \else\if\tikz@valign t%
+    \setbox\pgfnodeparttextbox\vbox to \pgf@x{\hbox{\unhbox\pgfnodeparttextbox}\vfill}%
+  \fi\fi\fi
+  %
+  \tikz@node@transformations}{}{}
+\makeatother
+\tikzset{nodes={draw,rounded corners},minimum height=1.5cm,minimum width=2cm}
+\begin{document}
+\begin{tikzpicture}
+  \node [text=red,  valign=top]    {Case t};
+  \node                            {Case c};
+  \node [text=blue, valign=bottom] {Case b};
+\end{tikzpicture}
+\begin{tikzpicture}[enforce alignment]
+  \node [text=red,  valign=top,    align=left ]  {Case t};
+  \node [                         align=center]  {Case c};% or "enforce alignment=false"
+  \node [text=blue, valign=bottom, align=right]  {Case b};
+\end{tikzpicture}
+\begin{tikzpicture}[enforce alignment, align=center, minimum height=3cm]
+  \node [text=red,  valign=top]                 {Case t Case t Case t Case t};
+  \node                            at (right:2) {Case c Case c Case c Case c};
+  \node [text=blue, valign=bottom] at (right:4) {Case b Case b Case b Case b};
+\end{tikzpicture}
+\end{document}

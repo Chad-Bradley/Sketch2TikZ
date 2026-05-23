@@ -1,0 +1,46 @@
+\documentclass{article}
+\usepackage{tikz}
+\usetikzlibrary{arrows,calc,chains,positioning,shapes.callouts}
+
+\begin{document}
+
+\begin{tikzpicture}[
+every   pin/.style = {
+  pin distance=9mm,
+  pin edge={<-,
+    solid,black,
+    shorten <>=0mm
+    }, 
+  text=blue
+},
+shorten <>/.style = {
+  shorten >=#1,
+  shorten <=#1
+},
+Line/.style = {
+  line width=2.4mm, 
+  gray,
+  -triangle 60,
+  shorten <>=2mm
+},
+node distance=33mm,
+start chain = going below,    
+]
+\node (a) [draw,minimum width=44mm,on chain] {node 1};
+\node (b) [draw,minimum width=44mm,on chain] {node 2};
+\draw (a) -- (b);
+\begin{scope}[transform canvas={xshift=7mm}]
+  \draw[Line] 
+    (a) to node (c) [inner sep=0pt,text=white,pin=below  left:line 1] {1}   (b);
+  \node[rectangle callout,draw,callout absolute pointer=(c.west),
+    align=center, above left=3mm of c.west]  {note about\\   line num. 1};
+\end{scope}
+\begin{scope}[transform canvas={xshift=19mm}]
+  \draw[Line]
+    (b) to node (d) [inner sep=0pt,text=white,pin=below right:line 2] {2}   (a);
+  \node[rectangle callout,draw,callout absolute pointer=(d.east),
+    align=center, above right=3mm of d.east]  {note about\\   line num. 2};
+\end{scope}
+\end{tikzpicture}
+
+\end{document}

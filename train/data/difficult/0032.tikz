@@ -1,0 +1,46 @@
+\documentclass{article}
+
+% Load TikZ package
+\usepackage{tikz}
+
+% Define colors
+\definecolor{sky}{RGB}{135, 206, 235}
+\definecolor{mountain}{RGB}{139, 69, 19}
+\definecolor{train}{RGB}{255, 140, 0}
+
+\begin{document}
+
+% Create a TikZ picture environment
+\begin{tikzpicture}
+
+% Draw the sky
+\fill[sky] (0,0) rectangle (10,5);
+
+% Draw the mountain
+\fill[mountain] (0,0) -- (2,2) -- (4,1) -- (6,3) -- (8,1) -- (10,2) -- (10,0) -- cycle;
+
+% Draw the railway tracks
+\draw[line width=2mm, gray] (0,0.5) -- (10,0.5);
+\draw[line width=2mm, gray] (0,1.5) -- (10,1.5);
+
+% Draw the train
+\fill[train] (2,1) rectangle (4,2);
+\fill[train] (6,1) rectangle (8,2);
+\draw[line width=2mm, train] (2,1) -- (6,1) -- (6,2) -- (2,2) -- cycle;
+\draw[line width=2mm, train] (4,1) -- (8,1) -- (8,2) -- (4,2) -- cycle;
+
+% Draw the wheels
+\fill[black] (2.5,0.5) circle (0.3);
+\fill[black] (3.5,0.5) circle (0.3);
+\fill[black] (6.5,0.5) circle (0.3);
+\fill[black] (7.5,0.5) circle (0.3);
+
+% Draw the smoke
+\fill[white] (3,2.5) circle (0.3);
+\fill[white] (7,2.5) circle (0.3);
+\fill[gray] (3.3,2.8) -- (3.7,2.8) -- (3.5,3.2) -- cycle;
+\fill[gray] (6.7,2.8) -- (7.1,2.8) -- (6.9,3.2) -- cycle;
+
+\end{tikzpicture}
+
+\end{document}

@@ -1,0 +1,27 @@
+\documentclass[a4paper,10pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{color}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{tikz}
+\usetikzlibrary{shapes}
+
+\begin{document}
+
+\begin{tikzpicture}
+\filldraw[blue!10!, draw=black] (0,0) circle (2);
+\draw[densely dotted] (0,1) -- (0,-1);
+\filldraw[white!100!, draw=black] (-1,1.75) .. controls (0,0.75) .. (1,1.75);
+\fill[white!100!] (-1,1.75) .. controls (0,2) .. (1,1.75);
+\filldraw[white!100!, draw=black] (-1,-1.75) .. controls (0,-0.75) .. (1,-1.75);
+\fill[white!100!] (-1,-1.75) .. controls (0,-2) .. (1,-1.75);
+\node()at (-2.2,0){A};
+\node()at (0.5,0){$\Sigma^{min}_{AB}$};
+\node()at (-0.75,0.85){$\Gamma^{(A)}_{AB}$};
+\node()at (-0.75,-0.85){$\Gamma^{(A)}_{AB}$};
+\node()at (0.75,0.85){$\Gamma^{(B)}_{AB}$};
+\node()at (0.75,-0.85){$\Gamma^{(B)}_{AB}$};
+\node()at (2.2,0){B};
+\end{tikzpicture}
+
+\end{document}

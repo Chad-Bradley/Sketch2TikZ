@@ -1,0 +1,17 @@
+\documentclass{article}
+
+\usepackage{mwe}
+\usepackage{tikz}
+\usetikzlibrary{matrix}
+
+\begin{document}
+
+\begin{tikzpicture}
+    \matrix[matrix of nodes,
+    column 1/.style={anchor=center,color=red,text depth=2cm}]{
+    asdf & \includegraphics[width=2cm]{example-image-a} & \includegraphics[width=3cm]{example-image-a} \\
+    bkgi & \includegraphics[width=3cm]{example-image-a} & \includegraphics[width=1cm]{example-image-a} \\
+    };
+\end{tikzpicture}
+
+\end{document}

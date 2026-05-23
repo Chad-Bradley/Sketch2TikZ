@@ -1,0 +1,33 @@
+\documentclass{article}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.17}
+\pgfplotsset{my style1/.style={clip = false, 
+                               axis lines* = middle,
+                               axis equal,
+                               xtick = \empty, ytick = \empty,
+  every axis plot post/.append style = {very thick}% thickness of function,
+                                                   % if you like to change default value
+                               }                               
+            }
+\usetikzlibrary{arrows.meta,
+                decorations.markings
+                }
+
+\begin{document}
+    \begin{tikzpicture}[
+->-/.style={decoration={markings,% switch on markings
+                        mark=at position 0.75 with {\arrow[line width=2pt]{Straight Barb}}
+                        },
+            postaction={decorate}
+            }
+                        ]
+\begin{axis}[
+    my style1, 
+    legend pos=outer north east, 
+    samples=101]
+\addplot [->-, red,  domain=2:-2] { 0.5*sqrt(4-x^2)};
+\addplot [->-, blue, domain=-2:2] {-0.5*sqrt(4-x^2)};
+        \legend{$\gamma_1$,$\gamma_2$};
+\end{axis}
+    \end{tikzpicture}
+\end{document}

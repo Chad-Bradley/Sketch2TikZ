@@ -1,0 +1,43 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\PassOptionsToPackage{dvipsnames,svgnames}{xcolor} 
+\usepackage[object=vectorian]{pgfornament}
+\title{Ornaments}
+\author{Alain Matthes}
+\begin{document}
+\maketitle
+
+\begin{tikzpicture}[remember picture,overlay]
+    \node[below left] at ([xshift=-2cm,yshift=-1cm]current page.north east) {\pgfornament[width = .8cm,
+             color = MidnightBlue]{15}
+\hspace{-6pt}\pgfornament[width = 1.6cm,
+             color = MidnightBlue,
+             symmetry=h]{15}
+\hspace{-8pt}\pgfornament[width = 2.4cm,
+                          color = MidnightBlue]{15}};
+
+\node[below right,rotate=270] at ([xshift=-1cm,yshift=-2cm]current page.north east) {\pgfornament[width = 2.4cm, color = MidnightBlue,symmetry=v]{15}
+                           \hspace{-8pt}\pgfornament[width = 1.6cm,
+                                        color = MidnightBlue,
+                                     symmetry=h,symmetry=v]{15}
+                           \hspace{-6pt}\pgfornament[width = 0.8cm,
+                                                 color = MidnightBlue,
+                                                 symmetry=v]{15}
+                                                  };
+\end{tikzpicture}
+
+\begin{tikzpicture}[color=Maroon,
+                    every node/.style={inner sep=0pt}]
+ \draw[help lines] (-6,-6) grid (6,6);
+ \node[minimum size=12cm](vecbox){}; 
+ \node[anchor=north west] at (vecbox.north west)
+      {\pgfornament[width=5cm]{61}};
+ \node[anchor=north east] at (vecbox.north east)
+      {\pgfornament[width=5cm,symmetry=v]{61}};
+ \node[anchor=south west] at (vecbox.south west)
+      {\pgfornament[width=5cm,symmetry=h]{61}};
+ \node[anchor=south east] at (vecbox.south east)
+      {\pgfornament[width=5cm,symmetry=c]{61}};
+\end{tikzpicture} 
+\end{document}

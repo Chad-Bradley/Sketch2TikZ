@@ -1,0 +1,64 @@
+\documentclass[12pt]{amsart}
+\usepackage{color}
+\usepackage{amssymb, amsmath}
+\usepackage{tikz}
+\usepackage{tikz-cd}
+\usetikzlibrary{snakes}
+\usetikzlibrary{intersections, calc}
+\usetikzlibrary{decorations.pathreplacing}
+
+\begin{document}
+
+\begin{tikzpicture}
+\begin{scope}[xscale=1.0, yscale=1.0]
+\fill (-1,1) coordinate (r) circle (2pt);
+\fill (-1,-2) coordinate (p) circle (2pt); 
+
+\draw[dashed] (-2,2)--(3,-3);
+\draw (-1,2)--(-1,-3);
+\draw[dashed] (-2,-2)--(3,-2);
+
+\draw[->, thick] (p)--(-1,-1.5);
+\node[left] at (-1,-1.2) {$e_{1}^{*}$};
+\draw[->, thick] (p)--(-1,-2.5);
+\node[left] at (-1,-2.8) {$x-e_{1}^{*}$};
+
+\draw[->, thick] (r)--(-1,0.5);
+\node[left] at (-1,0.3) {$-e_{1}^{*}$};
+\draw[->, thick] (r)--(-1,1.5);
+\node[right] at (-1,1.5) {$e_{1}^{*}+x$};
+\end{scope}
+
+\begin{scope}[xshift=180, xscale=1.0, yscale=1.0]
+\fill (-1,1) coordinate (r) circle (2pt);
+\fill (2,-2) coordinate (q) circle (2pt); 
+\fill (-1,-2) coordinate (p) circle (2pt); 
+
+\draw[dashed] (p)--(-2,-2);
+\draw[dashed] (p)--(-1,-3);
+\draw (p)--(q);
+\draw[dashed] (q)--(3,-2);
+\draw[dashed] (q)--(3,-3);
+\draw (q)--(r);
+\draw[dashed] (r)--(-2,2);
+\draw[dashed] (r)--(-1,2);
+\draw (r)--(p);
+
+\draw[->, thick] (p)--(-0.5,-2);
+\node[below] at (-0.2,-2) {$e_{2}^{*}$};
+\draw[->, thick] (p)--(-1,-1.5);
+\node[left] at (-1,-1.2) {$e_{1}^{*}$};
+
+\draw[->, thick] (q)--(1.5,-2);
+\node[below] at (1.2,-2) {$-e_{2}^{*}$};
+\draw[->, thick] (q)--(1.5,-1.5);
+\node[left] at (1.5,-1.5) {$e_{1}^{*}-e_{2}^{*}$};
+
+\draw[->, thick] (r)--(-1,0.5);
+\node[left] at (-1,0.3) {$-e_{1}^{*}$};
+\draw[->, thick] (r)--(-0.5,0.5);
+\node[right] at (-0.5,0.5) {$e_{2}^{*}-e_{1}^{*}$};
+\end{scope}
+\end{tikzpicture}
+
+\end{document}

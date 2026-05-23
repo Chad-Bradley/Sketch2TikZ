@@ -1,0 +1,23 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{tikz}
+\usepackage{amsthm,amsmath, amsfonts}
+\usetikzlibrary{calc}
+
+\begin{document}
+
+\begin{tikzpicture}
+            %circles
+            \draw (2.16431605453767,1.11889327842919) [color = {rgb,255:red,153;green,51;blue,255}] circle (1.820495447927309cm);
+            \draw (1.0268019607180707,-0.5053555499986746) [color = {rgb,255:red,0;green,0;blue,255}] circle (1.1713265285113694cm);
+            \draw (3.684148903695332,-0.5138464250981529) [color = {rgb,255:red,0;green,0;blue,255}] circle (1.1713265285113694cm);
+            \draw (2.673471597346966,-1.5264597597974565) [color = {rgb,255:red,204;green,0;blue,0}] circle (0.04233710344016998cm);
+            \draw (2.197982591776191,-0.17641061898039612) [color = {rgb,255:red,0;green,0;blue,255}] circle (0.26813498845440986cm);
+            \draw[gray] (2.1045829656819315,1.2245837724335344)node {$a$};
+            \draw[gray] (1.0177509529487316,-0.43113687196474704)node {$b$};
+            \draw[gray] (3.6499222337869504,-0.3886824964673552)node {$c$};
+            \draw[gray] (2.5140354716506193,-1.424569258603716)node {$d$};
+            \draw[gray] (2.1810008415772346,-0.05753836758769891)node {$e$};
+        \end{tikzpicture}
+
+\end{document}

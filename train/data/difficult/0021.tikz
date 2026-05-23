@@ -1,0 +1,54 @@
+\documentclass[border=5mm]{standalone}
+\usepackage{pgfplots}
+
+\begin{document}
+
+    \begin{tikzpicture}
+        \begin{axis}[
+            width  = 0.85*\textwidth,
+            height = 8cm,
+            major x tick style = transparent,
+            ybar=2*\pgflinewidth,
+            bar width=14pt,
+            ymajorgrids = true,
+            ylabel = { some ratio },
+            ylabel style={align=center},
+            xlabel = {some vlaues},
+            x tick label style={font=\small,text width=1cm,align=center},
+            symbolic x coords={set1,set2},
+            nodes near coords,
+            point meta=explicit symbolic,
+            xtick = data,
+            scaled y ticks = false,
+            enlarge x limits=0.25,
+            ymin=0,
+            legend cell align=left,
+            legend style={
+                    at={(1,1.05)},
+                    anchor=south east,
+                    column sep=1ex
+            }
+        ]
+        \addplot[blue,fill=blue]
+                coordinates {(set1, 0.67) [1.2] (set2, 0.89) [1.2]};
+
+            \addplot[red,fill=red]
+                 coordinates {(set1, 0.61) [1.1] (set2, 0.84) [1.1]};
+
+            \addplot[green,fill=green]
+                 coordinates {(set1, 0.55) [1.0] (set2, 0.77) [1.0]};
+
+            \addplot[purple,fill=purple]
+                  coordinates {(set1, 0.48) [0.9] (set2, 0.70) [0.9]};
+
+            \addplot[darkgray,fill=darkgray]
+                  coordinates {(set1, 0.44) [0.8] (set2, 0.62) [0.8]};
+
+            \addplot[brown,fill=brown]
+                  coordinates {(set1, 0.39) [0.7] (set2, 0.79) [0.7]};
+
+            \legend{1.2(1),1.1(0.9),1.0(0.8),0.9(0.7),0.8(0.6),0.7(0.5)}
+    \end{axis}
+    \end{tikzpicture}
+
+\end{document}

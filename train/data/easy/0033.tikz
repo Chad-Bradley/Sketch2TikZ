@@ -1,0 +1,28 @@
+\documentclass[10pt]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{tikz,tkz-tab}
+
+\begin{document}
+
+\begin{tikzpicture}[scale=2.9]
+    \draw[->] (-2,0) -- (2.1,0) node[right] {$x$};
+    \draw[->] (0,-0.45) -- (0,0.5) node[above] {$y$};
+    \draw (0.375,0) node[above] {$O=(x_O,y_O)$};
+    \draw (0,0) node[color=black%blue!50
+    ] {$\bullet$};
+    \draw (1.1,0.3) node[above] {$B=(x_B,y_B)$ with $x_O<x_B$ and $y_O<y_B$ };
+    \draw (1.1,0.15) node[above] {$O$ dominates $B$};
+    
+    \draw (-1.1,-0.3) node[above] {$C=(x_C,y_C)$ with $x_O>x_C$ and $y_O>y_C$ };
+    \draw (-1.1,-0.45) node[above] {$C$ dominates $O$};
+    
+    \draw (1.1,-0.3) node[above] {$D=(x_D,y_D)$ with $x_O<x_D$ and $y_D<y_O$ };
+    \draw (1.1,- 0.45) node[above] {$O$ and $D$ not comparable, $O \phantom{1}\mathcal{I} \phantom{1} D$ and $O \prec D$};
+    
+    \draw (-1.1,0.3) node[above] {$A=(x_A,y_A)$ with $x_O>x_A$ and $y_O<y_A$ };
+    \draw (-1.1,0.15) node[above] {$A$ and $O$ not comparable, $A \phantom{1} \mathcal{I} \phantom{1} O$ and $A \prec O$};
+    
+
+\end{tikzpicture}
+
+\end{document}

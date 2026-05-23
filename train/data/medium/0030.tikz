@@ -1,0 +1,41 @@
+\documentclass[tikz,margin=3mm]{standalone}
+\usetikzlibrary{positioning,
+                quotes}
+
+\begin{document}
+    \begin{tikzpicture}[
+V/.style args = {#1/#2}{circle, draw=#1, thick, fill=#2, minimum size=7mm, font=\itshape},
+   V/.default = {black/none},
+every edge quotes/.style = {font=\footnotesize, inner sep=1pt, minimum size=3pt, auto},
+                        ]
+\node[V=blue/none]      (tl)    {H}; % top left
+\node[V,right=of tl]    (tm)    {B};
+\node[V,right=of tm]    (tr)    {C};
+%
+\node[V,below=of tl]    (ml)    {I};
+\node[V=black/red,
+        right=of ml]    (mm)    {F};
+\node[V,right=of mm]    (mr)    {D};
+%
+\node[V,below=of ml]    (bl)    {G};
+\node[V=red/green,
+        right=of bl]    (bm)    {A};
+\node[V=black/cyan,
+        right=of bm]    (br)    {E}; % bottom right
+% the lines are drawn in a loop
+\draw   (tl) edge[red,"$5$"] (tm) 
+        (tm) to["$4$"] (tr)    
+             to["$3$"]       (mr) to["$4$"] (br)
+             to["$2$"]       (bm) to["$4$"] (bl)    
+             edge[line width=.5mm, "$6$"]   (ml) 
+        (ml) to["$2$"]       (tl)
+        %
+        (ml) to["$7$"]       (mm) to["$5$"] (tm)    
+             to["$3$" ']     (ml)
+        %
+        (tm) to["$6$"]       (mr) edge[green,"$1$"] (mm)
+        (mm) to["$3$" ']     (bm) to["$8$"] (ml)
+        %
+        (mr) edge[->,thick,magenta,"$4$"]   (bm);
+\end{tikzpicture}
+\end{document}

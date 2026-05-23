@@ -1,0 +1,23 @@
+\documentclass[tikz,crop]{standalone}
+\usepackage{tikz}
+\usetikzlibrary{decorations.markings, arrows.meta}
+
+\begin{document}
+    \begin{tikzpicture}
+    [>=Latex,
+    decoration={%
+        markings,
+        mark=at position 2.35619cm with {\arrow[line width=1pt]{>}},
+        mark=at position 4.71239cm with {\arrow[line width=1pt]{>}},
+        mark=at position 7.06858cm with {\arrow[line width=1pt]{>}},
+        mark=at position 10.9248cm with {\arrow[line width=1pt]{>}},
+        mark=at position 13.9248cm with {\arrow[line width=1pt]{>}},
+    }
+    ]
+    \draw [help lines,->] (-4,0) -- (4,0) coordinate (xaxis);
+    \draw [help lines,->] (0,-4) -- (0,1) coordinate (yaxis);
+    \node at (0,-2) {$\times$};
+    \node at (0.6,-2) {$-ip^1$};
+    \path [draw, line width=0.8pt, postaction=decorate] (3,0) node [above] {$R$} arc (0:-180:3) node [above] {$-R$} -- (3,0); 
+    \end{tikzpicture}
+\end{document}

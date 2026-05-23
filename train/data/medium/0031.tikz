@@ -1,0 +1,139 @@
+\documentclass[a4paper, 11pt]{article}
+\usepackage[pdftex]{graphicx,color}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{tikz}
+\usetikzlibrary{arrows,calc,shapes,decorations.pathmorphing,decorations.markings}
+\tikzset{
+%Define standard arrow tip
+>=stealth',
+%Define style for different line styles
+help lines/.style={dashed, thick},
+axis/.style={<->},
+important line/.style={thick},
+connection/.style={thick, dotted},
+  cross/.style={
+    cross out,
+    draw=black, 
+    minimum size=7pt, 
+    inner sep=0pt,
+    outer sep=0pt
+  },
+  branchcut/.style={
+    decoration={
+      snake,
+      amplitude=1pt,
+      segment length=6pt,
+    },
+    decorate,
+    thick
+  },
+%Arrows along lines
+->-/.style={decoration={
+  markings,
+  mark=at position #1 with {\arrow{>}}},postaction={decorate}},
+  twopt/.style={
+    circle,
+    draw,
+    fill=black,
+    inner sep=1pt,
+    minimum size=1pt
+  },
+  scalar/.style={
+    thick,
+    dashed,
+    postaction={
+      decorate,
+      decoration={
+        markings,
+        mark=at position 0.5 with {\arrow{>}}
+      }
+    }
+  },
+  spinning/.style={
+    thick,
+    postaction={
+      decorate,
+      decoration={
+        markings,
+        mark=at position 0.5 with {\arrow{>}}
+      }
+    }
+  },
+  scalar no arrow/.style={
+    thick,
+    dashed,
+  },
+  spinning no arrow/.style={
+    thick,
+  },
+  finite/.style={
+    decoration={
+      snake,
+      amplitude=1pt,
+      segment length=6pt,
+    },
+    decorate,
+    thick
+  },
+  axis/.style={
+    thick,
+    postaction={
+      decorate,
+      decoration={
+        markings,
+        mark=at position 1 with {\arrow{>}}
+      }
+    }
+  },
+}
+\tikzset{snake it/.style={decorate, decoration=snake}}
+
+\begin{document}
+
+\begin{tikzpicture}[anchor=base,baseline,scale=0.6, transform shape]
+		\node (opO1) at (-1.2,-1.6) [] {};
+		\node (opO2) at (-1.2, 1.6) [] {};
+		\node (opO3) at ( 1.2,-1.6) [] {};
+		\node (opO4) at ( 1.2, 1.6) [] {};
+		\node at (-1.9,-1.2) {\Large $x_1$};
+		\node at (-1.9,1.1) {\Large $x_4$};
+		\node at (1.9,-1.2) {\Large $x_3$};
+		\node at (1.9,1.1) {\Large $x_2$};
+		\node at (-1.5,-1.2) [twopt] {};
+		\node at (-1.5,1.2) [twopt] {};
+		\node at (1.5,-1.2) [twopt] {};
+		\node at (1.5,1.2) [twopt] {};
+		%Central PP
+		\draw [ultra thick, black] (-1.75,-1.75)-- (1.75,1.75);
+		\draw [ultra thick, black] (1.75,-1.75)-- (-1.75,1.75);
+		\draw [ultra thick, black] (0,3.5) -- (-3.5,0);
+		\draw [ultra thick, black] (0,-3.5) -- (-3.5,0);
+		\draw [ultra thick, black] (3.5,0) -- (0,3.5);
+		\draw [ultra thick, black] (3.5,0) -- (0,-3.5);
+		%PP4
+		\draw [thick, blue] (0,3.5) -- (-1.75,5.25);
+		\draw [thick, blue] (-5.25,1.75) -- (-1.75,5.25);
+		\draw [thick, blue] (-5.25,1.75) -- (-3.5,0);
+		\node at (-2.3,2.3) [blue] {\huge $\mathcal{P}_4$};
+		%PP1
+		\draw [thick, red] (-3.5,0) -- (-5.25,-1.75);
+		\draw [thick, red] (-5.25,-1.75) -- (-1.75,-5.25);
+		\draw [thick, red] (-1.75,-5.25) -- (0,-3.5);
+		\node at (-2.3,-2.3) [red] {\huge $\mathcal{P}_1$};
+		%PP3
+		\draw [thick, brown] (0,-3.5) -- (1.75,-5.25);
+		\draw [thick, brown] (1.75,-5.25) -- (5.25,-1.75);
+		\draw [thick, brown] (5.25,-1.75) -- (3.5,0);
+		\node at (2.3,-2.3) [brown] {\huge $\mathcal{P}_3$};
+		%PP2
+		\draw [thick, purple] (3.5,0) -- (5.25,1.75);
+		\draw [thick, purple] (5.25,1.75) -- (1.75,5.25);
+		\draw [thick, purple] (1.75,5.25) -- (0,3.5);
+		\node at (2.3,2.3) [purple] {\huge $\mathcal{P}_2$};
+		%
+		\draw [thick, black, dotted] (-3.5, 5.25) -- (-3.5,-5.25);
+		\draw [thick, black, dotted] (3.5, 5.25) -- (3.5,-5.25);
+	\end{tikzpicture}
+
+\end{document}

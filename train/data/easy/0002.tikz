@@ -1,0 +1,8 @@
+\documentclass[tikz,border=3.14mm]{standalone}
+\usetikzlibrary{decorations.markings}
+\begin{document}
+\begin{tikzpicture}[insert arrow/.style args={#1/#2}{postaction={decorate,
+decoration={markings,mark=at position #1 with {\arrow{#2}}}}}]
+ \draw[fill=blue!30,insert arrow/.list={0.125/>,0.37/>,0.38/>,0.625/<,0.87/<,0.88/<}] (0,0) -| ++ (2,2) -| cycle;
+\end{tikzpicture}
+\end{document}

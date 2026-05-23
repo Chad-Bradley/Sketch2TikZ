@@ -1,0 +1,17 @@
+\documentclass[tikz]{standalone}
+\usetikzlibrary{shapes.multipart}
+\begin{document}
+\begin{tikzpicture}
+\node[text=white,fill=cyan!60!blue,text width=1em,align=center]{A B C};
+\end{tikzpicture}
+
+\begin{tikzpicture}
+\node[text=white,fill=cyan!60!blue,align=center]{A\\ B\\ C};
+\end{tikzpicture}
+
+\begin{tikzpicture}
+\node[text=white,fill=cyan!60!blue,
+ rectangle split,rectangle split parts=3]{A\nodepart{two}B\nodepart{three}C};
+\end{tikzpicture}
+
+\end{document}

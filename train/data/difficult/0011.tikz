@@ -1,0 +1,42 @@
+\documentclass{article}
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[a4paper,margin=1in,footskip=0.25in]{geometry}
+\usepackage{amsmath}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.15}
+\usepgfplotslibrary{fillbetween}
+\usetikzlibrary{patterns}
+\begin{document}
+
+\begin{center}
+    \begin{tikzpicture}
+        \begin{axis} [
+                axis on top,
+                axis lines = center,
+                axis equal image,
+                xticklabel style = {font=\tiny},
+                yticklabel style = {font=\tiny},
+                xlabel ={$\Re(z)$},
+                xtick={1,2},
+                ytick={1,2},
+                ylabel ={$\Im(z)$},
+                legend pos=outer north east,
+                legend style={cells={align=left}},
+                legend cell align={left},
+                clip=false,enlargelimits=0.1
+            ]
+            \path[pattern=north west lines,pattern color=blue,even odd rule] 
+               (current axis.south west) rectangle (current axis.north east) 
+               (0,0) circle(2);
+            \path[pattern=north east lines,pattern color=red,even odd rule] 
+                (current axis.south west) rectangle (current axis.north east) 
+                 (0,0) circle(1);
+            \addplot[very thick,red,smooth,domain=0:2*pi,dotted] ({cos((x) r)},{sin((x) r)});
+            \addplot[very thick,red,smooth,domain=0:2*pi,dotted] ({2*cos((x) r)},{2*sin((x) r)});
+        \end{axis}
+    \end{tikzpicture}
+\end{center}
+
+\end{document}

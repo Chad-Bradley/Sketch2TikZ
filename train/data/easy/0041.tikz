@@ -1,0 +1,17 @@
+\documentclass[paper=155mm:230mm]{scrbook}
+\usepackage[frame,width=169.8truemm,height=247.4truemm,cam,pdftex,cross]{crop}
+\setlength{\voffset}{7.4mm}
+\setlength{\hoffset}{7.4mm}
+\usepackage{tikz}
+\usetikzlibrary{calc}
+\begin{document}
+\makeatletter
+\def\pgf@sys@pdf@mark@pos@pgfpageorigin{\pgfqpoint{\hoffset}{\dimexpr\pdfpageheight-\paperheight-\voffset}}
+\makeatother
+
+    Test\footnote{Test}
+    \begin{tikzpicture}[remember picture,overlay]
+        \draw[red] ($(current page.south west) + (-1,-1)$) -- ++(2,2);
+        \draw[red] ($(current page.south west) + (-1,1)$) -- ++(2,-2);
+    \end{tikzpicture}
+\end{document}

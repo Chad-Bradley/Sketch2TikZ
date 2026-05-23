@@ -1,0 +1,13 @@
+\documentclass[tikz,border=7pt]{standalone}
+\begin{document}
+  \begin{tikzpicture}
+    \clip[postaction={fill=red!20, draw=blue, thick}]
+      (0,0) circle (1cm)
+    ;
+    \path[draw=blue, double, double distance=2mm]
+      (-2,0) -- (2,0)
+      (0,0) -- (-60:2)
+      (0,0) -- (-120:2)
+    ;
+  \end{tikzpicture}
+\end{document}

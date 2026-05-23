@@ -1,0 +1,68 @@
+\documentclass{beamer}
+\usetheme{Berkeley}       % I like this theme better
+\usecolortheme{wolverine} % This gives the orange colorscheme
+\usepackage{standalone}   % I was trying to use this package to embed diagram files within here.
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,      % <----
+                positioning,
+                shadows, 
+                shapes.multipart}  % <----
+
+\begin{document}
+%%%%
+\begin{frame}[fragile]          % <----
+\frametitle{RDB Tables Example}
+
+% for simplify tests i include the content of the "standalone" file here
+    \begin{tikzpicture}[        % <----
+node distance = 5mm and 3mm,
+   MPN/.style args = {#1/#2}{% Multi Part Node            % <----
+                 rectangle split, rectangle split parts=2,
+                 draw, rounded corners,
+                 fill=#1,
+                 text=#2, font=\footnotesize\linespread{0.9}\selectfont,
+                 text width=28mm, align=center, 
+                 drop shadow},
+   MPN/.default = blue!50/white,                          % <----
+   arr/.style = {semithick, -{Triangle[open]}}            % <----
+                        ]
+\node (Order) [MPN=green!30/black] {                      % <----
+    \textbf{ORDER}
+    \nodepart{second}
+        order\_num (PK) \\
+        customer\_ID (FK) \\
+        store\_ID (FK) \\
+        clerk\_ID (FK) \\
+        date
+                    };
+\node (Store) [MPN, above left=of Order.west] {           % <---- 
+    \textbf{STORE}
+    \nodepart{two}
+        store\_ID (PK) \\
+        store\_name \\
+        address \\
+        district \\
+        floor\_type
+                    };
+\node (Clerk) [MPN, above right=of Order.east] {          % <----
+    \textbf{CLERK}
+    \nodepart{two}
+        clerk\_ID (PK) \\
+        clerk\_name \\
+        clerk\_grade
+                    };
+\node (Customer) [MPN, below=of Order] {                  % <----
+    \textbf{CUSTOMER}
+    \nodepart{two}
+        customer\_ID (PK) \\
+        customer\_name \\
+        purchase\_profile \\
+        credit\_profile \\
+        address
+                    };
+\draw[arr] (Store) |- (Order);     % <----
+\draw[arr] (Clerk) |- (Order);     % <----
+\draw[arr] (Customer) -- (Order);  % <----
+    \end{tikzpicture}
+\end{frame}
+\end{document}

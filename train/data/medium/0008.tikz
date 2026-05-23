@@ -1,0 +1,56 @@
+\documentclass{article}
+\usepackage{lipsum}
+\usepackage{tikz}
+\usetikzlibrary{patterns,tikzmark, fit}
+\usetikzlibrary{matrix,decorations.pathreplacing,calc}
+\usepackage{hf-tikz}
+
+\pgfkeys{tikz/mymatrix/.style={matrix of nodes,nodes in empty cells,left,inner sep=0pt,outer sep=0pt,column sep=0pt,row sep=0pt,nodes={align=left,minimum width=0.25\textwidth,minimum height=10pt,anchor=center,inner sep=0pt,outer sep=0pt}}}
+
+\tikzset{style green/.style={
+    set fill color=green!50!lime!60,draw opacity=0.4,
+    set border color=green!50!lime!60,fill opacity=0.1,
+  },
+  style cyan/.style={
+    set fill color=cyan!90!blue!60, draw opacity=0.4,
+    set border color=blue!70!cyan!30,fill opacity=0.1,
+  },
+  style orange/.style={
+    set fill color=orange!90, draw opacity=0.8,
+    set border color=orange!90, fill opacity=0.3,
+  },
+  style brown/.style={
+    set fill color=brown!70!orange!40, draw opacity=0.4,
+    set border color=brown, fill opacity=0.3,
+  },
+  style purple/.style={
+    set fill color=violet!90!pink!20, draw opacity=0.5,
+    set border color=violet, fill opacity=0.3,    
+  },
+  cll/.style={
+    above left offset={-0.1,0.15},
+    below right offset={0.10,-0.17},
+    #1
+  },set fill color/.code={\pgfkeysalso{fill=#1}},
+  set border color/.style={draw=#1}
+}
+
+\begin{document}
+\begin{tikzpicture}[baseline={-1ex}]
+\matrix [mymatrix,inner sep=0pt] (m)  
+{
+11 11&12&13&14\\
+21&22&23&24\\
+31&32&33&34\\
+41&42&43&44\\   
+};
+\node[rounded corners, style green, fit=(m-1-1) (m-1-4), inner sep=0pt] {};
+\node[rounded corners, style orange, fit=(m-2-1) (m-2-3), inner sep=0pt] {};
+\node[rounded corners, style cyan, fit=(m-3-1) (m-3-4), inner sep=0pt]{};
+\node[rounded corners, style brown, fit=(m-4-2), inner sep=0pt]{};
+\end{tikzpicture}  
+
+\vspace{1em}
+
+\lipsum[1-1]
+\end{document}

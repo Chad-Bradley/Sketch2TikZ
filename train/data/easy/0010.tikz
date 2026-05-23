@@ -1,0 +1,40 @@
+\documentclass[review]{elsarticle}
+\usepackage{amsfonts,ifthen,color}
+\usepackage{amssymb,latexsym,amsmath,amsthm}
+\usepackage[table, xcdraw]{xcolor}
+\usepackage{tikz} % drawing graph
+\usetikzlibrary{arrows.meta} % drawing graph
+\usetikzlibrary{decorations.markings}
+\usetikzlibrary{backgrounds}%https://www.overleaf.com/9631425144hzrbstvfqxkd
+\usetikzlibrary{positioning,chains,fit,shapes,calc}
+
+\begin{document}
+
+\begin{tikzpicture}[scale=1]
+\begin{scope}[>={Stealth[black]},              
+              every edge/.style={draw=black}]
+    \node (A) at (0.5,0) {$v_1$};
+    \node (B) at (2,0) {$v_2$};
+    \node (C) at (0.5,1) {$v_3$};
+    \node (D) at (2,1) {$v_4$};
+    \node (E) at (0,2) {$v_5$};
+    \node (F) at (1,2) {$v_6$};
+    \node (G) at (0,3) {$v_7$};    
+    \node (H) at (1.5,3) {$v_8$};   
+    \path [->] (G) edge (E);
+    \path [->] (H) edge (F);
+    \path [->] (H) edge (D);
+    \path [->] (E) edge (C);
+    \path [->] (F) edge (C);
+    \path [->] (C) edge (A);
+    \path [->] (C) edge (B);
+    \path [->] (D) edge (B);
+\end{scope}
+% behind everything.
+\begin{pgfonlayer}{background}
+	\draw[rounded corners=2em,line width=1.5em,blue!20,cap=round]
+		(A.center) -- (B.east) -- (D.east) -- (F.center) -- (E.center);
+\end{pgfonlayer}
+\end{tikzpicture}
+
+\end{document}

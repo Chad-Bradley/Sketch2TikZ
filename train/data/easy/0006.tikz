@@ -1,0 +1,15 @@
+\documentclass[tikz,border=2mm]{standalone} 
+\usetikzlibrary{positioning, automata}
+
+\begin{document}
+\begin{tikzpicture}
+
+\node[state, minimum width=1cm] (a) {};
+\node[state, minimum width=1cm, accepting by double, right=2cm of a] (b) {};
+\draw (a.north)--++(90:3mm)--([yshift=10mm]a.east)--([yshift=10mm]b.west)--([yshift=3mm]b.north)--(b.north);
+\draw (a.45)--(a.north-|a.east)--(b.north-|b.west)--(b.135);
+\draw[->] (a.60)--++(60:3mm)--++(0:6mm) coordinate(aux);
+\draw[->] (a.70)--++(70:4mm) coordinate(aux1)--(aux1-|aux);
+
+\end{tikzpicture}
+\end{document}

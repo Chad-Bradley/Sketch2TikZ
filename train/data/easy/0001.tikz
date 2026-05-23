@@ -1,0 +1,23 @@
+\documentclass[tikz,border=3.14mm]{standalone} 
+\usetikzlibrary{arrows.meta,
+                positioning} 
+
+\begin{document} 
+    \begin{tikzpicture}[
+node distance = 2mm and 8mm,
+     N/.style = {draw, minimum width=12mm, font=\sffamily},
+   arr/.style = {draw=blue!60, -{Triangle[fill=blue!60]}}, 
+                        ] 
+\node (N) [N,rounded corners=2mm, minimum size=24mm]    {Network}; 
+\node (a) [N, above left=of N.south west]  {A}; 
+\node (d) [N, below left=of N.north west]  {D}; 
+\node (b) [N, above right=of N.south east] {B};
+\node (c) [N, below right=of N.north east] {C};
+\draw[arr]  (a) edge (a -| N.west) 
+            (d -| N.west) edge (d)
+            (b -| N.east) edge (b)
+            (c)  to  (c -| N.east);
+\coordinate[right=of b] (aux);
+\draw[arr]  (b) -- (aux) |- (c);
+    \end{tikzpicture} 
+\end{document}

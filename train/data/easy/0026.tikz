@@ -1,0 +1,28 @@
+\documentclass[tikz,border=5mm]{standalone}
+\usetikzlibrary{matrix,calc}
+\begin{document}
+    \begin{tikzpicture}
+        \matrix (mymatrix) [
+            matrix of nodes,
+            row sep = 1em,
+            column sep = 1em,
+            nodes={
+                rectangle, draw=black, minimum height=1.25em, minimum width=1.25em,
+                anchor=center,
+                inner sep=0pt, outer sep=0pt
+            }
+        ] {
+            A & B \\
+            C & D \\
+        };
+    \draw[latex-] 
+    ([yshift=1ex] $(mymatrix-1-1.north east)!0.5!(mymatrix-1-2.north west)$) node[above]{$y$} --
+    ([yshift=-1ex]$(mymatrix-2-1.south east)!0.5!(mymatrix-2-2.south west)$)
+    ;
+    %
+    \draw[latex-] 
+    ([xshift=1ex] $(mymatrix-1-2.south east)!0.5!(mymatrix-2-2.north east)$) node[right]{$x$} --
+    ([xshift=-1ex]$(mymatrix-1-1.south west)!0.5!(mymatrix-2-1.north west)$)
+    ;
+    \end{tikzpicture}
+\end{document}

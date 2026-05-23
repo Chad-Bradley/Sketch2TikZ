@@ -1,0 +1,121 @@
+\documentclass[journal]{IEEEtran}
+\usepackage{tikz}
+\usepackage{tikzsymbols}
+\usetikzlibrary{positioning}
+\usetikzlibrary{fit}
+\usetikzlibrary{decorations.pathreplacing,calligraphy}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{pgffor}
+
+\newcommand{\hj}{\ensuremath{\mathbf{x}^H}}
+
+\newcommand{\hjv}{\ensuremath{\mathbf{v}^H}}
+
+\newcommand{\hc}{\ensuremath{\mathbf{u}^H}}
+
+\newcommand{\hjp}{\ensuremath{\mathbf{x'}^H}}
+
+\newcommand{\hjvp}{\ensuremath{\mathbf{v'}^H}}
+
+\newcommand{\hidden}{\ensuremath{\mathbf{h}}}
+
+\begin{document}
+
+\begin{tikzpicture}[
+  roundnode/.style={circle, draw=black, very thick, minimum size=2mm, inner sep=0pt},
+  smalldot/.style={circle, draw=black, fill=black, minimum size=1mm, inner sep=0pt},
+  deltas/.style={circle, draw=orange, fill=orange!5, minimum size=5mm, inner sep=0pt, minimum width=5mm, thick},
+  squarednode/.style={rectangle, draw=red!60, fill=red!5, thick, minimum size=5mm, minimum width=15mm},
+  greennode/.style={rectangle, draw=green!60, fill=green!5, thick, minimum size=5mm, minimum width=15mm},
+    constrainnode/.style={rectangle, draw=gray!60, fill=gray!5, thick, minimum size=5mm, minimum width=15mm},
+  minimumnode/.style={rectangle, draw=gray!60, fill=gray!5, thick, minimum size=5mm, minimum width=70mm},
+  bluenode/.style={rectangle, draw=blue!60, fill=blue!5, thick, minimum size=5mm, minimum width=15mm},
+]
+% below
+\foreach \x in {1,2,3} {
+  \node[squarednode]        (nodel3\x) at (2.8*\x, 0)    {GRU};
+  \node[squarednode]        (nodel2\x) at (2.8*\x, .7)    {GRU};
+  \node[squarednode]        (nodel1\x) at (2.8*\x, 1.4)    {Linear};
+  \node[bluenode] (nodeRotrep\x) at (2.8*\x, -1.8) {Rot. Rep.};
+
+  \node[fit=(nodel1\x)(nodel2\x)(nodel3\x), draw,rounded corners=.1cm] (node\x){};
+\node[text=blue] (nodestrich\x) at (2.8*\x, -3.2) {\Strichmaxerl[3][20+5*\x][-20+5*\x][-2*\x][10*\x]$\hj_\x$};
+\node[roundnode] (concatnode\x) at (2.8*\x, -.9) {};
+\node[] (velocitynode\x) at (2.8*\x-0.8, -.9) {$\hjv_\x$};
+
+\draw[->] (nodestrich\x) -- (nodeRotrep\x);
+\draw[->] (nodeRotrep\x) -- (concatnode\x);
+\draw[->] (concatnode\x) -- (node\x);
+\draw[->] (velocitynode\x) -- (concatnode\x);
+}
+%above
+\foreach \x in {4,5} {
+  \node[squarednode]        (nodel3\x) at (2.8*\x, 0)    {GRU};
+  \node[squarednode]        (nodel2\x) at (2.8*\x, .7)    {GRU};
+  \node[squarednode]        (nodel1\x) at (2.8*\x, 1.4)    {Linear};
+  \node[fit=(nodel1\x)(nodel2\x)(nodel3\x), draw,rounded corners=.1cm] (node\x){};
+  \node[smalldot] (nodedot\x) at (2.8*\x+1.4-2.8, 2.4) {};
+  \node[roundnode] (concatnode\x) at (2.8*\x, -.9) {};
+  \node[smalldot] (velnodedot\x) at (2.8*\x-2.8, 2.) {};
+    \node[smalldot, color=orange, minimum size=2mm] (deltaveldot\x) at (2.8*\x-.5, -1.3) {};
+  \node[smalldot, color=orange, minimum size=2mm] (deltaposdot\x) at (2.8*\x-.5, -.9) {};
+  \node[deltas] (nodedelta\x) at (2.8*\x-.5, -2) {\hc};
+  \draw[color=orange, line width=0.5mm] (nodedelta\x) -> (deltaposdot\x);
+}
+
+\node[minimumnode] (nodeMinimum) at (2.8*4, 7.8) {Minimum};
+\node[] (aboveminimumnode) at (2.8*4, 8.5) {};
+\draw[->] (nodeMinimum) -- (aboveminimumnode);
+
+\foreach \x in {4,5, 6} {
+  \pgfmathtruncatemacro{\prev}{subtract(\x,1)}
+      \node[roundnode] (nodeplus\x) at (2.8*\prev, 2.4) {+};
+      \node[text=green] (nodestrich\x) at (2.8*\prev, 4.6) {\Strichmaxerl[3][20+5*\x][-20+5*\x][-2*\x][10*\x]$\hjp_\x$};
+      \node[greennode] (nodeRotrep\x) at (2.8*\prev, 3.4) {Rot. Rep.};
+
+      \node[constrainnode] (nodeFK\x) at (2.8*\prev, 5.8) {FK};
+      \node[constrainnode] (nodeSDF\x) at (2.8*\prev, 6.8) {SDF};
+      \draw[->] (nodeplus\x) -- (nodeRotrep\x);
+      \draw[->] (nodeRotrep\x) -- (nodestrich\x);
+      \draw[->] (nodestrich\x) -- (nodeFK\x);
+      \draw[->] (nodeFK\x) -- (nodeSDF\x);
+      \draw[->] (nodeSDF\x) -- (nodeMinimum);
+      }
+
+
+\foreach \x in {4,5} {
+  \pgfmathtruncatemacro{\prev}{subtract(\x,1)}
+  \draw[->] (node\prev) -- (nodeplus\x);
+}
+  \draw[->] (node5) -- (nodeplus6) node[near end, right] {\footnotesize $\hjvp_6$};
+
+\node[]        (node6) at (15.7, .7)    {};
+
+%draw recurrent links
+\foreach \step in {1,2, 5} {
+  \pgfmathtruncatemacro{\next}{add(\step,1)}
+  \draw[->] (node\step) -> (node\next) node[midway,above] {$\hidden_\step$};
+}
+\foreach \step in {3,4} {
+  \pgfmathtruncatemacro{\next}{add(\step,1)}
+  \draw[->] (node\step) -> (node\next) node[near end,above] {$\hidden_\step$};
+}
+% draw residual
+  \node[smalldot] (nodedot3) at (2.8*3, -1.2) {};
+\draw[->] (nodedot3) -| ++(-1.1,0) |- (nodeplus4);
+\foreach \step in {4, 5} {
+  \pgfmathtruncatemacro{\next}{add(\step,1)}
+  \draw[->] (nodedot\step) -> (nodeplus\next);
+}
+% draw loopback links
+% draw loopback links
+\foreach \step in {4,5} {
+  \node[smalldot] (loopbackdot\step) at (2.8*\step -2.8, 2.7) {};
+  \draw[->] (loopbackdot\step) -| ++(1.4,0) |- ++(0.,-4.) |- ++(1.4,0.) -| (concatnode\step.south);
+  \draw[->] (velnodedot\step) -| ++(1.1,0) node[near start, above] {\footnotesize $\hjvp_\step$} |- ++(0.,-2.9) |- ++(1.4,0.) |- (concatnode\step.west);
+  \draw[->] (concatnode\step) -- (node\step);
+}
+\end{tikzpicture}
+
+\end{document}

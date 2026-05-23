@@ -1,0 +1,21 @@
+\documentclass[tikz,border=5]{standalone}
+\tikzset{rfill/.code={%
+\pgfmathsetmacro\r{rnd}\pgfmathsetmacro\g{rnd}\pgfmathsetmacro\b{rnd}%
+\definecolor{.}{rgb}{\r,\g,\b}%
+\pgfsetfillcolor{.}%
+}}
+\begin{document}
+\begin{tikzpicture}[every path/.style={rfill}]
+\fill (0:0) -- (-45:1/sqrt 2) arc (-45:225:1/sqrt 2) -- cycle;
+\fill (0:0) -- (225:1/sqrt 2) arc (225:315:1/sqrt 2) -- cycle;
+\fill (90:1/sqrt 2)  arc (90:0:1/sqrt 2)    |- cycle;
+\fill (90:1/sqrt 2)  arc (90:180:1/sqrt 2)  |- cycle;
+\fill (270:1/sqrt 2) arc (270:360:1/sqrt 2) |- cycle;
+\fill (270:1/sqrt 2) arc (270:225:1/sqrt 2) -- (225:1) -- cycle;
+\fill (180:1/sqrt 2) arc (180:225:1/sqrt 2) -- (225:1) -- cycle;
+\fill (45:1)  arc (45:135:1) -- cycle;
+\fill (135:1) arc (135:225:1) -- cycle;
+\fill (225:1) arc (225:315:1) -- cycle;
+\fill (315:1) arc (315:405:1) -- cycle;
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,9 @@
+\documentclass[border=3mm]{standalone}
+\usepackage{circuitikz}
+\ctikzset{i/.append style={auto=false}}
+\begin{document}
+\begin{tikzpicture}[auto]
+\draw (0,0) to[L, l=$L$, i=$i_L$] (3,0);   
+\draw (0,-1) -- ++(4,0) node[midway]{\texttt{auto} works};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,41 @@
+\documentclass{minimal}
+
+\usepackage{tikz}
+
+\begin{document}
+\begin{tikzpicture}[rotate=45]
+\begin{scope}[rotate=45]
+\node[coordinate] (start) at (0,0) {};
+\xdef\pl{start}
+\foreach \n/\l in {
+  rayfinned fish/rf,
+  lungfish/lf,
+  salamanders/sa,
+  frogs/fr,
+  turtles/tt,
+  lizards/lz,
+  snakes/sn,
+  crocodiles/cr,
+  birds/bd,
+  mammals/mm%
+} {
+  \node[transform shape,below right] (\l) at (\pl.south west) {\n};
+  \xdef\pl{\l}
+}
+\end{scope}
+
+\foreach \a/\b in {
+  rf/mm,
+  lf/mm,
+  sa/mm,
+  sa/fr,
+  tt/mm,
+  lz/mm,
+  lz/sn,
+  lz/bd,
+  cr/bd%
+} {
+  \draw (\a.mid west) |- (\b.mid west);
+}
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,52 @@
+\documentclass[tikz,border=3mm]{standalone}
+\usetikzlibrary{arrows.meta}
+
+\begin{document}
+% colored lines
+    \begin{tikzpicture}
+    \draw[<->]  (-1,0.0) -- (6,0) node[below left] {$x$};
+    \draw[<->]  (0,-0.5) -- (0,3) node[below left] {$y$};
+
+\draw[red,very thick]  % <--- changed
+                (0,0) |- (5,1) -- (5,0); 
+\draw[blue,very thick] % <--- added 
+                (2,0) |- (3,2) -- (3,0); 
+
+    \draw[{Bar[width=4mm].Straight Barb[]}-{Straight Barb[].Bar[width=4mm]}]
+        (2,-0.4) -- node[fill=white] {$W$}  (3,-0.4);
+    \draw[{Bar[width=4mm].Straight Barb[]}-{Straight Barb[].Bar[width=4mm]}]
+        (0,-0.8) -- node[fill=white] {$GW$} (5,-0.8);
+    \end{tikzpicture}
+
+    \begin{tikzpicture}
+% colored lines and fill
+    \draw[<->]  (-1,0.0) -- (6,0) node[below left] {$x$};
+    \draw[<->]  (0,-0.5) -- (0,3) node[below left] {$y$};
+
+\draw[draw=red,fill=red!30,very thick]   % <--- changed
+                (0,0) |- (5,1) -- (5,0); 
+\draw[draw=blue,fill=blue!30,very thick] % <--- added
+                (2,0) |- (3,2) -- (3,0); 
+
+    \draw[{Bar[width=4mm].Straight Barb[]}-{Straight Barb[].Bar[width=4mm]}]
+        (2,-0.4) -- node[fill=white] {$W$}  (3,-0.4);
+    \draw[{Bar[width=4mm].Straight Barb[]}-{Straight Barb[].Bar[width=4mm]}]
+        (0,-0.8) -- node[fill=white] {$GW$} (5,-0.8);
+    \end{tikzpicture}
+
+    \begin{tikzpicture}
+% colored lines and fill, added transparency
+    \draw[<->]  (-1,0.0) -- (6,0) node[below left] {$x$};
+    \draw[<->]  (0,-0.5) -- (0,3) node[below left] {$y$};
+
+\draw[draw=red,fill=red!30,very thick,semitransparent]  % <--- changed  
+                (0,0) |- (5,1) -- (5,0); 
+\draw[draw=blue,fill=blue!30,very thick,semitransparent]% <--- changed
+                (2,0) |- (3,2) -- (3,0); 
+
+    \draw[{Bar[width=4mm].Straight Barb[]}-{Straight Barb[].Bar[width=4mm]}]
+        (2,-0.4) -- node[fill=white] {$W$}  (3,-0.4);
+    \draw[{Bar[width=4mm].Straight Barb[]}-{Straight Barb[].Bar[width=4mm]}]
+        (0,-0.8) -- node[fill=white] {$GW$} (5,-0.8);
+    \end{tikzpicture}
+\end{document}

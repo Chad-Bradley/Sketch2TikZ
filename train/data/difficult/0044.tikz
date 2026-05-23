@@ -1,0 +1,59 @@
+\documentclass[prd,tightenlines,nofootinbib,superscriptaddress]{revtex4}
+\usepackage{amsfonts,amssymb,amsthm,bbm}
+\usepackage{amsmath}
+\usepackage{color,psfrag}
+\usepackage{tkz-euclide}
+\usepackage{tikz}
+\usetikzlibrary{calc}
+\usetikzlibrary{decorations.pathmorphing}
+\usetikzlibrary{shapes.geometric}
+\usetikzlibrary{arrows,decorations.markings}
+\usetikzlibrary{shadings,intersections}
+\usetikzlibrary{matrix}
+
+\begin{document}
+
+\begin{tikzpicture}[one end extended/.style={shorten >=-#1},one end extended/.default=1cm]
+\coordinate (A) at (0,0,0);
+\coordinate (B) at (5*4/4,0,0);
+\coordinate (C) at (2*4/4,3.464*4/4,0);
+\coordinate (D) at (5*4/5,3.464*4/5,-1);
+
+\coordinate (c) at ($ (A)!.5!(B) $);
+\coordinate (b) at ($ (A)!.5!(C) $);
+\coordinate (a) at ($ (B)!.5!(C) $);
+
+\path[name path = Aa] (A) -- (a);
+\path[name path = Bb] (B) -- (b);
+\path[name path = Cc] (C) -- (c);
+\path [name intersections = {of = Aa and Bb,by=O}];
+
+\coordinate (c) at ($ (A)!(O)!(B) $);
+\coordinate (b) at ($ (A)!(O)!(C) $);
+\coordinate (a) at ($ (B)!(O)!(C) $);
+
+\coordinate (AB) at ($ (A)!.8!(B) $);
+\coordinate (AC) at ($ (A)!.8!(C) $);
+\coordinate (BC) at ($ (B)!.8!(C) $);
+
+\draw[very thick] (A) -- node[pos=0.6,below]{$e_1$}(B) -- node[pos=0.4,above right]{$e_2$}(C) -- node[pos=0.6,left]{$e_3$} cycle;
+\draw[gray] (C) -- (D);
+\draw[gray] (B) -- (D);
+\draw[gray,dashed] (A) -- (D);
+\draw[red,thick,one end extended,decoration={markings,mark=at position 0.85 with {\arrow[scale=1.3,>=stealth]{>}}},postaction={decorate}] (O) -- (a) node[pos=1.6,below right] {$l_2$} node[pos=0.3,above]{$z_2$};
+\draw[red,thick,one end extended,decoration={markings,mark=at position 0.85 with {\arrow[scale=1.3,>=stealth]{>}}},postaction={decorate}] (O) -- (b) node[pos=1.5,above right]{$l_3$} node[pos=0.3,below]{$z_3$};
+\draw[red,thick,one end extended,decoration={markings,mark=at position 0.85 with {\arrow[scale=1.3,>=stealth]{>}}},postaction={decorate}] (O) -- (c) node[pos=1.9, right]{$l_1$} node[pos=0.3,right]{$z_1$};
+
+\draw[->] ([shift=(-10:0.2cm)]AB) arc (-10:-250:0.2cm and 0.25cm) node[pos=0.4,below]{$\Theta_{l_1}+\pi$};
+\draw[dashed] ([shift=(10:0.2cm)]AB) arc (10:30:0.2cm and 0.25cm);
+
+\draw[->,rotate=20] ([shift=(-190:0.2cm)]BC) arc (-190:60:0.25cm and 0.2cm) node[pos=0.9,right]{$\Theta_{l_2}+\pi$};
+
+\draw[->,rotate=-20] ([shift=(-270:0.2cm)]AC) arc (-270:-50:0.25cm and 0.2cm) node[pos=0.2,left]{$\Theta_{l_3}+\pi$};
+\draw[dashed] ([shift=(-310:0.2cm)]AC) arc (-310:-335:0.25cm and 0.2cm);
+
+\draw[red] (O) node{$\bullet$};
+
+	\end{tikzpicture}
+
+\end{document}

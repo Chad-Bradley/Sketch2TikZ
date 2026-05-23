@@ -1,0 +1,31 @@
+\documentclass{article}
+%\url{http://tex.stackexchange.com/q/58829/86}
+\usepackage{tikz}
+%\usepackage{trace}
+
+\makeatletter
+
+\def\tikz@clear@foreach{%
+\let\pgffor@beginhook=\pgfutil@empty
+\let\pgffor@endhook=\pgfutil@empty
+\let\pgffor@afterhook=\pgfutil@empty
+}
+
+\def\tikz@plot@expression(#1){%
+  \edef\tikz@plot@data{\noexpand\tikz@clear@foreach\noexpand\pgfplotfunction{\expandafter\noexpand\tikz@plot@var}{\tikz@plot@samplesat}}%
+  \expandafter\def\expandafter\tikz@plot@data\expandafter{\tikz@plot@data{\tikz@scan@one@point\pgfutil@firstofone(#1)}}%
+  \tikz@@@plot%
+}
+\makeatother
+\begin{document}
+\begin{tikzpicture}
+%\traceon
+  \draw[dashed]
+  (0,0) \foreach \myvar in {1,2,3} {%
+   -- plot[domain=0:120] ({\myvar-cos(3*\x)},{\myvar-sin(\myvar*\x)})
+%-- ++(\myvar,1)
+  }%
+;
+%\traceoff
+\end{tikzpicture}
+\end{document}

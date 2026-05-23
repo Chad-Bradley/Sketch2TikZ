@@ -1,0 +1,62 @@
+\documentclass[12pt]{article}
+\usepackage{amsmath}
+\usepackage{tikz}
+\usepackage{tikz-qtree}
+\usetikzlibrary{arrows,decorations.markings}
+\usetikzlibrary{shapes.geometric}
+\usetikzlibrary{fit,positioning}
+\usepackage[colorinlistoftodos,textwidth=1.8cm, textsize=tiny]{todonotes}
+
+\begin{document}
+
+\begin{tikzpicture}
+    \tikzstyle{rv}=[circle, minimum size = 14mm, thick, draw = black!100, node distance = 21mm]
+    \tikzstyle{tmp}=[node distance = 21mm]
+    \tikzstyle{connect}=[-latex, thick]
+    \tikzstyle{plate}=[rectangle, draw=black!100, thick, rounded corners=.5em]
+    % epidemic curve
+    \node[rv, fill = black!20] (y) {\(Y_t\)};
+    \node[tmp, above of = y] (tmp_above) {};
+    \node[tmp, below of = y] (tmp_below) {};
+    \node[tmp, below of = tmp_below] (tmp_bb) {};
+    % imported cases
+    \node[rv, left of = tmp_above] (y_imp) {\(Y_t^{\operatorname{imp}}\)};
+    \path (y_imp) edge [connect] (y);
+    % import rate
+    \node[rv, above of = y_imp] (mu) {\(\mu_t\)};
+    \path (mu) edge [connect] (y_imp);
+    % local cases
+    \node[rv, left of = tmp_below] (y_loc) {\(Y_t^{\operatorname{loc}}\)};
+    \path (y_loc) edge [connect] (y);
+    \node[tmp, below of = y_loc] (tmp_local) {};
+    % momentum t-s
+    \node[rv, left of = tmp_local] (eta_tms) {\(\eta_{t-s}\)};
+    \path (eta_tms) edge [connect] (y_loc);
+    % generation interval
+    \node[rv, left of = y_loc] (w_s) {\(\omega_{s}\)};
+    \path (w_s) edge [connect] (y_loc);
+    \node[tmp, left of = w_s] (tmp_w) {};
+    % past index cases
+    \node[rv, above of = tmp_w, fill = black!20] (y_tms) {\(Y_{t-s}\)};
+    \path (y_tms) edge [connect] (eta_tms);
+    % past Rt
+    \node[rv, left of = eta_tms] (r_tms) {\(R_{t-s}\)};
+    \path (r_tms) edge [connect] (eta_tms);
+    % momentum t-s
+    \node[rv, right of = tmp_bb] (eta_t) {\(\eta_{t}\)};
+    \path (y) edge [connect] (eta_t);
+    % Rt
+    \node[rv, left of = eta_t] (r_t) {\(R_{t}\)};
+    \path (r_t) edge [connect] (eta_t);
+    % k
+    \node[rv, below of = tmp_local, node distance = 28mm] (k) {\(k\)};
+    \path (k) edge [connect] (eta_t);
+    \path (k) edge [connect] (eta_tms);
+    % plate
+    \node[plate, fit= (y_tms) (eta_tms), label={[shift = {(0mm, -7.5mm)}]\(s = 1, 2, \dots\)}, inner sep = 5mm, yshift = 2.5mm] {};
+    \node[plate, fit= (r_tms) (mu) (eta_t), label={[shift = {(0mm, -12.5mm)}]\(t = 1, 2, \dots\)}, inner sep = 10mm, yshift =  5mm] {};
+    
+    
+    \end{tikzpicture}
+
+\end{document}

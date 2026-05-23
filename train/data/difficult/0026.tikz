@@ -1,0 +1,244 @@
+\documentclass[12pt,a4paper]{amsart}
+\usepackage{amsmath}
+\usepackage{color}
+\usepackage[latin2]{inputenc}
+\usepackage{tikz}
+\usetikzlibrary{positioning}
+\usepackage{amssymb}
+
+\begin{document}
+
+\begin{tikzpicture}[scale=0.5]
+
+\draw[-] (-1,1) --(-2,1);
+\draw[-] (-2.2,1) --(-3.2,1);
+\draw[-] (-3.4,1) --(-4.4,1);
+\draw[-] (-4.6,1) --(-5.6,1);
+\draw[-] (-5.8,1) --(-6.8,1);
+\draw[-] (-7,1) --(-8,1);
+\draw[-] (-8.2,1) --(-9.2,1);
+\draw[-] (-9.4,1) --(-10.4,1);
+\draw[-] (-10.6,1) --(-11.6,1);
+
+\draw (-1.5,1.7) circle (0.5);
+\filldraw[black] (-1.5,1.2) circle (0.000001pt) node[anchor=south] {$1$};
+
+\draw (-2.7,1.7) circle (0.5);
+\filldraw[black] (-2.7,1.2) circle (0.000001pt) node[anchor=south] {$2$};
+
+\draw (-3.9,1.7) circle (0.5);
+\filldraw[black] (-3.9,1.2) circle (0.000001pt) node[anchor=south] {$7$};
+
+\draw (-5.1,1.7) circle (0.5);
+\filldraw[black] (-5.1,1.2) circle (0.000001pt) node[anchor=south] {$3$};
+
+\draw (-6.3,1.7) circle (0.5);
+\filldraw[black] (-6.3,1.2) circle (0.000001pt) node[anchor=south] {$8$};
+
+\draw (-7.5,1.7) circle (0.5);
+\filldraw[black] (-7.5,1.2) circle (0.000001pt) node[anchor=south] {$4$};
+
+\draw (-9.9,1.7) circle (0.5);
+\filldraw[black] (-9.9,1.2) circle (0.000001pt) node[anchor=south] {$5$};
+
+\draw (-11.1,1.7) circle (0.5);
+\filldraw[black] (-11.1,1.2) circle (0.000001pt) node[anchor=south] {$6$};
+
+\begin{scope}[shift={(0,1.5)}]
+\draw (-1.5,1.7) circle (0.5);
+\filldraw[black] (-1.5,1.2) circle (0.000001pt) node[anchor=south] {$1$};
+
+\draw (-2.7,1.7) circle (0.5);
+\filldraw[black] (-2.7,1.2) circle (0.000001pt) node[anchor=south] {$2$};
+
+\draw (-3.9,1.7) circle (0.5);
+\filldraw[black] (-3.9,1.2) circle (0.000001pt) node[anchor=south] {$7$};
+
+\draw (-5.1,1.7) circle (0.5);
+\filldraw[black] (-5.1,1.2) circle (0.000001pt) node[anchor=south] {$3$};
+
+\draw (-7.5,1.7) circle (0.5);
+\filldraw[black] (-7.5,1.2) circle (0.000001pt) node[anchor=south] {$4$};
+
+\draw (-9.9,1.7) circle (0.5);
+\filldraw[black] (-9.9,1.2) circle (0.000001pt) node[anchor=south] {$5$};
+
+\draw (-11.1,1.7) circle (0.5);
+\filldraw[black] (-11.1,1.2) circle (0.000001pt) node[anchor=south] {$6$};
+\end{scope}
+
+\begin{scope}[shift={(0,3)}]
+\draw (-1.5,1.7) circle (0.5);
+\filldraw[black] (-1.5,1.2) circle (0.000001pt) node[anchor=south] {$1$};
+
+\draw (-2.7,1.7) circle (0.5);
+\filldraw[black] (-2.7,1.2) circle (0.000001pt) node[anchor=south] {$2$};
+
+\draw (-5.1,1.7) circle (0.5);
+\filldraw[black] (-5.1,1.2) circle (0.000001pt) node[anchor=south] {$3$};
+
+\draw (-7.5,1.7) circle (0.5);
+\filldraw[black] (-7.5,1.2) circle (0.000001pt) node[anchor=south] {$4$};
+
+\draw (-9.9,1.7) circle (0.5);
+\filldraw[black] (-9.9,1.2) circle (0.000001pt) node[anchor=south] {$5$};
+
+\draw (-11.1,1.7) circle (0.5);
+\filldraw[black] (-11.1,1.2) circle (0.000001pt) node[anchor=south] {$6$};
+\end{scope}
+
+\begin{scope}[shift={(0,4.5)}]
+\draw (-1.5,1.7) circle (0.5);
+\filldraw[black] (-1.5,1.2) circle (0.000001pt) node[anchor=south] {$1$};
+\draw (-3.9,1.7) circle (0.5);
+\filldraw[black] (-3.9,1.2) circle (0.000001pt) node[anchor=south] {$2$};
+\draw (-5.1,1.7) circle (0.5);
+\filldraw[black] (-5.1,1.2) circle (0.000001pt) node[anchor=south] {$3$};
+\draw (-8.7,1.7) circle (0.5);
+\filldraw[black] (-8.7,1.2) circle (0.000001pt) node[anchor=south] {$4$};
+\draw (-9.9,1.7) circle (0.5);
+\filldraw[black] (-9.9,1.2) circle (0.000001pt) node[anchor=south] {$5$};
+
+\end{scope}
+
+\begin{scope}[shift={(0,6)}]
+\draw (-1.5,1.7) circle (0.5);
+\filldraw[black] (-1.5,1.2) circle (0.000001pt) node[anchor=south] {$1$};
+\draw (-3.9,1.7) circle (0.5);
+\filldraw[black] (-3.9,1.2) circle (0.000001pt) node[anchor=south] {$2$};
+\draw (-5.1,1.7) circle (0.5);
+\filldraw[black] (-5.1,1.2) circle (0.000001pt) node[anchor=south] {$3$};
+
+\draw (-8.7,1.7) circle (0.5);
+\filldraw[black] (-8.7,1.2) circle (0.000001pt) node[anchor=south] {$4$};
+
+\end{scope}
+
+\begin{scope}[shift={(0,7.5)}]
+\draw (-2.7,1.7) circle (0.5);
+\filldraw[black] (-2.7,1.2) circle (0.000001pt) node[anchor=south] {$1$};
+\draw (-3.9,1.7) circle (0.5);
+\filldraw[black] (-3.9,1.2) circle (0.000001pt) node[anchor=south] {$2$};
+
+\draw (-6.3,1.7) circle (0.5);
+\filldraw[black] (-6.3,1.2) circle (0.000001pt) node[anchor=south] {$3$};
+
+
+\end{scope}
+
+\begin{scope}[shift={(0,9)}]
+\draw (-2.7,1.7) circle (0.5);
+\filldraw[black] (-2.7,1.2) circle (0.000001pt) node[anchor=south] {$1$};
+\draw (-5.1,1.7) circle (0.5);
+\filldraw[black] (-5.1,1.2) circle (0.000001pt) node[anchor=south] {$2$};
+\end{scope}
+
+\begin{scope}[shift={(0,10.5)}]
+\draw (-2.7,1.7) circle (0.5);
+\filldraw[black] (-2.7,1.2) circle (0.000001pt) node[anchor=south] {$1$};
+\end{scope}
+
+\draw[-][red] (-11.1,2.7) --(-11.1,2.2);
+\draw[-][red] (-11.1,4.2) --(-11.1,3.7);
+
+\draw[-][red] (-9.9,2.7) --(-9.9,2.2);
+\draw[-][red] (-9.9,4.2) --(-9.9,3.7);
+\draw[-][red] (-9.9,5.7) --(-9.9,5.2);
+
+\draw[-][blue] (-8.7,7.2) --(-8.7,6.7);
+\draw[-][blue] (-8.7,5.7) --(-8.7,4.7);
+\draw[-][blue] (-8.7,4.7) --(-8.0,4.7);
+\draw[-][blue] (-7.5,2.7) --(-7.5,2.2);
+\draw[-][blue] (-7.5,4.2) --(-7.5,3.7);
+
+\draw[-][blue] (-7.5,9.2) --(-6.8,9.2);
+\draw[-][blue] (-6.3,8.7) --(-6.3,7.7);
+\draw[-][blue] (-6.3,7.7) --(-5.6,7.7);
+\draw[-][blue] (-5.1,7.2) --(-5.1,6.7);
+\draw[-][blue] (-5.1,5.7) --(-5.1,5.2);
+\draw[-][blue] (-5.1,4.2) --(-5.1,3.7);
+\draw[-][blue] (-5.1,2.7) --(-5.1,2.2);
+
+\draw[-][blue] (-6.3,10.7) --(-5.6,10.7);
+\draw[-][blue] (-5.1,10.2) --(-5.1,9.2);
+\draw[-][blue] (-5.1,9.2) --(-4.4,9.2);
+\draw[-][blue] (-3.9,8.7) --(-3.9,8.2);
+\draw[-][blue] (-3.9,7.2) --(-3.9,6.7);
+\draw[-][blue] (-3.9,5.7) --(-3.9,4.7);
+\draw[-][blue] (-3.9,4.7) --(-3.2,4.7);
+\draw[-][blue] (-2.7,4.2) --(-2.7,3.7);
+\draw[-][blue] (-2.7,2.7) --(-2.7,2.2);
+\draw[-][red] (-3.9,2.7) --(-3.9,2.2);
+
+\draw[-][blue] (-5.1,12.2) --(-3.2,12.2);
+\draw[-][blue] (-2.7,11.7) --(-2.7,11.2);
+\draw[-][blue] (-2.7,10.2) --(-2.7,9.7);
+\draw[-][blue] (-2.7,8.7) --(-2.7,7.7);
+\draw[-][blue] (-2.7,7.7) --(-2,7.7);
+\draw[-][blue] (-1.5,2.7+4.5) --(-1.5,2.2+4.5);
+\draw[-][blue] (-1.5,2.7+3) --(-1.5,2.2+3);
+\draw[-][blue] (-1.5,2.7+1.5) --(-1.5,2.2+1.5);
+\draw[-][blue] (-1.5,2.7) --(-1.5,2.2);
+
+\draw[green, very thick] (-9.3,7.1) rectangle (-8.1,8.3);
+\begin{scope}[shift={(1.2,1.5)}]
+\draw[green, very thick] (-9.3,7.1) rectangle (-8.1,8.3);
+\end{scope}
+\begin{scope}[shift={(2.4,3)}]
+\draw[green, very thick] (-9.3,7.1) rectangle (-8.1,8.3);
+\end{scope}
+\begin{scope}[shift={(3.6,4.5)}]
+\draw[green, very thick] (-9.3,7.1) rectangle (-8.1,8.3);
+\end{scope}
+
+\begin{scope}[shift={(1.2,-6)}]
+\draw[green, very thick] (-9.3,7.1) rectangle (-8.1,8.3);
+\end{scope}
+\begin{scope}[shift={(3.6,-4.5)}]
+\draw[green, very thick] (-9.3,7.1) rectangle (-8.1,8.3);
+\end{scope}
+\begin{scope}[shift={(6,-3)}]
+\draw[green, very thick] (-9.3,7.1) rectangle (-8.1,8.3);
+\end{scope}
+\begin{scope}[shift={(7.2,-3)}]
+\draw[green, very thick] (-9.3,7.1) rectangle (-8.1,8.3);
+\end{scope}
+
+\begin{scope}[shift={(7,0)}]
+\draw[-] (0,2) --(2,2);
+\draw[-] (2,2) --(2,10);
+\draw[-] (0,4) --(4,4);
+\draw[-] (4,4) --(4,10);
+\draw[-] (0,6) --(6,6);
+\draw[-] (0,8) --(6,8);
+\draw[-] (6,6) --(6,10);
+\draw[-] (6,10) --(0,10);
+\draw[-] (0,10) --(0,2);
+
+\filldraw[black] (1,2.5) circle (0.000001pt) node[anchor=south] {$6$};
+\filldraw[black] (1,4.5) circle (0.000001pt) node[anchor=south] {$3$};
+\filldraw[black] (1,6.5) circle (0.000001pt) node[anchor=south] {$2$};
+\filldraw[black] (1,8.5) circle (0.000001pt) node[anchor=south] {$1$};
+
+\filldraw[black] (3,4.5) circle (0.000001pt) node[anchor=south] {$4$};
+\filldraw[black] (3,6.5) circle (0.000001pt) node[anchor=south] {$3$};
+\filldraw[black] (3,8.5) circle (0.000001pt) node[anchor=south] {$1$};
+
+\filldraw[black] (5,6.5) circle (0.000001pt) node[anchor=south] {$6$};
+\filldraw[black] (5,8.5) circle (0.000001pt) node[anchor=south] {$4$};
+
+\filldraw[black] (6,9) circle (0.000001pt) node[anchor=west] {$\leq 6$};
+\filldraw[black] (6,7) circle (0.000001pt) node[anchor=west] {$\leq 6$};
+\filldraw[black] (4,5) circle (0.000001pt) node[anchor=west] {$\leq 7$};
+\filldraw[black] (2,3) circle (0.000001pt) node[anchor=west] {$\leq 8$};
+
+
+\end{scope}
+
+
+
+
+
+\end{tikzpicture}
+
+\end{document}

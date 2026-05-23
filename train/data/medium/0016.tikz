@@ -1,0 +1,27 @@
+\documentclass[tikz,border=3.14mm]{standalone}
+\usepackage{amsmath}
+\tikzset{pics/.cd,
+kaspressknodel/.style n args={2}{code={\pgfmathtruncatemacro{\mymod}{#1+1}
+  \foreach \X in {0,...,#1}
+   {\node[bullet,label={right:$\boldsymbol{(2,\X)}$}] (v2\X) at 
+   (4,{1.2*(\X-(#1+0)/2)}){};
+   \node[bullet,label={left:$\boldsymbol{(1,\X)}$}] (v1\X) at 
+   (1.5,{1.2*(\X-(#1+0)/2)}){};}
+  \foreach \X [evaluate=\X as \NextX using {int(mod(\X+3,\mymod))},
+  evaluate=\X as \AnotherX using {int(mod(\X+1,\mymod))},] in {0,...,#1}
+  {\draw[thick] (v1\X) -- (v2\NextX);
+  \draw[dashed] (v1\X) -- (v2\AnotherX);
+  \draw (v1\X) -- (v2\X);} 
+}}}
+\begin{document}
+\begin{tikzpicture}[bullet/.style={circle,inner sep=2pt,fill}]
+ \pic[local bounding box=left] {kaspressknodel={6}{3}}; 
+ %
+ \begin{scope}[local bounding box=legend,shift={(left.east)}]
+  \foreach \X [count=\Y starting from 0] in {solid,dashed,thick}
+  {\draw[\X] (0.5,1-\Y) --++ (1,0) node[right]{dim~\Y};}
+ \end{scope}
+ %
+ \pic[local bounding box=right,shift={(legend.east)}] {kaspressknodel={3}{3}}; 
+\end{tikzpicture}
+\end{document}

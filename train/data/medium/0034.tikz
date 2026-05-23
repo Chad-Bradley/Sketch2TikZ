@@ -1,0 +1,32 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage{amsfonts,amssymb,amsthm,amsmath,latexsym}
+\usepackage{tikz}
+\usepackage{color}
+
+\begin{document}
+
+\begin{tikzpicture}
+\draw (0,0) node {$\bullet$};
+\draw (0,-.2) node [below] {$1$};
+\draw (2,0) node {$\bullet$};
+\draw (2,-.2) node[below] {$2$};\draw (4,0) node{$\bullet$};
+\draw (4,-.2) node[below] {$3$};
+\draw (6,0) node{$\bullet$};
+\draw (6,-.2) node[below] {$4$};
+\draw (8,0) node{$\bullet$};
+\draw (8,-.2) node[below] {$5$};
+\draw (10,0) node{$\bullet$};
+\draw (10,-.2) node[below] {$6$};
+%%%%%%%%%%%%%%
+\draw [very thick] (0,0) arc (160:20:2.1);
+\draw [very thick] (4,0) arc (150:30:3.45);
+\draw [very thick] (0,0) arc (10:80:2);
+\draw [very thick] (12,2) arc (90:180:2);
+%%%%%%%%%%%%%
+\draw [very thick, dotted]  (6,0) arc (0:180:2);
+\draw[very thick, dotted] (2,0) arc (0:80:2);
+\draw[very thick, dotted] (8,0) arc (0:180:1);
+\draw [very thick,dotted] (10,2) arc (90:180:2);
+\end{tikzpicture}
+
+\end{document}

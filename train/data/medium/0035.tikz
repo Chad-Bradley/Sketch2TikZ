@@ -1,0 +1,122 @@
+\documentclass[12pt]{amsart}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{color}
+\usepackage{tikz}
+\usepackage{tikz-cd}
+\usetikzlibrary{arrows,decorations.pathmorphing,backgrounds,positioning,fit,petri}
+\tikzset{help lines/.style={step=#1cm,very thin, color=gray},
+help lines/.default=.5}
+\tikzset{thick grid/.style={step=#1cm,thick, color=gray},
+thick grid/.default=1}
+
+\begin{document}
+
+\begin{tikzpicture}%
+
+\coordinate (btilde) at (0,0);
+
+\coordinate (C) at (0,0);
+\coordinate (Cm) at (-.5,0);
+\coordinate (A) at (2,0);
+\coordinate (App) at (2,0.1);
+\coordinate (Am) at (1.9,0);
+\coordinate (Ap) at (2.5,0);
+\coordinate (X) at (4.1,1.1);
+\coordinate (Y) at (4.1,-1.1);
+\coordinate (B) at (3,0);
+\coordinate (J) at (2.5,0);
+\coordinate (Bp) at (3,0.1);
+\coordinate (Ta) at (-1.3,0);
+\coordinate (Taa) at (-0,-3);
+\coordinate (Tb) at (.3,0);
+\coordinate (Tbb) at (0,-3);
+\coordinate (Tcc) at (3.2,-3);
+\coordinate (Tc) at (3.2,-.4);
+\coordinate (Td) at (3.8,-.2);
+\coordinate (Tcd) at (3.5,-.3);
+\coordinate (Tdd) at (3.3,-4);
+\coordinate (Tx) at (-.6,-2.9);
+\coordinate (Ty) at (0.2,-2.7);
+\coordinate (Tz) at (-.2,-2.8);
+\begin{scope}[xshift=-1mm,yshift=2mm]
+\draw (1.5,-2) node{$\sigma$};
+\draw[<-] (1,-2)..controls (1,-2.5) and (2,-2.5)..(2,-1.8);
+\end{scope}
+%
+\begin{scope}
+\draw[ thick, color=blue] (-1.3,0) --( -1.3,-2.5);
+\draw[ thick, color=blue] (.3,0) --( .3,-2.5);
+%
+	\begin{scope} % base of thimble
+	\clip (-1.5,-2.5) rectangle (.5,-3);
+	\draw[very thick, color=blue] (-.5,-2.5) ellipse[x radius=8mm,y radius=4mm];
+\draw[fill,color=white] (Tz) circle[radius=4mm]; 
+\end{scope}
+%
+	\draw[very thick,color=blue] (Tx) .. controls (Taa) and (Tdd).. (Td);
+	\draw[very thick,color=blue] (Ty) .. controls (Tbb) and (Tcc).. (Tc);
+\draw[fill,color=white] (C) ellipse [x radius=3cm,y radius=1.5cm] (B) circle [radius=1cm];
+\draw[dashed, color=blue] (-1.3,0) --( -1.3,-2.5);
+\draw[dashed, color=blue] (.3,0) --( .3,-2.5);
+\end{scope}
+%
+\begin{scope} % dashed base of thimble
+	\clip (-1.5,-2.5) rectangle (.5,-2);
+	\draw[dashed, color=blue] (-.5,-2.5) ellipse[x radius=8mm,y radius=4mm];
+\end{scope}
+%
+\begin{scope}
+	\draw[dashed, color=blue] (B) circle [radius=1cm];
+	\clip (Ap) rectangle (Y);
+	\draw[very thick, color=blue] (B) circle [radius=1cm];
+\end{scope}
+\draw[fill,color=white] (3.32,-.7) circle[radius=3.5mm];
+
+%
+\draw[very thick] (C) ellipse [x radius=3cm,y radius=1.5cm];
+%
+\begin{scope}
+	\clip (-2,0) rectangle (1,2.1);
+	\draw[fill, color=white] (Cm) ellipse[x radius=8mm,y radius=2cm];
+\draw[dashed] (C) ellipse [x radius=3cm,y radius=1.5cm];
+	\draw[ thick, color=blue] (Cm) ellipse[x radius=8mm,y radius=2cm];
+\end{scope}
+%
+\begin{scope}
+	\clip (Am) rectangle (X);
+	\draw[thick, color=white, fill] (B) circle [radius=1cm];
+	\draw[dashed] (C) ellipse [x radius=3cm,y radius=1.5cm];
+	\draw[very thick, color=blue] (B) circle [radius=1cm];
+\end{scope}
+%
+\begin{scope}
+\draw[dashed, color=red] (Cm) ellipse [x radius=8mm,y radius=4mm];
+\clip (-2,0) rectangle (1,-1);
+\draw[thick, color=red] (Cm) ellipse [x radius=8mm,y radius=4mm];
+\end{scope}
+%
+\draw[thick, color=red] (A)--(B) (J)node[above]{$J$}; % segment J
+\draw (App) node[left]{$a$}; % labels
+\draw (Bp) node[right]{$b$};
+\coordinate (Dp3) at (3,-3); 
+\coordinate (Dq2) at (-2.1,-.2); 
+\coordinate (Sp2) at (3.5,1); 
+\coordinate (Bp2) at (0,2.4); 
+\coordinate (S1s) at (0.7,0); 
+\coordinate (Sq1) at (-3.5,1.2); 
+\coordinate (Bq2) at (-3,-1.5); 
+\draw (Bq2) node[left]{$B_{p}^2$};
+\draw[->] (Bq2) .. controls (-1,-1.5) and (-.6,-.7)..(Cm);%%%%%%%
+\draw[color=blue] (Bp2) node{$B_{q}^2$};
+\draw (Sq1) node{$\partial D_{p}^2=S_{p}^1$};
+\draw[color=blue] (Sp2) node[right]{$\partial D_{q}^3=S_{q}^2$};
+\draw[color=blue] (Dp3) node{$D_{q}^3$};
+\draw (Dq2) node{$D_{p}^2$};
+\draw[color=red] (S1s) node{$S^1_\ast$};
+%
+\draw[thick,->] (1.45,-1.3)--(1.2,-.8);
+\draw (1.4,-.5) node{$\tilde b$};
+\end{tikzpicture}
+
+\end{document}

@@ -1,0 +1,64 @@
+\documentclass[]{standalone}
+
+\usepackage{pgfplots}
+\usepackage{tikz}
+
+\begin{document}
+
+\begin{tikzpicture}
+  \begin{axis}[axis lines=center, ticks=none, view/h=110, view/v=10]
+
+    \addplot3[%
+    opacity = 1,
+    surf,
+        faceted color=blue,
+    white,
+    z buffer = sort,
+    samples = 30,
+    variable = \u,
+    variable y = \v,
+    domain = 0:180,
+    y domain = 0:360,
+    ]
+    ({2*cos(u)*sin(v)}, {2*sin(u)*sin(v)}, {2*cos(v)});
+
+    \addplot3+[domain=0:4*pi, samples=50, samples y=0, no marks, smooth, ultra thick,black](
+    {1+cos(deg(x))},
+    {sin(deg(x))},
+    {2*sin(deg(x)/2)}
+    );% node[blue,circle,fill,pos=0.3]{} node[red,draw,pos=0.65,thick]{};
+
+    \addplot3[%
+    opacity = 1,
+    surf,
+        faceted color=red,
+    white,
+    z buffer = sort,
+    samples = 30,
+    variable = \u,
+    variable y = \v,
+    domain = 0:360,
+    y domain = 0:2,
+    ]
+    ({1+cos(u)}, {sin(u)}, {max(sqrt(2*(2-x)),v)});
+
+    \addplot3[%
+    opacity = 1,
+    surf,
+        faceted color=red,
+    white,
+    z buffer = sort,
+    samples = 30,
+    variable = \u,
+    variable y = \v,
+    domain = 0:360,
+    y domain = -2:0,
+    ]
+    ({1+cos(u)}, {sin(u)}, {min(-sqrt(2*(2-x)),v)});
+
+
+
+  \end{axis}
+\end{tikzpicture}
+
+\end{document}

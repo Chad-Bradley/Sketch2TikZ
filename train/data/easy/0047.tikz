@@ -1,0 +1,36 @@
+\documentclass[tikz]{standalone}
+\usetikzlibrary{positioning}
+
+\newsavebox{\boxone}
+\begin{lrbox}{\boxone}
+\begin{tikzpicture}[every node/.style={draw,circle,inner sep=1pt,minimum size=15pt}]
+  \node (a) {};
+  \node[below left=of a] (b) {};
+  \node[below right=of a] (c) {};
+  \path[-latex] (a) edge (b)
+                (a) edge (c);
+\end{tikzpicture}
+\end{lrbox}
+
+\newsavebox{\boxtwo}
+\begin{lrbox}{\boxtwo}
+\begin{tikzpicture}[every node/.style={draw,circle,inner sep=1pt,minimum size=15pt}]
+  \node at (3,0) (d) {};
+  \node[right=of d] (e) {};
+  \node[right=of e] (f) {};
+  \path[-latex] (d) edge (e)
+            (e) edge (f);
+ \end{tikzpicture}
+\end{lrbox}
+
+\begin{document}
+
+\begin{tikzpicture}[every node/.style={draw,circle,inner sep=1pt,minimum size=15pt}]
+  %% First group of nodes
+  \node [draw=none] (group1) {\usebox{\boxone}};
+
+  %% Second group of nodes
+  \node [draw=none, right=of group1] (group2) {\usebox{\boxtwo}};
+
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,23 @@
+\documentclass[tikz,border=10pt]{standalone}
+\usepackage{tikz}
+\usetikzlibrary{matrix}
+
+\tikzset{
+    diagram/.style = {
+        baseline=(current bounding box.center),
+        grade/.style={sloped,fill=white,inner sep=1pt,font=\tiny},
+        equal/.style={-,double distance=3pt},
+        every matrix/.style={
+            matrix of math nodes,
+            row sep=2em, column sep=2em,
+            text height=1.5ex, text depth=0.25ex
+        }
+    }
+}
+
+\begin{document}
+    \begin{tikzpicture}[diagram]
+        \matrix (m) {A & B \\ C & D \\};
+        \path[->,font=\scriptsize] (m-1-1) edge (m-2-2);
+    \end{tikzpicture}
+\end{document}

@@ -1,0 +1,24 @@
+\documentclass[border=5mm]{standalone}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.9}
+
+\begin{document}
+\begin{tikzpicture}
+  \begin{axis}[view={110}{20}, %
+      scale = 1.2, y post scale = 1.5,
+    xlabel = $x$, ylabel = $y$, zlabel = $z$]
+ \addplot3[surf,domain=1:2, y domain = 0:2*pi, z buffer=sort, samples = 5, samples y=10,
+  variable = \s, variable y=\t,
+    quiver = {
+      u = {(s+0.01)*cos(deg(t)) - x},
+      v = {(s+0.01)*sin(deg(t)) - y},
+      w = {1/(s+0.01) - z},
+      scale arrows=15
+    },
+    -stealth, thick
+  ]
+  ({s*cos(deg(t))}, {s*sin(deg(t))}, {1/s});
+\end{axis}
+\end{tikzpicture}
+\end{document}

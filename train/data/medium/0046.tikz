@@ -1,0 +1,28 @@
+\documentclass{article}
+\usepackage{siunitx}
+\usepackage{tikz}
+\usetikzlibrary{calc,matrix, arrows.meta, positioning, 
+decorations,decorations.markings, math}
+
+
+
+\begin{document}
+\begin{tikzpicture}
+%Axes
+\draw[->] (-0.2,0) -- (8,0) node[right] {$t$};
+\draw[->] (0,-1.2) -- (0,4) node[above] {$v$};
+
+%PWM
+\foreach \x in {0.4,0.8,...,4} { \draw[blue] (\x,0)--(\x,2)--(\x+0.2,2)-- 
+(\x+0.2,0); }
+\foreach \x in {4.4,4.8,5.2} { \draw[red] (\x,0)--(\x,-2)--(\x+0.2,-2)-- 
+(\x+0.2,0); }
+\foreach \x in {0.7, 1.5, 2.7,4.1} { \draw[black,thick] (\x,2.2)--(\x,-2.2); 
+ }
+
+  { \draw[green,thick]  (0,0.4)--(0.7,0.4) 
+                        (0.7,1.2)--(1.5,1.2)
+                        (1.5,2)--(2.7,2); }
+
+\end{tikzpicture}
+\end{document}

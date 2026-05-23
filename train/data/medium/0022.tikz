@@ -1,0 +1,90 @@
+\documentclass[11pt]{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{decorations.pathreplacing}
+\usetikzlibrary{decorations.pathmorphing}
+\tikzset{snake it/.style={decorate, decoration=snake}}
+
+\begin{document}
+
+\begin{tikzpicture}
+    
+    \draw [fill=black] (0, 0) circle [radius=0.15];
+    \draw [fill=black] (7, 0) circle [radius=0.15];
+    \draw [ultra thick] (0, 0) -- (7, 0);
+    
+    \node at (0, -0.5) {$s$};
+    \node at (7, -0.5) {$t$};
+    
+    \draw [black, thick, fill=white] (1.5, 0) circle [radius=0.5];
+    \draw [black, thick, fill=white] (3.5, 0) circle [radius=0.5];
+    \draw [black, thick, fill=white] (5.5, 0) circle [radius=0.5];
+
+    \draw [ultra thick, dashed] (0, 0) -- (7, 0);
+    \node [red] at (1.5, 0) {\Large $\times$};
+    \node [red] at (3.5, 0) {\Large $\times$};
+    \node [red] at (5.5, 0) {\Large $\times$};
+    
+    \draw [ultra thick, gray] (1, 0) to[bend left=40] (2, 0);
+    \draw [ultra thick, gray] (3, 0) to[bend left=40] (4, 0);
+    \draw [ultra thick, gray] (5, 0) to[bend left=40] (6, 0);
+    \node [gray] at (1.5, 0.7) {$+1$};
+    \node [gray] at (3.5, 0.7) {$+1$};
+    \node [gray] at (5.5, 0.7) {$+1$};
+
+    
+    \draw [thick, decorate, decoration={brace}, ultra thick] (6, -1) -- (1, -1);
+    \node at (3.5, -1.5) {$k$ inner graphs};
+
+\begin{scope}[shift={(9,0)}]
+
+    \draw [fill=black] (0, 0) circle [radius=0.15];
+    \draw [fill=black] (7, 0) circle [radius=0.15];
+    \draw [ultra thick] (0, 0) -- (7, 0);
+    
+    \node at (0, -0.5) {$s$};
+    \node at (7, -0.5) {$t$};
+    
+    \draw [black, thick, fill=white] (1.5, 0) circle [radius=0.5];
+    \draw [black, thick, fill=white] (3.5, 0) circle [radius=0.5];
+    \draw [black, thick, fill=white] (5.5, 0) circle [radius=0.5];
+
+    \draw [ultra thick, dashed] (0, 0) -- (7, 0);
+    \node [red] at (1.5, 0) {\Huge $\times$};
+    \node [red] at (3.5, 0) {\Huge $\times$};
+    \node [red] at (5.5, 0) {\Huge $\times$};
+    
+    \draw [fill=black] (-1, 1) circle [radius=0.15];
+    \draw [ultra thick, gray] (0, 0) to (-1, 1) to[bend left=10] (7, 0);
+    \node [gray, rotate=-5] at (-1, 0.4) {$+ k$};
+    
+    \draw [fill=gray] (-0.25, 0.25) circle [radius=0.1];
+    \draw [fill=gray] (-0.5, 0.5) circle [radius=0.1];
+    \draw [fill=gray] (-0.75, 0.75) circle [radius=0.1];
+    
+    \draw [fill=gray] (0.4, 0) circle [radius=0.1];
+    \draw [fill=gray] (0.8, 0) circle [radius=0.1];
+    \draw [fill=gray] (1.2, 0) circle [radius=0.1];
+    \node [gray] at (1.6, 0.2) {$\cdots$};
+    
+    \draw [fill=gray] (-0.6, 1) circle [radius=0.1];
+    \draw [fill=gray] (-0.2, 1) circle [radius=0.1];
+    \draw [fill=gray] (0.2, 1) circle [radius=0.1];
+    \node [gray] at (0.6, 1.2) {$\cdots$};
+    
+    \draw [black, thick, fill=white] (1.5, 0) circle [radius=0.5];
+    \draw [black, thick, fill=white] (3.5, 0) circle [radius=0.5];
+    \draw [black, thick, fill=white] (5.5, 0) circle [radius=0.5];
+
+    \draw [ultra thick, dashed] (0, 0) -- (7, 0);
+    \node [red] at (1.5, 0) {\Large $\times$};
+    \node [red] at (3.5, 0) {\Large $\times$};
+    \node [red] at (5.5, 0) {\Large $\times$};
+
+\end{scope}
+
+    \end{tikzpicture}
+
+\end{document}

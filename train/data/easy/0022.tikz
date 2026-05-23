@@ -1,0 +1,76 @@
+\documentclass[tikz,border=5mm]{standalone}
+\usetikzlibrary{calc,decorations.markings,positioning,arrows.meta,matrix}
+\makeatletter
+\pgfmathdeclarefunction{Dim}{1}{%
+  \begingroup%
+    \pgfmath@count=0\relax
+    \edef\pgfutil@tmpb{#1}%
+    \pgfutil@for\pgfutil@tmpa:={\pgfutil@tmpb}\do{%
+      \advance\pgfmath@count by1\relax}%
+    \edef\pgfmathresult{\the\pgfmath@count}% 
+    \pgfmath@smuggleone\pgfmathresult% 
+  \endgroup}  
+\makeatother
+\begin{document}
+    \begin{tikzpicture}[
+        node distance = 15mm and 15mm, 
+        relative = false,
+        amark/.style = {
+            decoration={             
+                markings,   
+                mark=at position {0.5} with { 
+                    \arrow{stealth},
+                }
+            },
+            postaction={decorate},
+            nodes={inner xsep=0pt},
+            edge label={#1}
+        },
+        amark'/.style = {
+            decoration={             
+                markings,   
+                mark=at position {0.5} with { 
+                    \arrow{stealth},
+                }
+            },
+            postaction={decorate},
+            nodes={inner xsep=0pt},
+            edge label'={#1}
+        },
+    terminal/.style 2 args={draw,alias=ln,circle,inner sep=2pt},
+        ]
+        % input
+        %\def\GraphInput{12/-2,-24/-3,12/-4}
+        \def\GraphInput{12/-2,-24/-3,12/-4,5/-7}
+        % number of insertions
+        \pgfmathtruncatemacro{\mydim}{Dim("\GraphInput")}
+        % local bounding box is a trick that all distances derive from node distance
+        \path[local bounding box=graph] 
+         foreach \X/\Y [count=\Z] in \GraphInput {
+         % draw the inner nodes in a loop
+          \ifnum\Z=1
+          node[terminal] (sX-\Z){} node[right=of sX-\Z,terminal] (X-\Z){}
+          \else
+          node[terminal,below=of sX-\the\numexpr\Z-1] (sX-\Z){} 
+          node[right=of sX-\Z,terminal] (X-\Z){}
+          \fi
+        }
+        % draw R and S nodes
+        node[left=of graph,terminal,label=left:{$R(s)$}] (R){}
+        node[right=of graph,terminal,label=right:{$C(s)$}] (C){}
+        % loop for connections
+        foreach \X/\Y [count=\Z] in \GraphInput {
+        % bug in pgf, out does not get parsed properly
+        [/utils/exec=\pgfmathsetmacro{\myout}{90-(\Z-1)*180/(\mydim-1)}]
+        (sX-\Z) edge[amark={$1/s$}] (X-\Z)
+        (X-\Z) edge[amark'={$\Y$},out=-90,in=-90] (sX-\Z)
+        \ifnum\Z>\numexpr\mydim/2
+         (R) edge[amark'={$\X$},out=\myout,in=180] (sX-\Z)
+         (X-\Z) edge[amark'={$1$},out=0,in=180-\myout] (C)
+        \else
+         (R) edge[amark={$\X$},out=\myout,in=180] (sX-\Z)
+         (X-\Z) edge[amark={$1$},out=0,in=180-\myout] (C)
+        \fi
+        };
+ \end{tikzpicture}
+\end{document}

@@ -1,0 +1,35 @@
+\documentclass[12pt]{article}
+
+\usepackage{tikz}
+\usetikzlibrary{lindenmayersystems}
+\newcommand{\defbranch}[1]{
+    \pgfdeclarelindenmayersystem{3-ary rooted tree#1}{  % dynamic definition of the branches
+        \rule{L -> L [s+ [-L] [M] [+R]]}
+        \rule{M -> M [s  [-L] [M] [+R]]}
+        \rule{R -> R [s- [-L] [M] [+R]]}
+
+        \symbol{L}{\pgflsystemmoveforward} % only move
+        \symbol{M}{\pgflsystemmoveforward} % only move
+        \symbol{R}{\pgflsystemmoveforward} % only move
+        \symbol{#1}{\pgflsystemdrawforward}  % draw the branch (overrides previous command)
+        \symbol{s}{\pgflsystemstep =0.4 \pgflsystemstep}
+    }
+}
+\defbranch{L} % define the branches (needed only once per documents)
+\defbranch{M}
+\defbranch{R}
+
+\newcommand{\branch}[2]{  %define command to draw branches.
+    %You can add more parameters for step, angle, order,... if needed
+    \draw[rotate = -90,color=#2] l-system [l-system={3-ary rooted tree#1,axiom = [-L] [M] [+R], angle=45, step=6cm, order=5}];
+}
+
+\begin{document}
+\begin{figure}
+    \begin{tikzpicture}
+        \branch{L}{blue}
+        \branch{M}{red}
+        \branch{R}{green}
+    \end{tikzpicture}
+\end{figure}
+\end{document}

@@ -1,0 +1,51 @@
+\documentclass{article}
+
+\usepackage{tikz} % Import TikZ package
+
+\begin{document}
+
+\begin{tikzpicture}[scale=0.5] % Set scale to 0.5
+
+% Head
+\filldraw[gray!50] (0,0) circle (2);
+
+% Body
+\filldraw[orange] (-2,-4) rectangle (2,0);
+
+% Arms
+\filldraw[gray!50] (-4,-3) rectangle (-2,1);
+\filldraw[gray!50] (2,-3) rectangle (4,1);
+
+% Legs
+\filldraw[gray!50] (-1,-8) rectangle (1,-4);
+
+% Helmet
+\filldraw[yellow] (-1.5,1.5) rectangle (1.5,3);
+\filldraw[yellow] (-2,3) rectangle (2,4);
+\filldraw[yellow] (-2.5,4) rectangle (2.5,5);
+\filldraw[yellow] (-2.75,5) rectangle (2.75,6);
+
+% Face
+\filldraw[white] (-0.5,0.5) circle (0.5);
+\filldraw[white] (0.5,0.5) circle (0.5);
+\filldraw[black] (-0.5,0.5) circle (0.2);
+\filldraw[black] (0.5,0.5) circle (0.2);
+
+% Mouth
+\draw (-0.5,0.2) -- (0.5,0.2);
+
+% Nose
+\draw (0,0.5) -- (0,-0.2);
+
+% Hard hat brim
+\draw (-2.5,1.5) -- (2.5,1.5);
+
+% Hard hat stripe
+\draw (-2.5,3) -- (2.5,3);
+
+% Hard hat top
+\draw (-2.75,5) -- (2.75,5);
+
+\end{tikzpicture}
+
+\end{document}

@@ -1,0 +1,52 @@
+\documentclass{article}
+
+% Load TikZ package
+\usepackage{tikz}
+
+% Define the main function
+\begin{document}
+\begin{tikzpicture}
+
+% Draw the head
+\draw[fill=gray!50] (0,0) circle (1);
+
+% Draw the helmet
+\draw[fill=white] (0,0) circle (0.8);
+
+% Draw the visor
+\draw[fill=black] (0,0) circle (0.6);
+
+% Draw the body
+\draw[fill=blue!50] (-1,-2) rectangle (1,-4);
+
+% Draw the arms
+\draw[fill=blue!50] (-2,-2.5) rectangle (-1,-3.5);
+\draw[fill=blue!50] (2,-2.5) rectangle (1,-3.5);
+
+% Draw the legs
+\draw[fill=blue!50] (-0.5,-4) rectangle (0.5,-6);
+\draw[fill=blue!50] (-0.2,-6) rectangle (0.2,-7);
+
+% Draw the airplane
+\draw[fill=red!50] (5,-3) -- (7,-3) -- (7,-2) -- (9,-2) -- (9,-1) -- (7,-1) -- (7,0) -- (5,0) -- cycle;
+
+% Draw the propeller
+\draw[fill=black] (9,-1.5) circle (0.5);
+\draw[fill=white] (9,-1.5) circle (0.3);
+
+% Draw the pilot's arms
+\draw[thick,->] (-1.5,-3) -- (-2.5,-2);
+\draw[thick,->] (1.5,-3) -- (2.5,-2);
+
+% Draw the pilot's legs
+\draw[thick,->] (-0.5,-5) -- (-1.5,-4);
+\draw[thick,->] (0.5,-5) -- (1.5,-4);
+
+% Draw the pilot's head
+\draw[thick,->] (0,0.5) -- (0,2);
+
+% Add a label
+\node at (5,-4) {Airplane};
+
+\end{tikzpicture}
+\end{document}

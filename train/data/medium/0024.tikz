@@ -1,0 +1,11 @@
+\documentclass[tikz]{standalone}
+\usetikzlibrary{calc}
+\begin{document}
+\begin{tikzpicture}
+  \draw[dashed](0,0) coordinate (a)--+(1,0) coordinate (b)--+(60:1) coordinate (c) --cycle;
+  \foreach\x[remember=\x as \lastx (initially c)] in{a,b,c}{
+    \node[fill,circle,inner sep=1pt] at($(\x)!0.5!(\lastx)$)  (\x-\lastx) {};
+    \draw (\x)circle (0.5);
+  }
+\end{tikzpicture}
+\end{document}

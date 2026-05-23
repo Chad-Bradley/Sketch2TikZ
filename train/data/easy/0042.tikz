@@ -1,0 +1,32 @@
+\documentclass{article}
+
+\usepackage{tikz}
+
+\begin{document}
+
+\begin{tikzpicture}
+
+% Draw the base of the research station
+\draw[fill=gray!50] (0,0) circle (2cm);
+
+% Draw the entrance to the station
+\draw[fill=white] (0,0) circle (1cm);
+
+% Draw the tower of the station
+\draw[fill=gray!70] (0,3) circle (0.5cm);
+\draw[fill=gray!70] (-0.5,3) rectangle (0.5,4);
+
+% Draw the satellite dish on top of the tower
+\draw[fill=gray!30] (0,4.5) circle (0.25cm);
+\draw[fill=gray!30] (-0.25,4.5) -- (0,4.75) -- (0.25,4.5);
+
+% Draw the flagpole
+\draw[fill=gray!70] (-1.5,0) rectangle (-1.25,4);
+\draw[fill=red] (-1.25,3.5) circle (0.25cm);
+
+% Draw the snow around the station
+\draw[fill=white] (0,0) circle (2.5cm);
+
+\end{tikzpicture}
+
+\end{document}

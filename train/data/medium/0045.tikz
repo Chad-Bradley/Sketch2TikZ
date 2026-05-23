@@ -1,0 +1,54 @@
+\documentclass[margin=14pt,12pt]{standalone}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+%\usepackage[lf]{MinionPro}
+\usepackage{tikz}
+\usetikzlibrary{positioning, fit}
+\begin{document}
+
+\begin{tikzpicture}[
+mytext/.style={
+  draw,
+  text width=#1,
+  align=center,
+  minimum height=1.5cm
+  },
+ar/.style={
+  ->,
+  >=latex
+  }
+]
+\node[mytext=3cm,minimum height=8cm] (left)
+  {1 text text text};
+\node[mytext=4cm,right=1.5cm of left,yshift=1.1cm]
+  (middle2)
+  {2 text text text};
+\node[mytext=4cm,right=1.5cm of left,yshift=-1.1cm]
+  (middle21)
+  {2 text text text};
+\node[mytext=4cm,anchor=north west] at (left.north-|middle2.west)
+  (middle1)
+  {3 text text text};
+\node[mytext=4cm,anchor=south west] at (left.south-|middle2.west)
+  (middle3)
+  {4 text text text};
+\node[mytext=3cm,minimum height=8cm,right=1.5cm of middle2,yshift=-1.1cm] (right)
+  {8 text text text};
+
+
+\node[mytext=3cm, dashed, above=1cm of left] (d-left) {1 text text};
+\node[mytext=4cm, dashed, above=1cm of middle1] (d-middle) {2 text text};
+\node[mytext=3cm, dashed, above=1cm of right] (d-right) {3 text text};
+
+\foreach \i/\j in {1/d-left, 2/d-middle, 3/d-right}
+    \draw ([yshift=1cm]\j.north west)--node [above] {\i\ text} ([yshift=1cm]\j.north east);
+
+\foreach \i in {middle1, middle2,middle21, middle3}{
+    \draw[ar] (left.east)--(\i.west);
+    \draw[ar] (\i)--(right.west|-\i);
+    }
+
+\node[fit={(left) (right) ([yshift=2cm]d-left.north west)}, draw, inner sep=8,,] {};
+\end{tikzpicture}
+
+\end{document}

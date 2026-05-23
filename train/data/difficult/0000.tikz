@@ -1,0 +1,28 @@
+\documentclass{article}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\usetikzlibrary{pgfplots.fillbetween}
+\usetikzlibrary{patterns}
+\pgfplotsset{compat=1.13}
+\begin{document}
+
+\begin{center}
+\begin{tikzpicture}
+\coordinate (y) at (0,4);
+\coordinate (x) at (7,0);
+\draw[->] (0,0)--(x) node[below]{$t$};
+\draw[->] (0,0)--(y) node[left]{\scriptsize $Y,C,A$};
+\draw[name path=Consume] (0,2) node[left]{\scriptsize $\overline{C}$}--(6,2);
+\draw[dashed] (6,2)--(6,0) node[below]{\scriptsize $N$};
+\draw[blue, name path=Income] (0,0) to [out=0,in=130] (4,3)--(4,0)--(6,0);
+\draw (3.8,3.5) node[left]{\scriptsize $Y_t$};
+\tikzfillbetween[of=Consume and Income,
+    split,
+    every segment no 0/.style={pattern color=orange},
+    every segment no 1/.style={pattern color=green},
+    every segment no 2/.style={pattern color=blue},
+    ]{pattern=dots};
+\end{tikzpicture}
+\end{center}
+
+\end{document}

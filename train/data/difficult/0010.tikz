@@ -1,0 +1,72 @@
+\documentclass[tikz,border=5]{standalone}
+\usepackage{pgfplots}
+\usepgfplotslibrary{fillbetween}
+
+\usepackage{filecontents}
+
+\begin{filecontents*}{voronoiPoints.dat}
+1.645370 0.643096
+-0.658113 1.655264 
+-0.135778 -0.651569 
+\end{filecontents*}
+
+\begin{filecontents*}{voronoiTriPoints.dat}
+-0.135778 -0.651569 
+-0.658113 1.655264 
+1.645370 0.643096 
+-0.135778 -0.651569 
+\end{filecontents*}
+
+\begin{filecontents*}{voronoi.dat}
+0.276155 0.654257
+-3.162349 -0.124321
+
+0.276155 0.654257
+1.694429 3.881949
+
+0.276155 0.654257
+2.349036 -2.197525
+
+0.276155 0.654257
+-3.162349 -0.124321
+\end{filecontents*}
+
+\begin{document}
+
+\begin{tikzpicture}
+\begin{axis}[
+  axis equal image,
+  xtick=\empty,
+  ytick=\empty,
+  set layers
+]
+  \addplot [only marks, red] table {voronoiPoints.dat};
+  \addplot [no markers, blue,name path=triangle] table {voronoiTriPoints.dat};
+  \addplot [no markers, update limits=false,name path=lines] table {voronoi.dat};
+  \node[below=2pt] 
+    at (axis cs:-0.135778,-0.651569) 
+    {$a$};  
+  \node[left=2pt] 
+    at (axis cs:-0.658113,1.655264) 
+    {$b$};
+  \node[right=2pt] 
+    at (axis cs:1.645370,0.643096) 
+    {$c$};
+  \clip[on layer=axis grid]
+    (axis cs:-0.135778,-0.651569) -- 
+    (axis cs:-0.658113,1.655264) -- 
+    (axis cs:1.645370,0.643096) -- 
+    (axis cs:-0.135778,-0.651569) -- cycle; 
+  \addplot fill between[
+    on layer=main,
+    of=triangle and lines,
+    split,
+    every segment no 0/.style={blue,fill opacity=0},
+    every segment no 1/.style={yellow,fill opacity=0.25},
+    every segment no 2/.style={red,fill opacity=0.25},
+    every segment no 3/.style={green,fill opacity=0.25},
+  ];
+\end{axis}
+\end{tikzpicture}
+
+\end{document}

@@ -1,0 +1,139 @@
+\documentclass{article}
+\usepackage{tikz}
+
+\usetikzlibrary{mindmap}
+\pagestyle{empty}
+
+\usepackage{etoc}
+\newsavebox\tocbox
+
+\begin{document}
+
+\newtoks\treetok
+\newtoks\parttok
+\newtoks\sectiontok
+
+\newcommand*\treenode {}  % just to check we don't overwrite something
+\newcommand*\tmprotate {} % just to check we don't overwrite something
+\newcommand*\tmpoption {} % just to check we don't overwrite something
+\newcommand*\tmpstuff  {} % just to check we don't overwrite something
+
+\newcommand*\appendtotok[2]{% #1=toks variable, #2=macro, expands once #2
+  #1\expandafter\expandafter\expandafter{\expandafter\the\expandafter #1#2}}
+
+\newcommand*{\appendchildtree}[3]{%
+% this is to construct "t1 child [concept color= #3]{t2}" from #1=t1 and #2=t2
+% t1 and t2 are two toks variable (not macros)
+% #3 = for example teal!60
+   \edef\tmpstuff {\the#1 child [concept color = #3]{\the#2}}%
+   #1\expandafter {\tmpstuff }%
+}
+
+\newcounter{partco}
+
+\etocsetstyle{part}
+  {}
+  {}
+  {\toks0 \expandafter{\etocthelinkednumber}%
+   \toks2 \expandafter{\etocthelinkedname }%
+   \stepcounter{partco}%
+   \ifcase\value{partco}%
+   \or  \def\tmpoption {}%
+        \def\tmprotate {}% first
+   \or  \def\tmpoption {[concept]}%
+        \def\tmprotate {[clockwise from = 60]}% second
+   \else\def\tmpoption {}%
+        \def\tmprotate {[counterclockwise from = 90]}% third and higher
+   \fi
+% define the part node
+   \edef\treenode{node \tmpoption {\the\toks0. \the\toks2} \tmprotate }%
+% this is a starting point which will be filled it by the section children
+   \parttok\expandafter{\treenode}}
+  {}
+
+\etocsetstyle{section}
+  {}
+  {}
+  {\toks0 \expandafter{\etocthelinkednumber}%
+   \toks2 \expandafter{\etocthelinkedname }%
+% define the section node
+   \edef\treenode {node {\the\toks0 \space\the\toks2}}
+   \sectiontok\expandafter{\treenode}%
+% update current part tree with this section node, adding the correct color
+   \ifcase\value{partco}%
+   \or \appendchildtree\parttok\sectiontok {teal!30}% first
+   \or \appendchildtree\parttok\sectiontok {yellow!40}% second
+   \else\appendchildtree\parttok\sectiontok {green!30}% third etc...
+   \fi }
+% This updates the global tree with the data  from the
+% part and all its children sections
+  {\ifcase\value{partco}%
+   \or \appendchildtree\treetok\parttok {teal!60}%   first
+   \or \appendchildtree\treetok\parttok {yellow!80}% second
+   \else\appendchildtree\treetok\parttok {green!50}% third and next ...
+   \fi
+   }
+
+\etocsettocstyle
+  {\treetok{\node{\textbf{Discrete Data Analysis with R}} [clockwise from=60]}}
+  {\global\appendtotok\treetok{ ;}}
+% The \global above is mandatory because etoc always typesets TOC inside a group
+
+\tableofcontents
+
+
+\savebox\tocbox{%
+\begin{tikzpicture}[grow cyclic, text width=2cm,
+                    align=flush center,
+                    every node/.style=concept,
+                    concept color=orange!60,
+                    level 1/.style={level distance=7cm,sibling angle=120},
+                    level 2/.style={level distance=4cm,sibling angle=45}]
+
+\the\treetok
+\end{tikzpicture}}
+
+\noindent\begin{tikzpicture}[grow cyclic, text width=2cm,
+                    align=flush center,
+                    every node/.style=concept,
+                    concept color=orange!60,
+                    level 1/.style={level distance=7cm,sibling angle=120},
+                    level 2/.style={level distance=4cm,sibling angle=45}]
+  \path[clip] (0,-0.4\textheight) rectangle (\textwidth,0.4\textheight);
+\the\treetok
+\end{tikzpicture}
+
+
+\begin{tikzpicture}
+\path[clip] (0,0) rectangle (\dimexpr 0.5\wd\tocbox,\ht\tocbox);
+\node[anchor=south west,inner sep=0pt] at (0,0){\usebox\tocbox};
+\end{tikzpicture}
+
+\begin{tikzpicture}
+\path[clip] (\dimexpr 0.5\wd\tocbox,0) rectangle (\wd\tocbox,\ht\tocbox);
+\node[anchor=south west,inner sep=0pt] at (0,0){\usebox\tocbox};
+\end{tikzpicture}
+
+
+
+\part {Getting Started}
+\section {Introduction}
+\section {Working with Categorical Data}
+\section {Discrete Distributions}
+
+
+\part {Exploratory  Methods}
+\section {Two-way Contingency Tables}
+\section {Mosaic Displays}
+\section {Correspondence Analysis}
+
+
+\part {Model-building Methods}
+\section {Logistic Regression Models}
+\section {Polytomous Responses}
+\section {Loglinear and Logit Models}
+\section {Extending Loglinear Models}
+\section {Generalized Linear Models}
+
+
+\end{document}

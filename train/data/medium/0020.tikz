@@ -1,0 +1,20 @@
+\documentclass[tikz,margin=5mm]{standalone}
+\usetikzlibrary{angles,quotes}
+\usepackage{textcomp}
+\begin{document}
+   \begin{tikzpicture}
+      [myangle/.style={draw=red,thick,angle radius=1cm,fill=blue!10,fill opacity=0.5,}]
+      \node[draw,circle,minimum size=8cm](hdm){};
+      \foreach \l/\c in {0.5/green,1.5/orange,2/blue}
+        \draw[thick,dashed,\c,looseness=\l] 
+          (hdm.west) to[out=70,in =110] node[below]{\l}(hdm.center) to [out=-70,in=-110](hdm.east);
+      \draw[help lines,thick]([xshift=-1cm]hdm.west)--([xshift=1cm]hdm.east)coordinate(H);
+      \draw(hdm.west)coordinate[label=below left:hdm.west](A)--+(70:2)coordinate(B)
+           (hdm.center)coordinate[label=below left:hdm.center](C)--+(110:2)coordinate(D)--+(-70:2)coordinate(E)
+           (hdm.east)coordinate[label=above right:hdm.east](F)--+(-110:2)coordinate(G);
+      \pic[myangle,->,"70\textdegree"]{angle=C--A--B};
+      \pic[myangle,->,"110\textdegree"]{angle=F--C--D};
+      \pic[myangle,<-|,"-70\textdegree"]{angle=E--C--F};
+      \pic[myangle,<-,"-110\textdegree"]{angle=G--F--H};
+   \end{tikzpicture}
+\end{document}

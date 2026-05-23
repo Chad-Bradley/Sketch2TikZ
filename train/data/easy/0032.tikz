@@ -1,0 +1,15 @@
+\documentclass[12pt]{article}
+\usepackage{tikz}
+
+\begin{document}
+
+    \tikzset{every loop/.style={min distance=10mm,looseness=10}}
+    \begin{tikzpicture}
+        \node [] (star) {$*$} ;
+        \path[->] (star) edge [in=70,out=100,loop] node[auto] {$a$} ();
+        \path[->] (star) edge  [in=0,out=30,loop] node[auto] {$b$} ();
+        \path[->,draw] (star) to  [in=-10,out=110,loop,distance=4.5cm] node[auto] {$a\cdot b$} (star);
+        \path[->] (star) edge  [loop below] node[auto] {e} ();
+    \end{tikzpicture}
+
+\end{document}

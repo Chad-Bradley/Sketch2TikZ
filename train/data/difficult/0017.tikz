@@ -1,0 +1,36 @@
+\documentclass{article}
+\usepackage{tikz}
+
+\begin{document}
+
+\begin{tikzpicture}[scale=0.5]
+  % Define the main rectangle
+  \draw (0,0) rectangle (20,15);
+  
+  % Add the roof
+  \draw (0,15) -- (10,20) -- (20,15);
+  
+  % Add the entrance
+  \draw (10,0) -- (10,5) -- (12,5) -- (12,0);
+  
+  % Add the windows
+  \foreach \x in {2,4,...,18}
+    \draw (\x,2) rectangle (\x+1,4);
+    
+  % Add the balcony
+  \draw (0,10) -- (20,10);
+  \draw (0,11) -- (20,11);
+  \draw (0,12) -- (20,12);
+  \draw (0,13) -- (20,13);
+  \draw (0,14) -- (20,14);
+  
+  % Add the stage
+  \draw (0,5) -- (20,5);
+  \draw (0,6) -- (20,6);
+  \draw (0,7) -- (20,7);
+  \draw (0,8) -- (20,8);
+  \draw (0,9) -- (20,9);
+  
+\end{tikzpicture}
+
+\end{document}

@@ -1,0 +1,30 @@
+\documentclass[oneside,a4paper,12pt]{report}
+\usepackage{polyglossia}
+\usepackage{microtype}
+\setmainlanguage{english}
+\usepackage{vmargin}
+\setmarginsrb{3cm}{3cm}{3cm}{3cm}{0pt}{0mm}{0pt}{13mm}
+\usepackage{tikz}
+\usetikzlibrary{positioning, quotes, shapes.misc}
+
+\begin{document}
+    \begin{tikzpicture}[
+node distance = 1cm and 3cm,
+ stage/.style = {
+% The shape:
+rounded rectangle, align=center,
+minimum height=1cm, text width=5.4cm,
+% The rest
+very thick, draw=black!50,
+top color=white, bottom color=black!20,
+font=\bfseries},
+arr/.style = {very thick,-stealth},
+every  edge quotes/.append style = {font=\small, align=center},
+                    ]
+\node (node1) [stage] {Some text in Node1};
+\node (node2) [stage, below=of node1] {More text in Node 2!};
+    \draw [arr] (node1) -- (node2);
+\node (node3) [stage, right=of node2] {Text for node 3.};
+    \draw [arr] (node2) to["replacement\\ text here"] (node3);
+    \end{tikzpicture}
+\end{document}

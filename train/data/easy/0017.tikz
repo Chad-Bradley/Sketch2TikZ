@@ -1,0 +1,53 @@
+\documentclass[tikz, margin=1pt]{standalone}
+\usetikzlibrary{fit,
+                matrix,
+                positioning,
+                shapes.geometric}
+\tikzset{
+highlight/.style args={#1/#2}{ellipse, draw=red, semithick, 
+                              inner xsep=#1, inner ysep=#2},
+ mymatrix/.style={matrix of nodes,
+                  nodes in empty cells,
+                  nodes={minimum height=3ex, minimum width=2em, 
+                         inner sep=2pt, outer sep=0pt, anchor=center,
+                         draw},
+                  column sep=-\pgflinewidth,
+                  row sep=-\pgflinewidth
+                  }
+        }
+
+\begin{document}
+    \begin{tikzpicture}[node distance=0pt]
+\matrix (m1) [mymatrix] 
+{
+    & V1    & V2    & V3    \\
+U1  & 6     & 2     & 2     \\
+U2  & 8     & 3     & 5     \\
+U3  & 4     & 2     & 6     \\
+};
+\node (times) [right=of m1] {$\times$};
+\matrix (m2) [mymatrix, 
+              column 2/.style={nodes={minimum width=4em}},
+              column 3/.style={nodes={minimum width=4em}},
+              right=of times]
+{
+    & Comedy    & Tragedy   \\
+U1  & 6         & 2         \\
+U2  & 8         & $-1$      \\
+U3  & 4         & $-2$      \\
+};
+\node (equal) [right=of m2] {$=$};
+\matrix (m3) [mymatrix,
+              column 1/.style={nodes={minimum width=4em}},
+              right=of equal]
+{
+        & V1    & V2    & V3    \\  
+Comedy  & 3     & 1     & 1     \\  
+Tragedy & 1     & 0     & $-2$  \\  
+};
+\node[highlight=-9pt/0pt, fit=(m2-4-1) (m2-4-3),
+      label=below:User Features Vector] {};  
+\node[highlight=0pt/-3pt, fit=(m3-1-2) (m3-3-2),
+      label=below:Item Features Vector] {};
+\end{tikzpicture}
+\end{document}

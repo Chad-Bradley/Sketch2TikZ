@@ -1,0 +1,23 @@
+\documentclass{article}
+\usepackage{tikz-qtree}
+\begin{document}
+\begin{tikzpicture}[grow'=up]
+\Tree [.8 
+        [.5 
+            [.3 
+                \edge[]; {1}
+                \edge[draw=none]; {}  ]
+             6  ] 
+          12 ]
+\begin{scope}[xshift=2in]
+\tikzset{every tree node/.style={minimum width=2em}}
+\Tree [.8 
+        [.5 
+            [.3 
+                \edge[]; {1}
+                \edge[draw=none]; {}  ]
+             6  ] 
+          12 ]
+\end{scope}   
+\end{tikzpicture}
+\end{document}

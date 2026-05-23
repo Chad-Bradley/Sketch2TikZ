@@ -1,0 +1,36 @@
+\documentclass[tikz,border=3mm]{standalone}
+\usetikzlibrary{calc,chains,shadows}
+
+    \begin{document}
+    \begin{tikzpicture}[
+    node distance = 3mm and 21 mm,
+      start chain = A going below,
+every node/.style = {draw, rounded corners, fill=white,
+                     minimum width=12mm, minimum height=6mm,
+                     drop shadow,
+                     on chain=A}
+                        ]   
+% main column
+\node                       {$v_1$};            % A-1
+\node[below=12mm of A-1]    {$v_2$};            % A-2
+    \foreach \i in {1,2,...,4}% since all have the same content
+\node                       {$v_3$};            % A-3 ... A-6
+% left subcolumn
+\node[left=of $(A-4)!0.5!(A-5)$]    {$v_3$};    % A-7
+    \foreach \i in {1,2,3}% since all have the same content
+\node                       {$v_3$};            % A-8                   
+% right node
+\node[right=of A-1]         {$v_2$};            % A-11
+% arrows top
+    \draw[->] (A-1) -- node[below=6mm] {$v_3$} (A-11);
+    \draw[->] (A-12) -- (A-1 -| A-12);
+% arrows right
+\foreach \i in {2,3,...,5}
+    \draw (A-\i) -- (A-\i -| A-11);
+% last arrow right 
+\draw[->] (A-6) -| (A-11);
+% last arrow left
+\foreach \i in {7,8,...,10}
+    \draw (A-\i.east) -- (A-6.west);
+\end{tikzpicture}
+    \end{document}

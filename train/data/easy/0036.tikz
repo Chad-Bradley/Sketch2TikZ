@@ -1,0 +1,45 @@
+\documentclass{beamer}
+\usepackage[beamer,customcolors]{hf-tikz}
+\usepackage{tikz}
+\usepackage{tcolorbox}
+\usetikzlibrary{arrows.meta, tikzmark, chains, fit,
+    shapes,overlay-beamer-styles}
+\begin{document}
+\begin{frame}[fragile]
+\definecolor{myblue}{RGB}{80,80,160}
+\definecolor{mygreen}{RGB}{80,160,80}
+
+\begin{tcolorbox}[colback=white, text width=8.5cm]
+\begin{tikzpicture}[thick,
+  every node/.style={draw,circle},
+  fsnode/.style={fill=myblue},
+  ssnode/.style={fill=mygreen}
+%  every fit/.style={ellipse,draw,inner sep=-2pt,text width=2cm},
+%  ->,shorten >= 3pt,shorten <= 3pt
+]
+
+\begin{scope}[every node/.style={circle,thick,draw}]
+    \node (A) at (0,0) {};
+    \node (B) at (0,3) {};
+    \node (C) at (3,0) {};
+    \node (D) at (3,3) {};
+    \node (E) at (4.5, 1.5) {};
+    \node (F) at (-3, 3) {};
+\end{scope}
+
+\begin{scope}[>={Stealth[black]},
+              every node/.style={fill=white,circle},
+              every edge/.style={draw=red,very thick},
+              subvert/.style={alt=<#1>{every edge/.style={draw=blue,ultra thick}}{}}]
+    \path [-] (A) edge  (B);
+    \path [-,subvert=2] (A) edge  (C);
+    \path [-] (B) edge  (D);
+    \path [-,subvert=2] (D) edge  (C);
+    \path [-,subvert=2] (D) edge  (E);
+    \path [-] (C) edge  (E);
+    \path [-] (F) edge  (B);
+\end{scope}
+\end{tikzpicture}
+\end{tcolorbox}
+\end{frame}
+\end{document}

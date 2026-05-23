@@ -1,0 +1,31 @@
+\documentclass{scrreprt}
+
+\usepackage{tikz}
+\usepackage{tkz-euclide}
+\usepackage{adjustbox}
+
+\begin{document}
+\begin{figure}[!ht]
+\centering
+\begin{adjustbox}{width=0.95\textwidth}
+\begin{tikzpicture}
+[%Settings
+%node distance= vertical and horizontal
+node distance=1cm and 1cm,
+rounded corners,
+font=\small,
+>=stealth'
+]
+%nodes
+\node[draw, rectangle, align=left, text width = 0.2 \textwidth]         (first)     {long text, which describes the first step};
+\node[draw, rectangle, right =of first, text width = 0.2 \textwidth] (second)   {2. step};
+\node[draw, rectangle, right =of second, text width = 0.2 \textwidth]  (third)  {3. step};
+%Connections
+\draw[->] (first.east)--(second);
+\draw[->] (second.east)--(third);
+\end{tikzpicture}
+\end{adjustbox}
+\label{fig:flowchart}
+\caption{flow chart diagram}
+\end{figure}
+\end{document}

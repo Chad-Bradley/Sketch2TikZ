@@ -1,0 +1,41 @@
+\documentclass[tikz,border=5]{standalone}
+\usetikzlibrary{calc}
+
+\tikzset{
+mydot/.style={
+  fill,
+  circle,
+  inner sep=1.5pt
+  }
+}
+
+\begin{document}
+
+\begin{tikzpicture}[>=latex]
+
+% the coordinates of the vertices
+\coordinate (O) at (0,0);
+\coordinate (A) at (122:4cm);
+\coordinate (B) at (20:3cm);
+
+% the axis
+\draw[help lines,->] (-3.5,0) -- (2.5,0);
+\draw[help lines,->] (0,-0.5) -- (0,5.5);
+
+% the edges of the triangle
+\draw (O) -- (A) -- (B) -- cycle;
+
+% labelling the vertices
+\node[mydot,label={left:$A$}] at (A) {};
+\node[mydot,label={right:$B$}] at (B) {};
+\node[mydot,label={below left:$O$}] at (O) {};
+
+% the arcs for the angles
+\begin{scope}[gray]
+\draw[->] (0:1.25cm) arc (0: 20:1.25cm) node[midway,right] {$\beta$};
+\draw[->] (0:0.75cm) arc (0:122:0.75cm) node[midway,above] {$\alpha$};
+\end{scope}
+
+\end{tikzpicture}
+
+\end{document}

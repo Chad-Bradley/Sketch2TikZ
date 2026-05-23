@@ -1,0 +1,26 @@
+\documentclass{article}
+
+\usepackage{tikz} % Import TikZ package
+
+\begin{document}
+
+\begin{tikzpicture}
+  % Define the coordinates of the bars
+  \coordinate (A) at (0,0);
+  \coordinate (B) at (1,2);
+  \coordinate (C) at (2,1);
+  \coordinate (D) at (3,3);
+  \coordinate (E) at (4,2);
+
+  % Draw the bars
+  \draw[fill=blue] (A) rectangle (B);
+  \draw[fill=red] (C) rectangle (D);
+  \draw[fill=green] (E) rectangle +(1,1);
+
+  % Draw the axes
+  \draw[->] (-0.5,0) -- (5,0) node[right] {X};
+  \draw[->] (0,-0.5) -- (0,4) node[above] {Y};
+
+\end{tikzpicture}
+
+\end{document}

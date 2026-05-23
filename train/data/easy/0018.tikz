@@ -1,0 +1,23 @@
+\documentclass[tikz]{standalone}
+
+\usetikzlibrary{fit,arrows.meta,mindmap,shadows,backgrounds,calc,positioning,shapes.misc}
+\tikzset{Arrow/.style={-{stealth},very thick}}
+
+\begin{document}
+
+\begin{tikzpicture} [every node/.style={draw,rectangle,minimum width=22mm},
+    every text node part/.style={align=center}]
+\node (A) at (0,0) {A};
+\node (B) at (5,5) {B};
+
+\coordinate (AB) at ($ (B.south) - (18.5mm,3mm) $); % for simplicity
+\coordinate (BB) at ([xshift=-7mm]B.south);
+
+\draw[Arrow,rounded corners=30pt]
+    % start at source
+    (A) -- (A -| AB) % first corner
+    [rounded corners=5pt]
+     -- (AB) -- (AB -| BB) -- (BB);
+\end{tikzpicture}
+
+\end{document}

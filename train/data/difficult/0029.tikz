@@ -1,0 +1,9 @@
+\documentclass[border=10pt,multi,tikz]{standalone}    
+\begin{document}
+\begin{tikzpicture}
+  \fill [gray] (-.5,-.5) rectangle (4.5,1.5);
+  \shade[inner color=red, outer color=orange, fill opacity=0.3] (0,0) rectangle (1,1);
+  \shade[inner color=red, outer color=orange, fill opacity=1] (1.5,0) rectangle (2.5,1);
+  \shade[inner color=red!30, outer color=orange!30] (3,0) rectangle (4,1);
+\end{tikzpicture}
+\end{document}

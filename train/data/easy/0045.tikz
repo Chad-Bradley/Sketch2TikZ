@@ -1,0 +1,14 @@
+\documentclass[tikz,border=2mm]{standalone}
+
+\usepackage{ragged2e}
+
+\begin{document}
+
+\begin{tikzpicture}
+\node[draw,rectangle] at (0,0) {
+  \fontdimen2\font=2em%
+  \parbox{3cm}{\RaggedRight This is a ragged right and hyphenated text in a TikZ node.}
+};
+\end{tikzpicture}
+
+\end{document}

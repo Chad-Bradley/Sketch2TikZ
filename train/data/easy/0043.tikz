@@ -1,0 +1,33 @@
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage[x11names,table]{xcolor}
+\usepackage{mathpazo}
+
+\usepackage{tikz}
+\usetikzlibrary{babel, matrix, arrows.meta}
+
+\tikzstyle{arrow}=[thick,->,>=stealth]
+\tikzstyle{arrowr}=[red,thick,->,>=stealth]
+\tikzstyle{arrowg}=[Green4,thick,->,>=stealth]
+
+\begin{document}
+
+\begin{tikzpicture}
+  \matrix (table) [matrix of nodes] {
+    \underline{Días} & \underline{Coches} & \underline{Mecanicos} \\
+    2 & 5 & 4 \\
+    8 & 30 & $x$ \\
+  };
+  
+  \draw[arrowr]
+    (table-1-1.north) -- ++(0,1) -| node[pos=.25, above] {I} (table-1-3);
+  \draw[arrowg]
+    (table-1-2.north) -- ++(0,.3) -| node[pos=.25, above] {D} (table-1-3);
+  \draw[blue,>={Triangle[scale=.8]}]
+    (table-3-1) edge[bend right, ->] (table-3-2)
+                edge[bend right=45, ->] (table-3-3)
+    (table-3-2) edge[bend right, ->] (table-3-3);
+\end{tikzpicture}
+
+\end{document}

@@ -1,0 +1,58 @@
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsfonts, amsmath, amssymb, amsthm}
+\usepackage{tikz, pgffor, pgfplots, mathtools}
+\usetikzlibrary{arrows.meta}
+\usepackage{color}
+
+\newcommand{\p}{\mathbb{P}}
+
+\begin{document}
+
+\begin{tikzpicture}
+        \begin{scope}[shift={(-3,-0.55)}, scale=1.5]
+            \newcommand{\ls}{0.15} % size of circles for phi-values
+            \newcommand{\s}{0.08}
+	        % this ox needs to be lowered a little so it can look better
+            \newcommand{\ox}{0.3} % off set x variable to make circles 
+        
+            \draw (1,0.5) -- (0,1) -- (0,0) -- (1,0.5);
+
+            \draw[fill=black] (0, 0) circle (\s);
+	        \draw[fill=black] (1, 0.5) circle (\s);
+	        \draw[fill=black] (0, 1) circle (\s);
+	        
+	        \footnotesize
+	        \draw (0, 0 - \ox) circle (\ls) node {17};
+            \draw (1 + \ox, 0.5) circle (\ls) node {18};
+            \draw (0, 1 + \ox) circle (\ls) node {29};
+	    
+	   	    \node[left]  at (0, 0.5) {\underline{14}};
+            \node[above] at (0.5, 0.8) {\underline{15}};
+            \node[below] at (0.5, 0.2) {$3$};
+        \end{scope}
+        
+        \newcommand{\s}{0.09} % size of vertices
+        \newcommand{\ls}{0.25} % size of circles for phi-values
+        % this ox needs to be lowered a little so it can look better
+        \newcommand{\ox}{0.45} % off set x variable to make circles 
+        \newcounter{o} % this counter is the offset for each path.
+        \foreach \u\l\p in {1/2/3, 4/10/14, 6/9/15, 5/11/16, 7/12/19, 8/13/21}{
+	        \draw(1.5*\theo, -1) -- (1.5*\theo,1);
+	        \draw[fill=black] (1.5*\theo, 1) circle (\s);
+	        \draw[fill=black] (1.5*\theo, 0) circle (\s);
+	        \draw[fill=black] (1.5*\theo,-1) circle (\s);
+	        
+	        \footnotesize
+	        \draw (1.5*\theo + \ox, 1) circle (\ls) node {\u};
+	        \draw (1.5*\theo + \ox, 0) circle (\ls) node {\p};
+	        \draw (1.5*\theo + \ox, -1) circle (\ls) node {\l};
+	        \node[left] at (1.5*\theo, 0.5) {\u};
+	        \node[left] at (1.5*\theo,-0.5) {\l};
+	        
+	        \stepcounter{o}
+	    }
+	    \setcounter{o}{0} % counters are global vars, they need to be reset after use.
+	\end{tikzpicture}
+
+\end{document}

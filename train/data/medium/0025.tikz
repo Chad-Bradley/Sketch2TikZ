@@ -1,0 +1,35 @@
+\documentclass[border=2mm]{standalone}
+\usepackage{tikz}
+
+\begin{document}
+\begin{tikzpicture}
+    \newdimen\R
+    \R=4cm
+    \draw[thick] (330:\R) foreach \x in {30,90,...,330} { -- (\x:\R) };
+    %\fill [black] (30:\R) circle (3pt);
+    \foreach \x in {30,150,270} { 
+        \draw[dashed] (\x:\R) -- (\x:{\R+3cm});
+        \draw[line width=0.5pt,black,fill=white] (\x:\R) circle (3pt);
+    }
+    \foreach \x in {90,210,330} { 
+        \draw[line width=0.5pt,black,fill=black] (\x:\R) circle (3pt);
+    }
+    %\draw (90:\R) [out=0, in=180] (10,1);
+    
+    \begin{scope}[shift=(150:\R)]
+        \draw[thick, green, rounded corners=5pt] 
+            (30:.5cm) -- (90:1cm) -- (150:1cm) -- (210:1cm) -- (270:.5cm);
+    \end{scope}
+    
+    \begin{scope}[shift=(330:\R)]
+        \draw[thick, green, rounded corners=5pt] 
+            (210:2.5cm) -- ([shift=(330:1cm)]210:3cm) -- (330:1cm) -- ([shift=(330:1cm)]90:3cm) -- (90:2.5cm);
+    \end{scope}
+    
+    \begin{scope}[shift=(30:\R)]
+        \draw[thick, red, rounded corners=5pt] 
+            ([shift=(210:1cm)]150:4cm) -- ([shift=(150:2cm)]150:4cm) -- ([shift=(90:2cm)]150:4cm) -- (30:2cm) -- ([shift=(330:2cm)]270:4cm) -- ([shift=(270:2cm)]270:4cm) -- ([shift=(210:1cm)]270:4cm);
+    \end{scope}
+    
+    \end{tikzpicture}
+\end{document}

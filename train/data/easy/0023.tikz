@@ -1,0 +1,106 @@
+\documentclass[border=3mm]{standalone}
+%\url{http://tex.stackexchange.com/q/29891/86}
+\usepackage[rgb,hyperref]{xcolor}
+\usepackage{tikz}
+
+% Define colors
+\definecolor{shade1}{rgb}{0.9, 0.9, 0.9}
+\definecolor{shade2}{rgb}{0.75, 0.75, 0.75}
+\definecolor{shade3}{rgb}{0.5, 0.5, 0.5}
+\definecolor{shade4}{rgb}{0.35, 0.35, 0.35}
+
+% Load TikZ libraries
+\usetikzlibrary{shapes,matrix}
+\usetikzlibrary{positioning}
+
+% Text settings
+\newcommand{\figureTextSize}{\tiny}
+
+% Figure element lengths
+\newlength{\gpgpuElemSep}
+\setlength{\gpgpuElemSep}{1mm}
+\newlength{\gpgpuElemSize}
+\setlength{\gpgpuElemSize}{8mm}
+
+% TikZ styles
+\newcommand{\arrowStyle}{stealth}
+\newcommand{\bendAngle}{45}
+\newcommand{\lineThickness}{semithick}
+\tikzstyle{box} = [%
+  draw,
+  rectangle,
+  \lineThickness,
+]
+
+\begin{document}
+\begingroup
+\figureTextSize
+\begin{tikzpicture}[%
+    every node/.style={%
+      node distance=0.375\gpgpuElemSep,
+    },
+    component/.style={%
+      box,
+      minimum size=0.42\gpgpuElemSize,
+      inner sep=0pt,
+    },
+    alu/.style={%
+      component,
+      fill=shade1,
+      outer sep=0pt
+    },
+    controlcache/.style={%
+      component,
+      fill=none,
+      rectangle split,
+      rectangle split parts=2,
+      rectangle split part fill={shade2, shade3},
+      rectangle split every empty part={},
+      rectangle split empty part height=0.21\gpgpuElemSize-\pgflinewidth,
+    },
+    layoutalu/.style={%
+    matrix of nodes,
+        nodes in empty cells,
+    nodes={anchor=center},
+    nodes=alu,
+    column sep=\gpgpuElemSep,
+    row sep=\gpgpuElemSep
+},
+layoutcc/.style={%
+    matrix of nodes,
+    nodes in empty cells,
+    nodes={anchor=center},
+    nodes=controlcache,
+    column sep=\gpgpuElemSep,
+    row sep=\gpgpuElemSep
+}
+  ]
+
+\matrix (alu) 
+   [layoutcc, 
+    column 3/.style={nodes={alu}},
+    row 2 column 5/.style={nodes={alu,fill=blue!15}}]
+{ & & & & & & & \\ 
+  & & & & & & & \\
+  & & & & & & & \\
+  & & & & & & & \\
+  & & & & &|[alu,fill=blue!15]| & & \\
+  & & & & & & & \\
+  & & & & & & & \\
+};
+
+\matrix[right = 1cm of alu.east] (alu2) 
+  [layoutalu, 
+   column 3/.style={nodes={controlcache,fill=red!30}},
+   column 5/.style={nodes={rectangle split part fill={red,blue},controlcache}}]
+{ & & & & & & & \\ 
+  & & & & & & & \\
+  & & & & & & & \\
+  & & & & & & & \\
+  & & & & & & & \\
+  & & & & & & & \\
+  & & & & & & & \\
+};
+\end{tikzpicture}
+\endgroup
+\end{document}

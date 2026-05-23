@@ -1,0 +1,20 @@
+\documentclass[tikz]{standalone}
+\begin{document}
+\begin{tikzpicture}[
+   xscale=1,yscale=2,
+   every plot/.append style={samples=50,domain=1.5:14.3},
+   rotate=90]
+
+\begin{scope}[blue]
+  \draw plot(\x,{sin(\x r) - 5});
+  \draw plot(\x,{cos((\x+pi/2) r) - 2.5});
+  \draw plot(\x,{sin(\x r)});
+  \draw plot(\x,{cos((\x+pi/2) r) + 2.5});
+  \draw plot(\x,{sin(\x r) + 5});
+  \draw plot(\x,{cos((\x+pi/2) r) + 7.5});
+\end{scope}
+
+  \draw [<->,>=stealth] (5*pi/2,{sin(5*pi/2 r)}) -- node[above] {$a$} (5*pi/2,{cos((5*pi/2+pi/2) r)+2.5});
+  \draw [<->,>=stealth] (5*pi/2,{sin(5*pi/2 r)}) -- node[above] {$b$} (5*pi/2,{cos((5*pi/2+pi/2) r)-2.5});
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,40 @@
+\documentclass{beamer}
+\usepackage{lmodern,tikz}
+\usetikzlibrary{overlay-beamer-styles,matrix}
+
+\begin{document}
+
+\begin{frame}[fragile]{TikzMatrixOverlay}
+  \begin{tikzpicture}[
+  background default draw=black, % define default behaviour
+  background default text=black, % define default behaviour
+  background default aspect={solid}, % define default behaviour
+  highlight/.style={background draw=red, % define modified behaviour
+    background text=red, % define modified behaviour
+    background aspect=dashed,% define modified behaviour
+    },
+  ]
+
+  % matrix without overlay for comparison
+  \matrix [align = center, matrix of nodes, nodes = {text width = 16mm, draw},]
+  {
+    1 & 1 & 1 \\
+    |[red]| 22 & 22 & 22 \\
+    333 & |[red]| 333 & 333 \\
+    4444 & 4444 & 4444 \\
+  };
+
+  % matrix with overlay
+  \matrix [align = center, xshift = 6.0cm, matrix of nodes, nodes = {text width = 16mm,draw},
+  row 4/.style={visible on=<3>}% original visible on style by Daniel
+  ]{
+    1 & 1 & 1 \\
+    |[highlight, draw on=<1->, text on=<1->, aspect on=<3>]| 22 & 22 & 22 \\ % new styles
+    333 & |[highlight, draw on=<2->, text on=<2->, aspect on=<3>]| 333 & 333 \\ % new styles
+    4444 & 4444 & 4444\\
+  };
+
+  \end{tikzpicture}  
+\end{frame}
+
+\end{document}

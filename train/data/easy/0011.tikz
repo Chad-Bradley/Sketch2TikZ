@@ -1,0 +1,20 @@
+\documentclass{article}
+
+\usepackage{tikz}
+\usetikzlibrary{calc}
+
+\newsavebox{\mybackground}
+\savebox{\mybackground}{\begin{tikzpicture}[baseline=(origin)]
+  \coordinate (origin) at (0,0);
+  \draw[opacity=0.2] (\paperwidth-1cm, -1cm) -- (1cm, 1cm-\paperheight);
+\end{tikzpicture}}
+
+\usepackage{blindtext}
+
+\begin{document}
+
+\AddToHook{shipout/background}{\put(1cm, 0pt){\usebox\mybackground}}
+
+\blindtext[20]
+
+\end{document}

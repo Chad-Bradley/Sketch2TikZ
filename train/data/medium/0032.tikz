@@ -1,0 +1,27 @@
+\documentclass[border=2mm]{standalone}
+\usepackage{tikz}
+\usepackage{tikz-3dplot}
+\newcommand{\myphi}{220}
+\tdplotsetmaincoords{90}{\myphi}
+\begin{document}
+\begin{tikzpicture}[tdplot_main_coords]
+\def\ax{3}
+\def\r{2}
+\def\thick{0.15}
+\coordinate (O) at (0,0,0);
+\begin{scope}[rotate around y=90]
+\def\gap{0.05}
+\foreach\a in {0, 30, ..., 150}{
+  \draw[rotate around z=\a] (-\r+\thick,-\gap,0) --  (\r-\thick,-\gap,0);
+  \draw[rotate around z=\a] (-\r+\thick,\gap,0) --  (\r-\thick,\gap,0);
+}
+ \draw[fill=lightgray] (-\r,0,\thick/2) arc[radius=\r, start angle=180, end angle=0] -- (\r,0,-\thick/2) arc[radius=\r, start angle=0, end angle=-180] -- cycle (-\r+\thick,0,\thick/2) arc[radius=\r-\thick, start angle=180, end angle=360]  -- (\r-\thick,0,-\thick/2) arc[radius=\r-\thick, start angle=0, end angle=180] -- cycle;
+\foreach\a in {0, 30, ..., 150}{
+  \draw[rotate around z=\a] (-\r+\thick,-\gap,0) --  (0,-\gap,0);
+  \draw[rotate around z=\a] (-\r+\thick,\gap,0) --  (0,\gap,0);
+}
+\draw[fill] (O) circle (0.04*\r);
+\draw[fill=gray, opacity=1] (0,0,-\thick/2) circle[radius=\r] (0,0,-\thick/2) circle[x radius=\r-\thick, y radius=-\r+\thick];
+\end{scope}
+\end{tikzpicture}
+\end{document}

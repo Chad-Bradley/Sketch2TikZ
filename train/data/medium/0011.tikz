@@ -1,0 +1,40 @@
+\documentclass[12pt]{article}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta}
+
+\begin{document}
+\definecolor{uuuuuu}{rgb}{0.26666666666666666,0.26666666666666666,0.26666666666666666}
+
+\tikzset{graph-1/.style = {
+  >={Stealth[length=1.5mm]},
+  x=0.37cm, y=0.37cm,
+  every label/.append style = {font=\scriptsize},
+  dot/.style = {circle, fill=uuuuuu, inner sep=1.3pt}
+  }
+}% end of tikzset
+
+\begin{figure}[ht]
+  \centering
+  \begin{tikzpicture}[graph-1]
+
+    \foreach \x/\label in {0/1, 2/2, 4/3, 6/4, 8/5}
+    {
+      \node[dot,label=$\label$ ] at (\x, 1.5) (t\x) {};
+      \node[dot,label=below:$-\label$] at (\x,-1.5) (b\x) {};
+    }
+    \node[left=3mm] at (0,0) {$\pi=$};
+
+    \draw[uuuuuu,->]
+        (t0) edge[out= 135,in= 45,looseness=30] (t0)
+        (b0) edge[out=-135,in=-45,looseness=30] (b0)
+
+        (t4) edge[bend left] (t2)
+        (t2) edge[bend left] (t4)
+        (b2) edge[bend left] (b4)
+        (b4) edge[bend left] (b2);
+    \draw[uuuuuu,<->]  (t6) edge (b8)
+                (t8) edge (b6);
+  \end{tikzpicture}
+\end{figure}
+
+\end{document}

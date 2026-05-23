@@ -1,0 +1,32 @@
+\documentclass{article}
+
+% Importing the TikZ package
+\usepackage{tikz}
+
+% Starting the document
+\begin{document}
+
+% Creating a TikZ picture environment
+\begin{tikzpicture}
+
+% Drawing the horse's body
+\filldraw[black] (0,0) -- (1,0) -- (1,2) -- (0.5,3) -- (0,2) -- cycle;
+
+% Drawing the horse's head
+\filldraw[black] (1,2) -- (1.5,2.5) -- (1.5,3.5) -- (0.5,3) -- cycle;
+
+% Drawing the horse's legs
+\filldraw[black] (0,0) -- (-0.5,-1) -- (-0.5,-2) -- (0,-2.5) -- (0.5,-2) -- (0.5,-1) -- cycle;
+\filldraw[black] (1,0) -- (1.5,-1) -- (1.5,-2) -- (1,-2.5) -- (0.5,-2) -- (0.5,-1) -- cycle;
+
+% Drawing the horse's tail
+\filldraw[black] (0,2) -- (-0.5,2.5) -- (-1,2) -- (-0.5,1.5) -- cycle;
+
+% Drawing the horse's mane
+\filldraw[black] (1.5,2.5) -- (2,2) -- (2.5,2.5) -- (2,3) -- cycle;
+
+% Ending the TikZ picture environment
+\end{tikzpicture}
+
+% Ending the document
+\end{document}

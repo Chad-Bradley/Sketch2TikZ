@@ -1,0 +1,12 @@
+\documentclass{standalone}
+\usepackage{tikz}
+
+\begin{document}
+    \begin{tikzpicture}
+
+        \draw plot [smooth cycle] coordinates {(0,0)(2,3)(7,2)(6,-3)(3,-4)(1,-1)} coordinate [pin={[pin edge={red,thick}]below left:$\Omega$}] (a) {};
+
+        \node [style={circle,fill=gray!25,draw}, pin={[pin edge={red,thick}]below right:text}] (c) at (2,2) {};
+
+    \end{tikzpicture}
+\end{document}

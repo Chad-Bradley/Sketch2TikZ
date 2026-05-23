@@ -1,0 +1,26 @@
+\documentclass{article}
+\usepackage{tikz}
+\usetikzlibrary{positioning}
+
+\newcommand{\bipgraph}[2]{%
+    \begin{tikzpicture}[every node/.style={circle,draw}]
+    \foreach \xitem in {1,2,...,#1}
+    {%
+    % first set
+    \node at (0,\xitem) (a\xitem) {};
+    % second set
+    \node at (2,\xitem) (b\xitem) {};   
+    }%
+
+    % connections
+    \foreach \x [count=\xi] in {#2}
+    {% 
+    \foreach \tritem in \x % <-- Here no braces to make it a foreach list also not \xi but \x
+    \draw(a\xi) -- (b\tritem);
+    }
+    \end{tikzpicture}  
+}
+
+\begin{document}
+\bipgraph{5}{{1,2},{4,3},{2,4,1}}
+\end{document}

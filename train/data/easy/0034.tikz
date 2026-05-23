@@ -1,0 +1,33 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage{amssymb,amsmath,bm,bbm,natbib}
+\usepackage{color}
+\usepackage{inputenc}
+\usepackage{xcolor,colortbl}
+\usepackage{tikz}
+\usepackage[compat=1.1.0]{tikz-feynman}
+
+\begin{document}
+
+\begin{tikzpicture}[scale=1]
+			\begin{feynman}[small]
+                \vertex (mu) at (-1,0) {\(\mu\)};
+                \vertex (a)  at (0,-0.5);
+                \vertex (e) at (1,0) {\(e\)};
+                \vertex (b) at (0,-1);
+                \vertex (c) at (0,-2);
+                \vertex (g1) at (-0.33, -1.8);
+                \vertex (g2) at (0.33, -1.8);
+                \vertex (g11) at (-1, -2.5);
+                \vertex (g22) at (1, -2.5);
+ 				\diagram* [inline=(a.base)]{
+					(mu) -- [fermion] (a) -- [fermion] (e),
+					(a) -- [scalar,  edge label=\(\Phi\)] (b),
+					(b) -- [fermion, half left, edge label=\(q\)] (c) -- [fermion, half left] (b),
+					(g1) -- [gluon] (g11),
+					(g2) -- [gluon] (g22),
+				};
+			\end{feynman}
+\end{tikzpicture}
+
+\end{document}
