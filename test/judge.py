@@ -8,6 +8,10 @@ from dotenv import load_dotenv
 
 load_dotenv(override=True)
 
+JUDGE_KEYS = [
+    ("ModelScope #1", "MODELSCOPE_API_KEY"),
+    ("ModelScope #2", "MODELSCOPE2_API_KEY"),
+]
 MODEL = "Qwen/Qwen3-VL-235B-A22B-Instruct"
 BASE_URL = "https://api-inference.modelscope.cn/v1"
 
@@ -80,23 +84,34 @@ def evaluate(original_path: str, generated_pdf_path: str, render_dir: str) -> di
 
     b64_orig = _encode(orig_path)
     b64_gen = _encode(rend_path)
+    judge_msgs = [{"role": "user", "content": [
+        {"type": "text", "text": "Image 1 (REFERENCE):"},
+        {"type": "image_url", "image_url": {"url": b64_orig}},
+        {"type": "text", "text": "Image 2 (GENERATED):"},
+        {"type": "image_url", "image_url": {"url": b64_gen}},
+        {"type": "text", "text": PROMPT},
+    ]}]
 
-    key = os.getenv("MODELSCOPE_API_KEY")
-    if not key: raise RuntimeError("MODELSCOPE_API_KEY not set")
+    raw = None
+    for label, env_key in JUDGE_KEYS:
+        key = os.getenv(env_key, "")
+        if not key:
+            print(f"  [JUDGE] {label}: no key, skip")
+            continue
+        try:
+            client = OpenAI(api_key=key, base_url=BASE_URL)
+            resp = client.chat.completions.create(
+                model=MODEL, temperature=0.0, max_tokens=256,
+                messages=judge_msgs,
+            )
+            raw = resp.choices[0].message.content.strip()
+            print(f"  [JUDGE] {label} OK")
+            break
+        except Exception as e:
+            print(f"  [JUDGE] {label} FAIL: {type(e).__name__}")
+    else:
+        raise RuntimeError("All judge keys failed")
 
-    client = OpenAI(api_key=key, base_url=BASE_URL)
-    resp = client.chat.completions.create(
-        model=MODEL, temperature=0.0, max_tokens=256,
-        messages=[{"role": "user", "content": [
-            {"type": "text", "text": "Image 1 (REFERENCE):"},
-            {"type": "image_url", "image_url": {"url": b64_orig}},
-            {"type": "text", "text": "Image 2 (GENERATED):"},
-            {"type": "image_url", "image_url": {"url": b64_gen}},
-            {"type": "text", "text": PROMPT},
-        ]}],
-    )
-
-    raw = resp.choices[0].message.content.strip()
     if raw.startswith("```"):
         raw = raw.split("\n", 1)[-1]
         if raw.endswith("```"): raw = raw[:-3]
