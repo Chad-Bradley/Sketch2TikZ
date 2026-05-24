@@ -6,24 +6,40 @@ Hand-drawn sketch → TikZ vector code → compiled PDF. Multi-model LLM pipelin
 
 ```
 train/                   # Development — freely modify
-├── contract.py          # Interface definition (test calls this)
-├── llm_caller.py        # Multi-platform API wrapper
-├── pipeline.py          # image → vision desc → code gen → compile
+├── contract.py          # SampleResult interface (test calls this)
+├── llm_caller.py        # Multi-platform API wrapper (SSE streaming)
+├── pipeline.py          # Vision description → code gen → compile → critic
 └── data/
     ├── easy/            50 PNG + 50 TikZ code
     ├── medium/          50 PNG + 50 TikZ code
     └── difficult/       50 PNG + 50 TikZ code
 
-test/                    # Sealed — do not modify
-├── judge.py             # temp=0 Qwen3-VL-235B-A22B-Instruct, fixed prompt
-├── runner.py            # Loads test PNGs, calls train.pipeline.generate(), judges
+test/                    # Sealed — read-only
+├── judge.py             # Single-model judge (Qwen3-VL-235B, temp=0)
+├── runner.py            # Loads test PNGs, calls pipeline, reports
 └── data/
-    ├── easy/            50 PNG only (no code)
-    ├── medium/          50 PNG only (no code)
-    └── difficult/       50 PNG only (no code)
+    ├── easy/            50 PNG only (no code access)
+    ├── medium/          50 PNG only
+    └── difficult/       50 PNG only
+
+output/                  # Runtime artifacts (gitignored)
 ```
 
-Train and test data come from non-overlapping parquet sources. Test has no code access — evaluation is purely visual comparison.
+Train and test data come from non-overlapping parquet sources. Test has no access to ground-truth code — evaluation is purely visual.
+
+## Pipeline
+
+```
+Image → Vision model (description) → Code model (TikZ) → XeLaTeX compile
+    ↓
+Compile self-heal (max 3 retries, .log feedback)
+    ↓
+Internal visual critic (diagnosis + score)
+    ↓
+Visual self-heal (1 pass, diagnosis-driven surgical fix)
+    ↓
+Sealed external judge (final score)
+```
 
 ## Setup
 
@@ -32,7 +48,7 @@ conda create -n tikz_agent python=3.10 -y && conda activate tikz_agent
 pip install -r requirements.txt
 ```
 
-TeX Live with required packages:
+TeX Live:
 
 ```bash
 tlmgr option repository https://mirrors.tuna.tsinghua.edu.cn/CTAN/systems/texlive/tlnet
@@ -45,39 +61,39 @@ Ghostscript:
 conda install -c conda-forge -y ghostscript
 ```
 
+API keys: copy `.env.example` to `.env`, fill in at least one platform.
+
 ## Usage
 
 ```bash
 python -m test.runner --difficulty easy --num-samples 10
 python -m test.runner --difficulty medium --num-samples 5 --skip-judge
-python -m test.runner --difficulty difficult --num-samples 10
 ```
 
 | Flag | Effect |
 |------|--------|
-| `--difficulty {easy,medium,difficult}` | Test set to evaluate |
-| `--num-samples N` | Number of samples (default 10, max 50) |
-| `--skip-judge` | Skip vision judge, compile-only mode |
+| `--difficulty {easy,medium,difficult}` | Test set (default: easy) |
+| `--num-samples N` | Samples to test (default: 10, max 50) |
+| `--skip-judge` | Compile-only mode, skip vision judge |
 
-## API Keys
+## Platforms
 
-Copy `.env.example` to `.env` and fill in keys. Four platforms supported with automatic fallback:
+Four platforms with automatic fallback. Priority order:
 
-| Platform | Vision | Code |
+| Priority | Vision | Code |
 |----------|--------|------|
-| ModelScope | Qwen3-VL-235B | Qwen3-Coder-480B |
-| DeepSeek | — | deepseek-chat |
-| ZhipuAI | glm-4v-flash | glm-4.7-flash |
-| SiliconFlow | — | Qwen3-8B |
+| 1 | ModelScope (Qwen3-VL-235B) | DeepSeek (deepseek-chat) |
+| 2 | ZhipuAI (glm-4v-flash) | ModelScope (Qwen3-Coder-480B) |
+| 3 | — | SiliconFlow (Qwen3-8B) |
+| 4 | — | ZhipuAI (glm-4.7-flash) |
 
-Vision priority: ModelScope → ZhipuAI
-Code priority: DeepSeek → ModelScope → SiliconFlow → ZhipuAI
+If a platform returns 401/429/403, the next is tried immediately. All platforms fail → program exits with diagnostic.
 
 ## Judge
 
-Single temp=0 Qwen3-VL-235B-A22B-Instruct with hard score caps:
+test/judge.py is sealed. Single temp=0 Qwen3-VL-235B-A22B-Instruct on ModelScope. Scoring:
 
 - Missing elements → ≤ 1.0
 - Position/color diffs → 1.0–2.0
 - Naked-eye differences → ≤ 3.0
-- Minor differences only → 2.0–5.0
+- Minor differences → 2.0–5.0
