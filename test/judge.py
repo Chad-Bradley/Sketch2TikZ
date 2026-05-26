@@ -3,13 +3,14 @@ Sealed vision judge. temp=0, single model, fixed prompt.
 Does NOT touch train data. Compares generated figure against original.
 """
 import base64, json, os, subprocess, shutil
-from openai import OpenAI
 from dotenv import load_dotenv
 
 load_dotenv(override=True)
 
+from train.llm_caller import _create
+
 MODEL = "Qwen/Qwen3-VL-235B-A22B-Instruct"
-BASE_URL = "https://api-inference.modelscope.cn/v1"
+PLATFORM = "modelscope"
 
 PROMPT = (
     "You are evaluating how well a generated figure matches a reference image. "
@@ -81,12 +82,8 @@ def evaluate(original_path: str, generated_pdf_path: str, render_dir: str) -> di
     b64_orig = _encode(orig_path)
     b64_gen = _encode(rend_path)
 
-    key = os.getenv("MODELSCOPE_API_KEY")
-    if not key: raise RuntimeError("MODELSCOPE_API_KEY not set")
-
-    client = OpenAI(api_key=key, base_url=BASE_URL)
-    resp = client.chat.completions.create(
-        model=MODEL, temperature=0.0, max_tokens=256,
+    raw = _create(
+        PLATFORM, MODEL,
         messages=[{"role": "user", "content": [
             {"type": "text", "text": "Image 1 (REFERENCE):"},
             {"type": "image_url", "image_url": {"url": b64_orig}},
@@ -94,9 +91,10 @@ def evaluate(original_path: str, generated_pdf_path: str, render_dir: str) -> di
             {"type": "image_url", "image_url": {"url": b64_gen}},
             {"type": "text", "text": PROMPT},
         ]}],
+        temperature=0.0, max_tokens=256,
     )
 
-    raw = resp.choices[0].message.content.strip()
+    raw = raw.strip()
     if raw.startswith("```"):
         raw = raw.split("\n", 1)[-1]
         if raw.endswith("```"): raw = raw[:-3]

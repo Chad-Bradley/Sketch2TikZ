@@ -121,33 +121,56 @@ def _encode_img(path: str) -> str:
 
 
 def _internal_critic(original_path: str, pdf_path: str, output_dir: str) -> dict:
-    """Internal visual critic for feedback loop (not the sealed judge)."""
+    """Internal visual critic for feedback loop (not the sealed judge).
+
+    Tries all vision platforms in order with key rotation, falling back to the
+    next platform on failure, mirroring image_to_text's fallback behaviour.
+    """
     png_path = os.path.join(output_dir, "critic_internal.png")
     if not _pdf_to_png(pdf_path, png_path):
         return {"score": 0.0, "is_pass": False, "diagnosis": "PDF render failed"}
     b64_orig = _encode_img(original_path)
     b64_gen = _encode_img(png_path)
-    critic_platform = VISION_PLATFORMS[0]  # first available vision platform
-    critic_model = VISION_MODELS[critic_platform]
-    raw = _create(
-        critic_platform, critic_model,
-        [{"role": "user", "content": [
-            {"type": "text", "text": "Image 1 (REFERENCE):"},
-            {"type": "image_url", "image_url": {"url": b64_orig}},
-            {"type": "text", "text": "Image 2 (GENERATED):"},
-            {"type": "image_url", "image_url": {"url": b64_gen}},
-            {"type": "text", "text": CRITIC_PROMPT},
-        ]}],
-        temperature=0.0, max_tokens=300,
-    )
-    raw = raw.strip()
-    if raw.startswith("```"): raw = raw.split("\n", 1)[-1].replace("```", "").strip()
-    try:
-        j = json.loads(raw)
-        return {"score": float(j.get("score", 0)), "is_pass": bool(j.get("is_pass", False)),
-                "diagnosis": str(j.get("diagnosis", ""))}
-    except (json.JSONDecodeError, ValueError):
-        return {"score": 0.0, "is_pass": False, "diagnosis": f"Critic parse failed: {raw[:100]}"}
+
+    messages = [{"role": "user", "content": [
+        {"type": "text", "text": "Image 1 (REFERENCE):"},
+        {"type": "image_url", "image_url": {"url": b64_orig}},
+        {"type": "text", "text": "Image 2 (GENERATED):"},
+        {"type": "image_url", "image_url": {"url": b64_gen}},
+        {"type": "text", "text": CRITIC_PROMPT},
+    ]}]
+
+    errors = []
+    for platform in VISION_PLATFORMS:
+        model = VISION_MODELS.get(platform)
+        if not model:
+            continue
+        try:
+            raw = _create(platform, model, messages,
+                          temperature=0.0, max_tokens=300)
+            raw = raw.strip()
+            if raw.startswith("```"):
+                raw = raw.split("\n", 1)[-1].replace("```", "").strip()
+            try:
+                j = json.loads(raw)
+                return {"score": float(j.get("score", 0)),
+                        "is_pass": bool(j.get("is_pass", False)),
+                        "diagnosis": str(j.get("diagnosis", ""))}
+            except (json.JSONDecodeError, ValueError):
+                return {"score": 0.0, "is_pass": False,
+                        "diagnosis": f"Critic parse failed: {raw[:100]}"}
+        except Exception as e:
+            msg = f"[{platform}] {type(e).__name__}: {e}"
+            errors.append(msg)
+            try:
+                print(f"  [WARN] critic failed on {platform}: "
+                      f"{type(e).__name__}: {str(e)[:200]}")
+            except Exception:
+                pass
+            continue
+
+    return {"score": 0.0, "is_pass": False,
+            "diagnosis": f"All vision platforms failed: {'; '.join(errors[-3:])}"}
 
 
 # ── Main pipeline ────────────────────────────────────
