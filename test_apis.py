@@ -20,7 +20,9 @@ from train.llm_caller import (
     text_to_text,
     iter_models,
     PLATFORM_ENV_KEY,
+    PLATFORM_BASE_URL,
     list_models,
+    ApiKeyPool,
 )
 
 # ── helpers ──────────────────────────────────────────────────────
@@ -76,21 +78,26 @@ def test_text_model(model_name: str) -> bool:
         return False
 
 
-def test_all_text_models() -> dict:
+def test_all_text_models(platform_filter: str = None) -> dict:
     """Test every registered code/text model. Returns {model: success}."""
-    print(f"\n{BOLD}── Text / Code Models ──{RESET}")
+    label = f" (platform: {platform_filter})" if platform_filter else ""
+    print(f"\n{BOLD}── Text / Code Models{label} ──{RESET}")
     results: dict = {}
     tested_platforms: set = set()
+    no_key_platforms: set = set()
 
-    for platform, model_name, call_type in iter_models():
+    for platform, model_name, call_type in iter_models(platform=platform_filter):
         if call_type != "code":
             continue
         if platform not in tested_platforms:
             tested_platforms.add(platform)
             print(f"\n  {BOLD}[{platform}]{RESET}")
             if not test_platform_key(platform):
-                results[f"{platform}/{model_name}"] = False
-                continue
+                no_key_platforms.add(platform)
+
+        if platform in no_key_platforms:
+            results[f"{platform}/{model_name}"] = False
+            continue
 
         results[f"{platform}/{model_name}"] = test_text_model(model_name)
     return results
@@ -116,25 +123,30 @@ def test_vision_model(model_name: str, image_path: str) -> bool:
         return False
 
 
-def test_all_vision_models(image_path: str) -> dict:
+def test_all_vision_models(image_path: str, platform_filter: str = None) -> dict:
     """Test every registered vision model. Returns {model: success}."""
     if not os.path.exists(image_path):
         print(f"\n{BOLD}── Vision Models ──{RESET}")
         warn(f"Image not found: {image_path}. Skipping vision tests.")
         return {}
-    print(f"\n{BOLD}── Vision Models (image: {image_path}) ──{RESET}")
+    label = f" (platform: {platform_filter})" if platform_filter else ""
+    print(f"\n{BOLD}── Vision Models (image: {image_path}){label} ──{RESET}")
     results: dict = {}
     tested_platforms: set = set()
+    no_key_platforms: set = set()
 
-    for platform, model_name, call_type in iter_models():
+    for platform, model_name, call_type in iter_models(platform=platform_filter):
         if call_type != "vision":
             continue
         if platform not in tested_platforms:
             tested_platforms.add(platform)
             print(f"\n  {BOLD}[{platform}]{RESET}")
             if not test_platform_key(platform):
-                results[f"{platform}/{model_name}"] = False
-                continue
+                no_key_platforms.add(platform)
+
+        if platform in no_key_platforms:
+            results[f"{platform}/{model_name}"] = False
+            continue
 
         results[f"{platform}/{model_name}"] = test_vision_model(model_name, image_path)
     return results
@@ -190,6 +202,49 @@ def print_model_registry() -> None:
             print(f"    {m}")
 
 
+def print_config_summary() -> dict:
+    """Print which platforms have keys and how many. Returns {platform: key_count}."""
+    print(f"\n{BOLD}── API Key Configuration ──{RESET}")
+    summary: dict = {}
+    seen: set = set()
+    for platform, _, _ in iter_models():
+        if platform in seen:
+            continue
+        seen.add(platform)
+        env_key = PLATFORM_ENV_KEY.get(platform, "?")
+        base_url = PLATFORM_BASE_URL.get(platform, "?")
+        try:
+            pool = ApiKeyPool(platform)
+            count = pool.key_count()
+            if count > 0:
+                ok(f"{platform}: {count} key(s)  ({env_key})")
+                summary[platform] = count
+            else:
+                warn(f"{platform}: NO KEY  ({env_key}) — set in .env")
+                summary[platform] = 0
+        except Exception as e:
+            warn(f"{platform}: error reading keys — {e}")
+            summary[platform] = 0
+    return summary
+
+
+def check_config_only() -> bool:
+    """Quick check that at least one API is configured. Returns True if usable."""
+    summary = print_config_summary()
+    text_ok = any(summary.get(p, 0) > 0 for p in ["deepseek", "modelscope", "siliconflow", "zhipu", "nvidia", "openrouter", "default_choice"])
+    vision_ok = any(summary.get(p, 0) > 0 for p in ["modelscope", "zhipu", "nvidia", "openrouter", "default_choice"])
+    print()
+    if text_ok:
+        ok("At least one text/code API is configured")
+    else:
+        fail("No text/code API configured — set at least one CODE API key in .env")
+    if vision_ok:
+        ok("At least one vision API is configured")
+    else:
+        fail("No vision API configured — set at least one VISION API key in .env")
+    return text_ok or vision_ok
+
+
 # ── main ─────────────────────────────────────────────────────────
 
 def main():
@@ -203,11 +258,21 @@ def main():
     parser.add_argument("--platform", type=str, default=None,
                         help="Only test models from a specific platform "
                              "(e.g. nvidia, openrouter)")
+    parser.add_argument("--check-config", action="store_true",
+                        help="Only print API key configuration and exit "
+                             "(no API calls)")
     args = parser.parse_args()
 
     print(f"{BOLD}{'='*60}{RESET}")
     print(f"{BOLD}  Sketch2TikZ LLM API Tester  (timeout={_API_TIMEOUT}s){RESET}")
     print(f"{BOLD}{'='*60}{RESET}")
+
+    # Always show config summary
+    config_summary = print_config_summary()
+
+    if args.check_config:
+        print(f"\n{BOLD}Config check complete. Use without --check-config to run API tests.{RESET}")
+        return
 
     print_model_registry()
 
@@ -217,7 +282,7 @@ def main():
     fallback_vision_ok = None
 
     # Text models
-    text_results = test_all_text_models()
+    text_results = test_all_text_models(platform_filter=args.platform)
 
     # Vision models
     if not args.text_only:
@@ -225,7 +290,8 @@ def main():
         if image_path is None:
             warn("No --image provided. Vision tests will be skipped.")
             warn("Use: python test_apis.py --image /path/to/image.jpg")
-        vision_results = test_all_vision_models(image_path or "/nonexistent")
+        vision_results = test_all_vision_models(
+            image_path or "/nonexistent", platform_filter=args.platform)
 
     # Fallback tests
     if not args.skip_fallback:
