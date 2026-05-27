@@ -127,19 +127,24 @@ def _internal_critic(original_path: str, pdf_path: str, output_dir: str) -> dict
         return {"score": 0.0, "is_pass": False, "diagnosis": "PDF render failed"}
     b64_orig = _encode_img(original_path)
     b64_gen = _encode_img(png_path)
-    critic_platform = VISION_PLATFORMS[0]  # first available vision platform
-    critic_model = VISION_MODELS[critic_platform]
-    raw = _create(
-        critic_platform, critic_model,
-        [{"role": "user", "content": [
-            {"type": "text", "text": "Image 1 (REFERENCE):"},
-            {"type": "image_url", "image_url": {"url": b64_orig}},
-            {"type": "text", "text": "Image 2 (GENERATED):"},
-            {"type": "image_url", "image_url": {"url": b64_gen}},
-            {"type": "text", "text": CRITIC_PROMPT},
-        ]}],
-        temperature=0.0, max_tokens=300,
-    )
+    critic_msgs = [{"role": "user", "content": [
+        {"type": "text", "text": "Image 1 (REFERENCE):"},
+        {"type": "image_url", "image_url": {"url": b64_orig}},
+        {"type": "text", "text": "Image 2 (GENERATED):"},
+        {"type": "image_url", "image_url": {"url": b64_gen}},
+        {"type": "text", "text": CRITIC_PROMPT},
+    ]}]
+
+    # Try vision platforms in order via fallback
+    raw = None
+    for p in VISION_PLATFORMS:
+        try:
+            raw = _create(p, VISION_MODELS[p], critic_msgs, temperature=0.0, max_tokens=300)
+            break
+        except Exception:
+            continue
+    if raw is None:
+        return {"score": 0.0, "is_pass": False, "diagnosis": "All critic platforms failed"}
     raw = raw.strip()
     if raw.startswith("```"): raw = raw.split("\n", 1)[-1].replace("```", "").strip()
     try:
@@ -157,7 +162,7 @@ def generate(image_path: str, index: int, output_dir: str = "output") -> SampleR
 
     # N1: Vision description
     desc = image_to_text(image_path, VISION_PROMPT,
-                         platforms=VISION_PLATFORMS, temperature=0.1, max_tokens=1024)
+                         platforms=VISION_PLATFORMS, temperature=0.0, max_tokens=1024)
     vision_time = round(time.time() - t_start, 1)
 
     tex_path = os.path.join(output_dir, f"gen_{index:04d}.tex")
@@ -180,7 +185,7 @@ def generate(image_path: str, index: int, output_dir: str = "output") -> SampleR
     for attempt in range(3):
         compile_attempts = attempt + 1
         raw = text_to_text(msgs, platforms=CODE_PLATFORMS,
-                           temperature=0.05 if attempt == 0 else 0.3, max_tokens=4096)
+                           temperature=0.0, max_tokens=4096)
         tikz = _clean(raw)
         tikz = _fix(tikz)
         with open(tex_path, "w", encoding="utf-8") as f:
@@ -208,7 +213,7 @@ def generate(image_path: str, index: int, output_dir: str = "output") -> SampleR
                                     f"{diagnosis}\n\nMake ONLY minimal targeted fixes to address these "
                                     f"specific issues. Do NOT change anything that is already correct."})
             raw2 = text_to_text(msgs, platforms=CODE_PLATFORMS,
-                                temperature=0.1, max_tokens=4096)
+                                temperature=0.0, max_tokens=4096)
             tikz2 = _clean(raw2)
             tikz2 = _fix(tikz2)
             with open(tex_path, "w", encoding="utf-8") as f:

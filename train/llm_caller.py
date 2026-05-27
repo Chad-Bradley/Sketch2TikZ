@@ -9,29 +9,41 @@ BASE_URL = {
     "modelscope":  "https://api-inference.modelscope.cn/v1",
     "siliconflow": "https://api.siliconflow.cn/v1",
     "zhipu":       "https://open.bigmodel.cn/api/paas/v4",
-    "deepseek":    "https://api.deepseek.com",
+    "nvidia":      "https://integrate.api.nvidia.com/v1",
+    "openrouter":  "https://openrouter.ai/api/v1",
+    "siliconflow2":"https://api.siliconflow.cn/v1",
+    "modelscope2": "https://api-inference.modelscope.cn/v1",
+    "nvidia2":     "https://integrate.api.nvidia.com/v1",
 }
 ENV_KEY = {
-    "modelscope":  "MODELSCOPE_API_KEY", "siliconflow": "SILICONFLOW_API_KEY",
-    "zhipu":       "ZHIPU_API_KEY",       "deepseek":    "DEEPSEEK_API_KEY",
+    "modelscope":  "MODELSCOPE_API_KEY",  "modelscope2":  "MODELSCOPE2_API_KEY",
+    "siliconflow": "SILICONFLOW_API_KEY", "siliconflow2": "SILICONFLOW2_API_KEY",
+    "zhipu":       "ZHIPU_API_KEY",
+    "nvidia":      "NVIDIA_API_KEY",       "nvidia2":      "NVIDIA2_API_KEY",
+    "openrouter":  "OPENROUTER_API_KEY",
 }
 VISION_MODELS = {
-    "modelscope": "Qwen/Qwen3-VL-235B-A22B-Instruct",
-    "zhipu":      "glm-4v-flash",
+    "modelscope":  "Qwen/Qwen3-VL-235B-A22B-Instruct",
+    "modelscope2": "Qwen/Qwen3-VL-235B-A22B-Instruct",
+    "zhipu":       "glm-4v-flash",
+    "nvidia":      "mistralai/mistral-large-3-675b-instruct-2512",
 }
 CODE_MODELS = {
-    "deepseek":   "deepseek-chat",
-    "modelscope": "Qwen/Qwen3-Coder-480B-A35B-Instruct",
+    "modelscope":  "Qwen/Qwen3-Coder-480B-A35B-Instruct",
+    "modelscope2": "Qwen/Qwen3-Coder-480B-A35B-Instruct",
+    "zhipu":       "glm-4.7-flash",
+    "nvidia":      "qwen/qwen3-coder-480b-a35b-instruct",
+    "nvidia2":     "qwen/qwen3-coder-480b-a35b-instruct",
+    "openrouter":  "nvidia/nemotron-3-super-120b-a12b:free",
     "siliconflow": "Qwen/Qwen3-8B",
-    "zhipu":      "glm-4.7-flash",
+    "siliconflow2":"Qwen/Qwen3-8B",
 }
 
-VISION_PLATFORMS = ["modelscope", "zhipu"]
-CODE_PLATFORMS = ["deepseek", "modelscope", "siliconflow", "zhipu"]
+VISION_PLATFORMS = ["modelscope", "modelscope2", "zhipu", "nvidia"]
+CODE_PLATFORMS = ["modelscope", "modelscope2", "nvidia", "nvidia2", "zhipu", "openrouter", "siliconflow", "siliconflow2"]
 
 
 def _create(platform: str, model: str, messages: list, temperature: float, max_tokens: int) -> str:
-    """Call API with SSE streaming for all platforms."""
     key_env = ENV_KEY.get(platform)
     key = os.getenv(key_env, "")
     client = OpenAI(api_key=key, base_url=BASE_URL[platform])
@@ -55,12 +67,17 @@ def _encode(path: str) -> str:
 
 def _try(platforms, fn, name):
     errors = []
-    for p in platforms:
-        try: return fn(p)
+    for i, p in enumerate(platforms):
+        try:
+            result = fn(p)
+            if i > 0:
+                print(f"  [OK]   {name} fell back to #{i+1} {p}")
+            return result
         except Exception as e:
-            errors.append(f"[{p}] {type(e).__name__}: {e}")
-            print(f"  [WARN] {name} {p}: {type(e).__name__}: {str(e)[:120]}")
-    raise RuntimeError(f"All platforms failed for '{name}':\n" + "\n".join(errors))
+            err = f"[{p}] {type(e).__name__}: {str(e)[:100]}"
+            errors.append(err)
+            print(f"  [FAIL] {name} #{i+1} {p}: {type(e).__name__}")
+    raise RuntimeError(f"All {len(platforms)} platforms failed for '{name}':\n" + "\n".join(errors))
 
 
 def image_to_text(path: str, prompt: str, platforms=None, **kw) -> str:
