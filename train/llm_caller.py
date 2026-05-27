@@ -35,7 +35,7 @@ PLATFORM_BASE_URL = {
     "deepseek":     "https://api.deepseek.com",
     "nvidia":       "https://integrate.api.nvidia.com/v1",
     "openrouter":   "https://openrouter.ai/api/v1",
-    "default_choice":"default_url"  # Placeholder, replace with actual URL
+    "default_choice":os.getenv("DEFAULT_CHOICE_BASE_URL", ""),
 }
 
 PLATFORM_ENV_KEY = {
@@ -54,7 +54,7 @@ _VISION_MODELS = {
     "zhipu":        "glm-4v-flash",
     "nvidia":       "mistralai/mistral-large-3-675b-instruct-2512",
     "openrouter":   "nvidia/nemotron-3-nano-omni-30b-a3b-reasoning:free",
-    "default_choice":os.getenv("DEFAULT_CHOICE_VISION_MODEL", "gpt-4o"),
+    "default_choice":os.getenv("DEFAULT_CHOICE_VISION_MODEL", "claude-opus-4-7"),
 }
 
 # Per-platform default code/text models
@@ -65,17 +65,17 @@ _CODE_MODELS = {
     "zhipu":        os.getenv("ZHIPU_CODE_MODEL", "glm-4.7-flash"),
     "nvidia":       os.getenv("NVIDIA_CODE_MODEL", "qwen/qwen3-coder-480b-a35b-instruct"),
     "openrouter":   os.getenv("OPENROUTER_CODE_MODEL", "deepseek/deepseek-v4-flash:free"),
-    "default_choice":os.getenv("DEFAULT_CHOICE_CODE_MODEL", "deepseek-v4-pro"),
+    "default_choice":os.getenv("DEFAULT_CHOICE_CODE_MODEL", "claude-opus-4-7"),
 }
 
 # ── Backward-compatible aliases (used by pipeline.py) ──
 VISION_MODELS = _VISION_MODELS
 CODE_MODELS = _CODE_MODELS
-VISION_PLATFORMS = ["modelscope", "zhipu", "nvidia", "openrouter", "default_choice"]
-CODE_PLATFORMS = ["deepseek", "modelscope", "siliconflow", "zhipu", "nvidia", "openrouter", "default_choice"]
+VISION_PLATFORMS = ["default_choice", "modelscope", "zhipu", "nvidia", "openrouter"]
+CODE_PLATFORMS = ["default_choice", "deepseek", "modelscope", "siliconflow", "zhipu", "nvidia", "openrouter"]
 
 # Platforms whose API only supports SSE streaming
-_STREAMING_ONLY = {"default_choice"}
+
 
 # Extra known models beyond defaults
 _EXTRA_MODELS: Dict[str, Dict[str, List[str]]] = {
@@ -483,38 +483,18 @@ def _encode_image(image_path: str) -> str:
 def _chat_completion(client, model: str, messages: list,
                      temperature: float, max_tokens: int,
                      platform: str = "") -> str:
-    """Call chat completion, using streaming for platforms that require it.
-
-    Some servers (default_choice) always return SSE chunks even when stream=False,
-    which breaks the standard OpenAI client. This wrapper uses streaming
-    transparently for those platforms.
-    """
-    if platform in _STREAMING_ONLY:
-        stream = client.chat.completions.create(
-            model=model, messages=messages,
-            temperature=temperature, max_tokens=max_tokens, stream=True,
-        )
-        chunks = []
-        for chunk in stream:
-            content = chunk.choices[0].delta.content
-            if content:
-                chunks.append(content)
-        result = "".join(chunks)
-        if not result:
-            raise RuntimeError(f"Model '{model}' returned empty streaming content")
-        return result
-
-    resp = client.chat.completions.create(
+    stream = client.chat.completions.create(
         model=model, messages=messages,
-        temperature=temperature, max_tokens=max_tokens,
+        temperature=temperature, max_tokens=max_tokens, stream=True,
     )
-    result = resp.choices[0].message.content
-    if result is None:
-        finish = resp.choices[0].finish_reason
-        msg = f"Model '{model}' returned empty content — finish_reason={finish}"
-        if finish == "length":
-            msg += ". Hint: increase max_tokens (current value may be too low for reasoning/thinking models)"
-        raise RuntimeError(msg)
+    chunks = []
+    for chunk in stream:
+        content = chunk.choices[0].delta.content
+        if content:
+            chunks.append(content)
+    result = "".join(chunks)
+    if not result:
+        raise RuntimeError(f"Model '{model}' returned empty content")
     return result
 
 
