@@ -7,7 +7,7 @@ Hand-drawn sketch → TikZ vector code → compiled PDF. Multi-model LLM pipelin
 ```
 train/                   # Development — freely modify
 ├── contract.py          # SampleResult interface (test calls this)
-├── llm_caller.py        # Multi-platform API wrapper (SSE streaming)
+├── llm_caller.py        # Multi-platform API wrapper (SSE + fallback + named-model)
 ├── pipeline.py          # Vision description → code gen → compile → critic
 └── data/
     ├── easy/            50 PNG + 50 TikZ code
@@ -22,6 +22,7 @@ test/                    # Sealed — read-only
     ├── medium/          50 PNG only
     └── difficult/       50 PNG only
 
+test_apis.py             # API connectivity tester for all registered models
 output/                  # Runtime artifacts (gitignored)
 ```
 
@@ -78,16 +79,44 @@ python -m test.runner --difficulty medium --num-samples 5 --skip-judge
 
 ## Platforms
 
-Four platforms with automatic fallback. Priority order:
+Six platforms with automatic fallback. Priority order:
 
 | Priority | Vision | Code |
 |----------|--------|------|
 | 1 | ModelScope (Qwen3-VL-235B) | DeepSeek (deepseek-chat) |
 | 2 | ZhipuAI (glm-4v-flash) | ModelScope (Qwen3-Coder-480B) |
-| 3 | — | SiliconFlow (Qwen3-8B) |
-| 4 | — | ZhipuAI (glm-4.7-flash) |
+| 3 | NVIDIA (mistral-large-3) | SiliconFlow (Qwen3-8B) |
+| 4 | OpenRouter (nemotron-3-nano-omni) | ZhipuAI (glm-4.7-flash) |
+| 5 | — | NVIDIA (qwen3-coder-480b) |
+| 6 | — | OpenRouter (deepseek-v4-flash) |
 
 If a platform returns 401/429/403, the next is tried immediately. All platforms fail → program exits with diagnostic.
+
+Use `call_vision_model(name, ...)` / `call_text_model(name, ...)` to target a specific model.
+Use `python test_apis.py` to check API key configuration and model availability.
+Use `python test_apis.py --image path.jpg` to also test vision models.
+
+
+  ### Multi-key API scheduling (train/llm_caller.py)
+
+  Key pool (ApiKeyPool class, line ~175):
+  - Thread-safe rotating pool of API keys per platform
+  - Keys are read from env vars in two formats:
+    - Comma-separated: NVIDIA_API_KEY=key1,key2,key3
+    - Numbered suffix: NVIDIA_API_KEY_1=key1, NVIDIA_API_KEY_2=key2
+  - Rate-limited keys are put into cooldown (30s default, 300s for quota exhaustion) and skipped on subsequent requests
+
+  Rate-limit detection (_is_rate_limited, line ~157):
+  - Detects HTTP 429/402 status codes in error messages
+  - Matches keywords: rate limit, quota, insufficient_quota, billing, throttle, overloaded, etc.
+  - Works across all providers (Nvidia, ModelScope, OpenRouter, etc.)
+
+  Automatic key rotation:
+  - _create() — rotates keys on rate-limit within the same platform
+  - call_vision_model() / call_text_model() — rotates when no explicit api_key is passed
+  - image_to_text() / text_to_text() — inner key rotation within each platform's fallback attempt
+  - When an explicit api_key is provided, no rotation occurs (direct key usage)
+
 
 ## Judge
 
