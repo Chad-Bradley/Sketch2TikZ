@@ -16,9 +16,34 @@ XELATEX = os.getenv("XELATEX_PATH", "xelatex")
 
 # ── Prompts ──────────────────────────────────────────
 VISION_PROMPT = (
-    "Describe all geometric shapes, text labels, arrows, colors, and layout "
-    "in this diagram in detail. Include relative positions, sizes, and "
-    "connections. Output a structured description suitable for generating TikZ."
+    "Output a TikZ-like specification that maps directly to draw commands. "
+    "Use ONLY these notations. No natural-language narration.\n\n"
+    "\\def\\R{3cm}                          %% define radius/dimensions\n"
+    "\\coordinate (A) at (90:\\R);          %% node positions (polar or cartesian)\n"
+    "\\draw[red, thick] (A) -- (B)          %% line segment, color, style\n"
+    "  node[midway, above] {$x$};          %% label on segment\n"
+    "\\draw[->, blue, thick] (A) arc (90:0:\\R)  %% arc with arrow\n"
+    "  node[midway, right] {$f(x)$};       %% label on arc\n"
+    "\\node[circle, draw, fill=black!50] at (O) {O};  %% labelled point\n"
+    "\\definecolor{myRed}{HTML}{C2504B}     %% custom colors\n\n"
+    "RULES:\n"
+    "- Every formula in LaTeX: $\\sum$, $\\alpha$, $\\rightarrow$, etc.\n"
+    "- Every segment: specify from/to, color, style (solid/dashed/dotted), arrow tip\n"
+    "- Every label: specify which segment it's on, position (midway/above/right)\n"
+    "- Every arc: specify angles (polar), radius, direction\n"
+    "- Count elements. The code generator needs exact numbers.\n"
+    "- Use polar coords for circular diagrams: (angle:radius)\n"
+    "- Use cartesian for grid/bar/flowchart: (x,y)\n"
+    "- For graphs: specify vertex symbols ($*$ vs filled dot vs circle). "
+    "For self-loops: specify angular position (top/bottom/left/right) and relative size\n"
+    "- For symmetric arc-cutout shapes: describe arc centers, radii, "
+    "and the resulting central shape (e.g. '4 quarter-circles at corners create central star')\n"
+    "- For 3D isometric views: state projection type and viewing angles "
+    "(e.g. 'tdplot_main_coords theta=60 phi=120'), describe which axes are tilted\n"
+    "- For fractal/recursive patterns: state depth/order, branch colors, "
+    "and whether structure is symmetric or asymmetric\n"
+    "- For divided circles/wedges: state dividing line angles from center, "
+    "whether lines are double-stroked (gap), and relative wedge sizes"
 )
 
 CODE_SYSTEM = (
@@ -28,26 +53,67 @@ CODE_SYSTEM = (
     "2) Output ONLY raw LaTeX. No markdown, no explanation.\n"
     "3) No \\usepackage{inputenc}, \\usepackage{fontenc}, or [pdftex] driver.\n"
     "4) No \\ensuremath in node styles.\n"
-    "5) All node text in valid LaTeX math ($...$ or \\(...\\)).\n"
-    "6) \\draw[->] for arrows, \\node[draw,circle] for circled nodes.\n"
-    "7) No unused packages, no commented-out blocks.\n"
+    "5) FILLED DOTS: only place \\fill (X) circle (2pt) at exactly the vertices "
+    "the description specifies. Do NOT add dots at every vertex automatically.\n"
+    "6) Every formula in the description MUST appear verbatim in LaTeX math mode.\n"
+    "7) \\draw[->, <color>] for colored arrows, \\node[draw,circle] for circled nodes, "
+    "\\node[draw,rectangle] for boxes. Every color in the description must "
+    "appear as an explicit draw/fill color.\n"
+    "7) Every shape in the description MUST be rendered. Count them: if the "
+    "description says N circles, your code must have N circles.\n"
+    "8) ARC AND LINE LABELS: place labels via 'node[midway, above] {label}' directly "
+    "on the \\draw command. NEVER place labels at separate unconnected coordinates.\n"
+    "9) POLAR COORDINATES: for circular/radial diagrams, use (angle:radius) — "
+    "e.g. (90:\\R), (180:3cm). Define \\def\\R{2cm} for radius, use \\coordinate.\n"
+    "10) COLORS: use \\definecolor{name}{HTML}{hex} for precise colors. "
+    "Match the description's colors exactly — don't substitute generic 'red' for 'myRed'.\n"
+    "11) SELF-LOOPS: use `edge [in=<angle>,out=<angle>,loop]` with explicit angles "
+    "matching the described position (top=70/110, right=0/30, bottom=270/290, left=150/180). "
+    "Render vertex symbols literally: $*$ for asterisk, $\\bullet$ for filled dot.\n"
+    "12) SYMMETRIC ARCS: for shapes built from quarter-circle cutouts, chain arc "
+    "commands with `--` connectors (e.g. `arc (0:90:r) arc (-90:0:r) -- cycle`). "
+    "Ensure arcs share endpoints at edge midpoints to form a closed region.\n"
+    "13) Lines: -- (straight), .. controls .. (curved), -| or |- (right-angle).\n"
+    "14) 3D PROJECTIONS: use \\usepackage{tikz-3dplot} + \\tdplotsetmaincoords{60}{120} "
+    "+ [tdplot_main_coords]. Include dashed projection wireframe from vector tip "
+    "to all three coordinate planes.\n"
+    "15) FRACTAL/RECURSIVE: use \\usetikzlibrary{lindenmayersystems} + "
+    "\\pgfdeclarelindenmayersystem with production rules, not manual drawing.\n"
+    "16) DIVIDED CIRCLES: use `double, double distance=2mm` for parallel-line "
+    "cut edges. Draw sectors with \\clip on the circle + radial lines at specified angles.\n"
+    "17) MATRIX/TABLE: use \\usetikzlibrary{matrix,fit}. Use `matrix of nodes` "
+    "with `nodes in empty cells` so ALL cells share the grid. Place operators "
+    "($\\times$, $=$) between matrices via `right=of <matrix>` at mid-height.\n"
+    "18) TEXT IN NODES: for ragged-right with wide word spacing, use "
+    "\\usepackage{ragged2e} + \\RaggedRight + \\parbox{width}{...}. No naked text.\n"
+    "19) Match the description's layout: row, column, grid, tree, radial, 3D, fractal.\n"
+    "20) No unused packages, no commented-out blocks.\n"
     "EXAMPLE:\n"
     "\\documentclass[tikz, border=2pt]{standalone}\n"
+    "\\usetikzlibrary{arrows.meta}\n"
     "\\begin{document}\n"
     "\\begin{tikzpicture}\n"
-    "  \\node[draw, circle] (A) at (0,0) {A};\n"
-    "  \\node[draw, circle] (B) at (2,1) {B};\n"
-    "  \\draw[->] (A) -- (B);\n"
+    "  \\def\\R{2cm}\n"
+    "  \\coordinate (A) at (90:\\R);\n"
+    "  \\draw[red, thick] (A) arc (90:-30:\\R) node[midway, right] {$x$};\n"
     "\\end{tikzpicture}\n"
     "\\end{document}"
 )
 
 CRITIC_PROMPT = (
-    "Compare these two images. Image 1 is the REFERENCE, Image 2 is the GENERATED output. "
-    "Output ONLY a JSON object:\n"
-    '{"score": <float 1.0-5.0>, "is_pass": <true/false>, '
-    '"diagnosis": "<specific: what shapes are wrong, missing, misplaced, wrong color/size>"}\n'
-    "is_pass = score >= 3.0. Be strict — if key elements are missing, score <= 1.0."
+    "Compare the two images. Score 1.0-5.0. Be brutally honest.\n"
+    "This is NOT a checklist of what elements exist.\n"
+    "It is about whether the two images LOOK THE SAME visually.\n"
+    "- 1.0: completely different, unrecognizable\n"
+    "- 2.0: recognizable attempt but major structural or shape differences\n"
+    "- 3.0: same type of diagram but significant layout/shape/color differences\n"
+    "- 4.0: very similar, only minor shape/size/position differences\n"
+    "- 5.0: near-identical, no discernible differences\n"
+    "CRITICAL: identical element count does NOT mean identical appearance.\n"
+    "If shapes differ in proportion, aspect ratio, or curvature, score <= 2.0.\n"
+    "If placement differs noticeably from reference, score <= 3.0.\n"
+    'Output ONLY JSON: {"score": <float>, "is_pass": <bool>, '
+    '"diagnosis": "<specific visual differences>"}'
 )
 
 # ── Platform priority (imported from llm_caller) ──────
@@ -121,18 +187,13 @@ def _encode_img(path: str) -> str:
 
 
 def _internal_critic(original_path: str, pdf_path: str, output_dir: str) -> dict:
-    """Internal visual critic for feedback loop (not the sealed judge).
-
-    Tries all vision platforms in order with key rotation, falling back to the
-    next platform on failure, mirroring image_to_text's fallback behaviour.
-    """
+    """Internal visual critic for feedback loop (not the sealed judge)."""
     png_path = os.path.join(output_dir, "critic_internal.png")
     if not _pdf_to_png(pdf_path, png_path):
         return {"score": 0.0, "is_pass": False, "diagnosis": "PDF render failed"}
     b64_orig = _encode_img(original_path)
     b64_gen = _encode_img(png_path)
-
-    messages = [{"role": "user", "content": [
+    critic_msgs = [{"role": "user", "content": [
         {"type": "text", "text": "Image 1 (REFERENCE):"},
         {"type": "image_url", "image_url": {"url": b64_orig}},
         {"type": "text", "text": "Image 2 (GENERATED):"},
@@ -140,37 +201,24 @@ def _internal_critic(original_path: str, pdf_path: str, output_dir: str) -> dict
         {"type": "text", "text": CRITIC_PROMPT},
     ]}]
 
-    errors = []
-    for platform in VISION_PLATFORMS:
-        model = VISION_MODELS.get(platform)
-        if not model:
-            continue
+    # Try vision platforms in order via fallback
+    raw = None
+    for p in VISION_PLATFORMS:
         try:
-            raw = _create(platform, model, messages,
-                          temperature=0.0, max_tokens=300)
-            raw = raw.strip()
-            if raw.startswith("```"):
-                raw = raw.split("\n", 1)[-1].replace("```", "").strip()
-            try:
-                j = json.loads(raw)
-                return {"score": float(j.get("score", 0)),
-                        "is_pass": bool(j.get("is_pass", False)),
-                        "diagnosis": str(j.get("diagnosis", ""))}
-            except (json.JSONDecodeError, ValueError):
-                return {"score": 0.0, "is_pass": False,
-                        "diagnosis": f"Critic parse failed: {raw[:100]}"}
-        except Exception as e:
-            msg = f"[{platform}] {type(e).__name__}: {e}"
-            errors.append(msg)
-            try:
-                print(f"  [WARN] critic failed on {platform}: "
-                      f"{type(e).__name__}: {str(e)[:200]}")
-            except Exception:
-                pass
+            raw = _create(p, VISION_MODELS[p], critic_msgs, temperature=0.0, max_tokens=300)
+            break
+        except Exception:
             continue
-
-    return {"score": 0.0, "is_pass": False,
-            "diagnosis": f"All vision platforms failed: {'; '.join(errors[-3:])}"}
+    if raw is None:
+        return {"score": 0.0, "is_pass": False, "diagnosis": "All critic platforms failed"}
+    raw = raw.strip()
+    if raw.startswith("```"): raw = raw.split("\n", 1)[-1].replace("```", "").strip()
+    try:
+        j = json.loads(raw)
+        return {"score": float(j.get("score", 0)), "is_pass": bool(j.get("is_pass", False)),
+                "diagnosis": str(j.get("diagnosis", ""))}
+    except (json.JSONDecodeError, ValueError):
+        return {"score": 0.0, "is_pass": False, "diagnosis": f"Critic parse failed: {raw[:100]}"}
 
 
 # ── Main pipeline ────────────────────────────────────
@@ -180,11 +228,13 @@ def generate(image_path: str, index: int, output_dir: str = "output") -> SampleR
 
     # N1: Vision description
     desc = image_to_text(image_path, VISION_PROMPT,
-                         platforms=VISION_PLATFORMS, temperature=0.1, max_tokens=1024)
+                         platforms=VISION_PLATFORMS, temperature=0.0, max_tokens=1024)
     vision_time = round(time.time() - t_start, 1)
 
-    tex_path = os.path.join(output_dir, f"gen_{index:04d}.tex")
-    pdf_path = os.path.join(output_dir, f"gen_{index:04d}.pdf")
+    base_name = os.path.splitext(os.path.basename(image_path))[0]
+    tag = f"{base_name}_{index:04d}"
+    tex_path = os.path.join(output_dir, f"gen_{tag}.tex")
+    pdf_path = os.path.join(output_dir, f"gen_{tag}.pdf")
 
     msgs = [
         {"role": "system", "content": CODE_SYSTEM},
@@ -203,7 +253,7 @@ def generate(image_path: str, index: int, output_dir: str = "output") -> SampleR
     for attempt in range(3):
         compile_attempts = attempt + 1
         raw = text_to_text(msgs, platforms=CODE_PLATFORMS,
-                           temperature=0.05 if attempt == 0 else 0.3, max_tokens=4096)
+                           temperature=0.0, max_tokens=4096)
         tikz = _clean(raw)
         tikz = _fix(tikz)
         with open(tex_path, "w", encoding="utf-8") as f:
@@ -231,7 +281,7 @@ def generate(image_path: str, index: int, output_dir: str = "output") -> SampleR
                                     f"{diagnosis}\n\nMake ONLY minimal targeted fixes to address these "
                                     f"specific issues. Do NOT change anything that is already correct."})
             raw2 = text_to_text(msgs, platforms=CODE_PLATFORMS,
-                                temperature=0.1, max_tokens=4096)
+                                temperature=0.0, max_tokens=4096)
             tikz2 = _clean(raw2)
             tikz2 = _fix(tikz2)
             with open(tex_path, "w", encoding="utf-8") as f:
