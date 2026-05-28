@@ -28,25 +28,30 @@ test/                    # Sealed — read-only
 
 Train and test data come from non-overlapping sources. Test has no code access — evaluation is purely visual.
 
-## Self-Improving Pipeline
+## Iterative Prompt Optimization
 
-The system evolves its own prompts through a closed optimization loop:
+The system identifies weaknesses and suggests fixes, guided by a coding agent:
 
 ```
-                      ┌──────────────────────────┐
-                      │   train/dev_loop.py       │
-                      │                           │
-Random train sample → │ 1. Generate TikZ + compile │
-                      │ 2. Internal critic scores  │
-                      │ 3. If score < 4.0:         │
-                      │    AI reviews GT vs gen    │
-                      │    Outputs concrete fixes  │
-                      │ 4. Apply fixes to prompts  │
-                      │ 5. Re-test same batch      │
-                      └──────────────────────────┘
+                      ┌───────────────────────────┐
+                      │   train/dev_loop.py        │
+                      │                            │
+Random train sample → │ 1. Generate TikZ + compile  │
+                      │ 2. Internal critic scores   │
+                      │ 3. If score < 4.0:          │
+                      │    AI compares GT vs gen    │
+                      │    Outputs concrete fixes   │
+                      └──────────┬─────────────────┘
+                                 │
+                                 ▼
+                      ┌───────────────────────────┐
+                      │   Human or coding agent    │
+                      │   Applies fixes to prompts │
+                      │   Re-runs to verify        │
+                      └───────────────────────────┘
 ```
 
-Each iteration produces copy-pasteable prompt fixes — specific rules, pattern descriptions, and code conventions — validated against ground truth code. The critic enforces strict visual fidelity scoring (1.0–5.0) with explicit score caps for shape distortion, missing elements, and placement errors.
+The AI review produces copy-pasteable prompt fixes — specific rules, pattern descriptions, and code conventions — validated against ground truth code. A human or coding agent applies these changes to `train/pipeline.py` and re-runs to measure improvement. The critic enforces strict visual fidelity scoring (1.0–5.0) with explicit caps for shape distortion, missing elements, and placement errors.
 
 The final evaluation runs through `test/runner.py` against unseen test images. The sealed judge (temp=0, single model, fixed prompt) ensures no score inflation.
 
