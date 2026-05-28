@@ -46,7 +46,11 @@ def safe_print(*a, **kw):
 
 
 def main():
-    imgs = sorted(glob.glob(os.path.join(os.path.dirname(__file__), "data", "easy", "????.png")))[:3]
+    import random
+    all_imgs = sorted(glob.glob(os.path.join(os.path.dirname(__file__), "data", "easy", "????.png")))
+    random.seed(int(time.time()))
+    random.shuffle(all_imgs)
+    imgs = all_imgs[:3]
 
     safe_print(f"=== Iterative Prompt Optimisation ===")
     safe_print(f"Samples: {len(imgs)}")

@@ -16,21 +16,24 @@ XELATEX = os.getenv("XELATEX_PATH", "xelatex")
 
 # ── Prompts ──────────────────────────────────────────
 VISION_PROMPT = (
-    "Describe this diagram with maximum precision for TikZ code generation.\n\n"
-    "FORMULAS: Every mathematical expression MUST be written in LaTeX notation "
-    "(e.g. $\\sum_{i=1}^{n} x_i$, $\\frac{a}{b}$, $\\alpha$, $\\rightarrow$). "
-    "Never describe formulas in plain English — output the exact LaTeX.\n\n"
-    "SHAPES: Count and name every shape precisely. For each shape, state:\n"
-    "- Type: rectangle, circle, ellipse, straight line, curved arrow, dashed line, etc.\n"
-    "- Position: exact relative location (center, top-left, bottom-right, between X and Y)\n"
-    "- Size: relative scale (large, small, same width as X, half the height of Y)\n"
-    "- Style: solid, dashed, dotted, thick, thin, color, filled/hollow\n\n"
-    "LINES & ARROWS: For every connector, state: color, start point, end point, "
-    "direction (→, ←, ↔), style (straight, curved, right-angle), "
-    "and the exact label text placed as a midway node on that specific segment "
-    "(e.g. 'green arrow from A to B with label f(x) at midpoint').\n\n"
-    "LAYOUT: Describe the overall spatial arrangement. Are elements in a row, "
-    "column, grid, tree, or free-form? What is the relative spacing?"
+    "Output a TikZ-like specification that maps directly to draw commands. "
+    "Use ONLY these notations. No natural-language narration.\n\n"
+    "\\def\\R{3cm}                          %% define radius/dimensions\n"
+    "\\coordinate (A) at (90:\\R);          %% node positions (polar or cartesian)\n"
+    "\\draw[red, thick] (A) -- (B)          %% line segment, color, style\n"
+    "  node[midway, above] {$x$};          %% label on segment\n"
+    "\\draw[->, blue, thick] (A) arc (90:0:\\R)  %% arc with arrow\n"
+    "  node[midway, right] {$f(x)$};       %% label on arc\n"
+    "\\node[circle, draw, fill=black!50] at (O) {O};  %% labelled point\n"
+    "\\definecolor{myRed}{HTML}{C2504B}     %% custom colors\n\n"
+    "RULES:\n"
+    "- Every formula in LaTeX: $\\sum$, $\\alpha$, $\\rightarrow$, etc.\n"
+    "- Every segment: specify from/to, color, style (solid/dashed/dotted), arrow tip\n"
+    "- Every label: specify which segment it's on, position (midway/above/right)\n"
+    "- Every arc: specify angles (polar), radius, direction\n"
+    "- Count elements. The code generator needs exact numbers.\n"
+    "- Use polar coords for circular diagrams: (angle:radius)\n"
+    "- Use cartesian for grid/bar/flowchart: (x,y)"
 )
 
 CODE_SYSTEM = (
@@ -46,18 +49,23 @@ CODE_SYSTEM = (
     "appear as an explicit draw/fill color.\n"
     "7) Every shape in the description MUST be rendered. Count them: if the "
     "description says N circles, your code must have N circles.\n"
-    "8) Labels on segments: use 'node[midway, above] {label}' on the \\draw command, "
-    "never place formula labels at separate arbitrary coordinates.\n"
-    "9) Lines: straight is --, curved is .. controls .., right-angle is -| or |-.\n"
-    "9) Match the description's layout exactly: row, column, grid, or tree.\n"
-    "10) No unused packages, no commented-out blocks.\n"
+    "8) ARC AND LINE LABELS: place labels via 'node[midway, above] {label}' directly "
+    "on the \\draw command. NEVER place labels at separate unconnected coordinates.\n"
+    "9) POLAR COORDINATES: for circular/radial diagrams, use (angle:radius) — "
+    "e.g. (90:\\R), (180:3cm). Define \\def\\R{2cm} for radius, use \\coordinate.\n"
+    "10) COLORS: use \\definecolor{name}{HTML}{hex} for precise colors. "
+    "Match the description's colors exactly — don't substitute generic 'red' for 'myRed'.\n"
+    "11) Lines: -- (straight), .. controls .. (curved), -| or |- (right-angle).\n"
+    "12) Match the description's layout: row, column, grid, tree, or radial.\n"
+    "13) No unused packages, no commented-out blocks.\n"
     "EXAMPLE:\n"
     "\\documentclass[tikz, border=2pt]{standalone}\n"
+    "\\usetikzlibrary{arrows.meta}\n"
     "\\begin{document}\n"
     "\\begin{tikzpicture}\n"
-    "  \\node[draw, circle] (A) at (0,0) {$x_1$};\n"
-    "  \\node[draw, rectangle] (B) at (2,1) {$\\sum_{i=1}^{n}$};\n"
-    "  \\draw[->, thick] (A) -- (B);\n"
+    "  \\def\\R{2cm}\n"
+    "  \\coordinate (A) at (90:\\R);\n"
+    "  \\draw[red, thick] (A) arc (90:-30:\\R) node[midway, right] {$x$};\n"
     "\\end{tikzpicture}\n"
     "\\end{document}"
 )
@@ -185,8 +193,10 @@ def generate(image_path: str, index: int, output_dir: str = "output") -> SampleR
                          platforms=VISION_PLATFORMS, temperature=0.0, max_tokens=1024)
     vision_time = round(time.time() - t_start, 1)
 
-    tex_path = os.path.join(output_dir, f"gen_{index:04d}.tex")
-    pdf_path = os.path.join(output_dir, f"gen_{index:04d}.pdf")
+    base_name = os.path.splitext(os.path.basename(image_path))[0]
+    tag = f"{base_name}_{index:04d}"
+    tex_path = os.path.join(output_dir, f"gen_{tag}.tex")
+    pdf_path = os.path.join(output_dir, f"gen_{tag}.pdf")
 
     msgs = [
         {"role": "system", "content": CODE_SYSTEM},
