@@ -47,20 +47,26 @@ VISION_PLATFORMS = ["default_choice", "modelscope", "modelscope2", "zhipu", "nvi
 CODE_PLATFORMS = ["default_choice", "modelscope", "modelscope2", "nvidia", "nvidia2", "zhipu", "openrouter", "siliconflow", "siliconflow2"]
 
 
-def _create(platform: str, model: str, messages: list, temperature: float, max_tokens: int) -> str:
+def _create(platform: str, model: str, messages: list, temperature: float, max_tokens: int,
+            retries: int = 2) -> str:
     key_env = ENV_KEY.get(platform)
     key = os.getenv(key_env, "")
     client = OpenAI(api_key=key, base_url=BASE_URL[platform])
 
-    stream = client.chat.completions.create(
-        model=model, messages=messages,
-        temperature=temperature, max_tokens=max_tokens, stream=True,
-    )
-    content = ""
-    for chunk in stream:
-        if chunk.choices[0].delta.content:
-            content += chunk.choices[0].delta.content
-    return content
+    for attempt in range(retries + 1):
+        stream = client.chat.completions.create(
+            model=model, messages=messages,
+            temperature=temperature, max_tokens=max_tokens, stream=True,
+        )
+        content = ""
+        for chunk in stream:
+            if chunk.choices[0].delta.content:
+                content += chunk.choices[0].delta.content
+        if content.strip():
+            return content
+        if attempt < retries:
+            print(f"  [RETRY] {platform}/{model} returned empty, attempt {attempt+2}/{retries+1}")
+    raise RuntimeError(f"Model '{model}' returned empty content after {retries+1} attempts")
 
 
 def _encode(path: str) -> str:
