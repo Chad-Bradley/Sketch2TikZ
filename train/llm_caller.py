@@ -14,6 +14,7 @@ BASE_URL = {
     "siliconflow2":"https://api.siliconflow.cn/v1",
     "modelscope2": "https://api-inference.modelscope.cn/v1",
     "nvidia2":     "https://integrate.api.nvidia.com/v1",
+    "default_choice":os.getenv("DEFAULT_CHOICE_BASE_URL", ""),
 }
 ENV_KEY = {
     "modelscope":  "MODELSCOPE_API_KEY",  "modelscope2":  "MODELSCOPE2_API_KEY",
@@ -21,14 +22,17 @@ ENV_KEY = {
     "zhipu":       "ZHIPU_API_KEY",
     "nvidia":      "NVIDIA_API_KEY",       "nvidia2":      "NVIDIA2_API_KEY",
     "openrouter":  "OPENROUTER_API_KEY",
+    "default_choice":"DEFAULT_CHOICE_API_KEY",
 }
 VISION_MODELS = {
+    "default_choice":os.getenv("DEFAULT_CHOICE_VISION_MODEL", "claude-opus-4-7"),
     "modelscope":  "Qwen/Qwen3-VL-235B-A22B-Instruct",
     "modelscope2": "Qwen/Qwen3-VL-235B-A22B-Instruct",
     "zhipu":       "glm-4v-flash",
     "nvidia":      "mistralai/mistral-large-3-675b-instruct-2512",
 }
 CODE_MODELS = {
+    "default_choice":os.getenv("DEFAULT_CHOICE_CODE_MODEL", "claude-opus-4-7"),
     "modelscope":  "Qwen/Qwen3-Coder-480B-A35B-Instruct",
     "modelscope2": "Qwen/Qwen3-Coder-480B-A35B-Instruct",
     "zhipu":       "glm-4.7-flash",
@@ -39,8 +43,8 @@ CODE_MODELS = {
     "siliconflow2":"Qwen/Qwen3-8B",
 }
 
-VISION_PLATFORMS = ["modelscope", "modelscope2", "zhipu", "nvidia"]
-CODE_PLATFORMS = ["modelscope", "modelscope2", "nvidia", "nvidia2", "zhipu", "openrouter", "siliconflow", "siliconflow2"]
+VISION_PLATFORMS = ["default_choice", "modelscope", "modelscope2", "zhipu", "nvidia"]
+CODE_PLATFORMS = ["default_choice", "modelscope", "modelscope2", "nvidia", "nvidia2", "zhipu", "openrouter", "siliconflow", "siliconflow2"]
 
 
 def _create(platform: str, model: str, messages: list, temperature: float, max_tokens: int) -> str:
