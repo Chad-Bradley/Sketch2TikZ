@@ -33,7 +33,11 @@ VISION_PROMPT = (
     "- Every arc: specify angles (polar), radius, direction\n"
     "- Count elements. The code generator needs exact numbers.\n"
     "- Use polar coords for circular diagrams: (angle:radius)\n"
-    "- Use cartesian for grid/bar/flowchart: (x,y)"
+    "- Use cartesian for grid/bar/flowchart: (x,y)\n"
+    "- For graphs: specify vertex symbols ($*$ vs filled dot vs circle). "
+    "For self-loops: specify angular position (top/bottom/left/right) and relative size\n"
+    "- For symmetric arc-cutout shapes: describe arc centers, radii, "
+    "and the resulting central shape (e.g. '4 quarter-circles at corners create central star')"
 )
 
 CODE_SYSTEM = (
@@ -55,9 +59,15 @@ CODE_SYSTEM = (
     "e.g. (90:\\R), (180:3cm). Define \\def\\R{2cm} for radius, use \\coordinate.\n"
     "10) COLORS: use \\definecolor{name}{HTML}{hex} for precise colors. "
     "Match the description's colors exactly — don't substitute generic 'red' for 'myRed'.\n"
-    "11) Lines: -- (straight), .. controls .. (curved), -| or |- (right-angle).\n"
-    "12) Match the description's layout: row, column, grid, tree, or radial.\n"
-    "13) No unused packages, no commented-out blocks.\n"
+    "11) SELF-LOOPS: use `edge [in=<angle>,out=<angle>,loop]` with explicit angles "
+    "matching the described position (top=70/110, right=0/30, bottom=270/290, left=150/180). "
+    "Render vertex symbols literally: $*$ for asterisk, $\\bullet$ for filled dot.\n"
+    "12) SYMMETRIC ARCS: for shapes built from quarter-circle cutouts, chain arc "
+    "commands with `--` connectors (e.g. `arc (0:90:r) arc (-90:0:r) -- cycle`). "
+    "Ensure arcs share endpoints at edge midpoints to form a closed region.\n"
+    "13) Lines: -- (straight), .. controls .. (curved), -| or |- (right-angle).\n"
+    "14) Match the description's layout: row, column, grid, tree, or radial.\n"
+    "15) No unused packages, no commented-out blocks.\n"
     "EXAMPLE:\n"
     "\\documentclass[tikz, border=2pt]{standalone}\n"
     "\\usetikzlibrary{arrows.meta}\n"
@@ -71,11 +81,19 @@ CODE_SYSTEM = (
 )
 
 CRITIC_PROMPT = (
-    "Compare these two images. Image 1 is the REFERENCE, Image 2 is the GENERATED output. "
-    "Output ONLY a JSON object:\n"
-    '{"score": <float 1.0-5.0>, "is_pass": <true/false>, '
-    '"diagnosis": "<specific: what shapes are wrong, missing, misplaced, wrong color/size>"}\n'
-    "is_pass = score >= 3.0. Be strict — if key elements are missing, score <= 1.0."
+    "Compare the two images. Score 1.0-5.0. Be brutally honest.\n"
+    "This is NOT a checklist of what elements exist.\n"
+    "It is about whether the two images LOOK THE SAME visually.\n"
+    "- 1.0: completely different, unrecognizable\n"
+    "- 2.0: recognizable attempt but major structural or shape differences\n"
+    "- 3.0: same type of diagram but significant layout/shape/color differences\n"
+    "- 4.0: very similar, only minor shape/size/position differences\n"
+    "- 5.0: near-identical, no discernible differences\n"
+    "CRITICAL: identical element count does NOT mean identical appearance.\n"
+    "If shapes differ in proportion, aspect ratio, or curvature, score <= 2.0.\n"
+    "If placement differs noticeably from reference, score <= 3.0.\n"
+    'Output ONLY JSON: {"score": <float>, "is_pass": <bool>, '
+    '"diagnosis": "<specific visual differences>"}'
 )
 
 # ── Platform priority (imported from llm_caller) ──────
