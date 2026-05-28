@@ -1,14 +1,17 @@
 # Sketch2TikZ
 
-Hand-drawn sketch → TikZ vector code → compiled PDF. Multi-model LLM pipeline with vision-based evaluation.
+Hand-drawn sketch → TikZ vector code → compiled PDF.
+Multi-model LLM pipeline with self-improving prompt optimization.
 
-## Structure
+## Architecture
 
 ```
 train/                   # Development — freely modify
 ├── contract.py          # SampleResult interface (test calls this)
-├── llm_caller.py        # Multi-platform API wrapper (SSE + fallback + named-model)
-├── pipeline.py          # Vision description → code gen → compile → critic
+├── llm_caller.py        # Multi-platform API wrapper with key rotation
+├── pipeline.py          # Generation + dual feedback + critic
+├── dev_loop.py          # Iterative prompt optimizer with AI review
+├── _ask_ai.py           # Ad-hoc visual quality audit tool
 └── data/
     ├── easy/            50 PNG + 50 TikZ code
     ├── medium/          50 PNG + 50 TikZ code
@@ -21,21 +24,40 @@ test/                    # Sealed — read-only
     ├── easy/            50 PNG only (no code access)
     ├── medium/          50 PNG only
     └── difficult/       50 PNG only
-
-test_apis.py             # API connectivity tester for all registered models
-output/                  # Runtime artifacts (gitignored)
 ```
 
-Train and test data come from non-overlapping parquet sources. Test has no access to ground-truth code — evaluation is purely visual.
+Train and test data come from non-overlapping sources. Test has no code access — evaluation is purely visual.
 
-## Pipeline
+## Self-Improving Pipeline
+
+The system evolves its own prompts through a closed optimization loop:
 
 ```
-Image → Vision model (description) → Code model (TikZ) → XeLaTeX compile
+                      ┌──────────────────────────┐
+                      │   train/dev_loop.py       │
+                      │                           │
+Random train sample → │ 1. Generate TikZ + compile │
+                      │ 2. Internal critic scores  │
+                      │ 3. If score < 4.0:         │
+                      │    AI reviews GT vs gen    │
+                      │    Outputs concrete fixes  │
+                      │ 4. Apply fixes to prompts  │
+                      │ 5. Re-test same batch      │
+                      └──────────────────────────┘
+```
+
+Each iteration produces copy-pasteable prompt fixes — specific rules, pattern descriptions, and code conventions — validated against ground truth code. The critic enforces strict visual fidelity scoring (1.0–5.0) with explicit score caps for shape distortion, missing elements, and placement errors.
+
+The final evaluation runs through `test/runner.py` against unseen test images. The sealed judge (temp=0, single model, fixed prompt) ensures no score inflation.
+
+### Pipeline per sample
+
+```
+Image → Vision model (TikZ-like specification) → Code model (LaTeX) → XeLaTeX compile
     ↓
 Compile self-heal (max 3 retries, .log feedback)
     ↓
-Internal visual critic (diagnosis + score)
+Internal visual critic (diagnosis + honest score)
     ↓
 Visual self-heal (1 pass, diagnosis-driven surgical fix)
     ↓
@@ -67,8 +89,14 @@ API keys: copy `.env.example` to `.env`, fill in at least one platform.
 ## Usage
 
 ```bash
+# Benchmark on sealed test set
 python -m test.runner --difficulty easy --num-samples 10
-python -m test.runner --difficulty medium --num-samples 5 --skip-judge
+
+# Iterative prompt optimization (uses train data with GT code)
+python -m train.dev_loop
+
+# Ad-hoc visual quality check on a specific sample
+python -m train._ask_ai
 ```
 
 | Flag | Effect |
@@ -79,48 +107,22 @@ python -m test.runner --difficulty medium --num-samples 5 --skip-judge
 
 ## Platforms
 
-Six platforms with automatic fallback. Priority order:
+Multi-platform architecture with a configurable primary endpoint. Additional providers serve as fallback chain.
 
 | Priority | Vision | Code |
 |----------|--------|------|
-| 1 | ModelScope (Qwen3-VL-235B) | DeepSeek (deepseek-chat) |
-| 2 | ZhipuAI (glm-4v-flash) | ModelScope (Qwen3-Coder-480B) |
-| 3 | NVIDIA (mistral-large-3) | SiliconFlow (Qwen3-8B) |
-| 4 | OpenRouter (nemotron-3-nano-omni) | ZhipuAI (glm-4.7-flash) |
-| 5 | — | NVIDIA (qwen3-coder-480b) |
-| 6 | — | OpenRouter (deepseek-v4-flash) |
+| 1 | default_choice (configurable) | default_choice (configurable) |
+| 2 | ModelScope (Qwen3-VL-235B) | ModelScope (Qwen3-Coder-480B) |
+| 3 | ZhipuAI (glm-4v-flash) | NVIDIA (qwen3-coder-480b) |
+| 4 | NVIDIA (mistral-large-3) | ZhipuAI (glm-4.7-flash) |
+| 5 | — | OpenRouter (nemotron-3-super-120b) |
+| 6 | — | SiliconFlow (Qwen3-8B) |
 
-If a platform returns 401/429/403, the next is tried immediately. All platforms fail → program exits with diagnostic.
-
-Use `call_vision_model(name, ...)` / `call_text_model(name, ...)` to target a specific model.
-Use `python test_apis.py` to check API key configuration and model availability.
-Use `python test_apis.py --image path.jpg` to also test vision models.
-
-
-  ### Multi-key API scheduling (train/llm_caller.py)
-
-  Key pool (ApiKeyPool class, line ~175):
-  - Thread-safe rotating pool of API keys per platform
-  - Keys are read from env vars in two formats:
-    - Comma-separated: NVIDIA_API_KEY=key1,key2,key3
-    - Numbered suffix: NVIDIA_API_KEY_1=key1, NVIDIA_API_KEY_2=key2
-  - Rate-limited keys are put into cooldown (30s default, 300s for quota exhaustion) and skipped on subsequent requests
-
-  Rate-limit detection (_is_rate_limited, line ~157):
-  - Detects HTTP 429/402 status codes in error messages
-  - Matches keywords: rate limit, quota, insufficient_quota, billing, throttle, overloaded, etc.
-  - Works across all providers (Nvidia, ModelScope, OpenRouter, etc.)
-
-  Automatic key rotation:
-  - _create() — rotates keys on rate-limit within the same platform
-  - call_vision_model() / call_text_model() — rotates when no explicit api_key is passed
-  - image_to_text() / text_to_text() — inner key rotation within each platform's fallback attempt
-  - When an explicit api_key is provided, no rotation occurs (direct key usage)
-
+Platforms support comma-separated keys in `.env` for automatic quota rotation. Empty content from the primary platform triggers automatic retry before fallback.
 
 ## Judge
 
-test/judge.py is sealed. Single temp=0 Qwen3-VL-235B-A22B-Instruct on ModelScope. Scoring:
+`test/judge.py` is sealed. Single temp=0 Qwen3-VL-235B-A22B-Instruct on ModelScope. Multi-key rotation. Scoring:
 
 - Missing elements → ≤ 1.0
 - Position/color diffs → 1.0–2.0
