@@ -1,0 +1,43 @@
+\documentclass{article}
+
+\usepackage{tikz} % Import TikZ package
+
+\begin{document}
+
+\begin{tikzpicture}[scale=0.8] % Create TikZ picture environment
+
+% Draw the blood bag
+\draw[fill=red!50] (0,0) rectangle (4,6);
+
+% Draw the blood tube
+\draw[fill=white] (2,6) circle (0.5);
+\draw[fill=white] (2,6) circle (0.4);
+\draw[fill=red!50] (2,6) circle (0.3);
+\draw[fill=white] (2,6) circle (0.2);
+\draw[fill=white] (2,6) circle (0.1);
+\draw[thick] (2,6) -- (2,4);
+
+% Draw the needle
+\draw[thick] (2,4) -- (2,3);
+\draw[thick] (2,3) -- (1.5,2.5);
+\draw[thick] (2,3) -- (2.5,2.5);
+
+% Draw the receiving bag
+\draw[fill=red!50] (6,0) rectangle (10,6);
+
+% Draw the receiving tube
+\draw[fill=white] (8,6) circle (0.5);
+\draw[fill=white] (8,6) circle (0.4);
+\draw[fill=red!50] (8,6) circle (0.3);
+\draw[fill=white] (8,6) circle (0.2);
+\draw[fill=white] (8,6) circle (0.1);
+\draw[thick] (8,6) -- (8,4);
+
+% Draw the receiving needle
+\draw[thick] (8,4) -- (8,3);
+\draw[thick] (8,3) -- (7.5,2.5);
+\draw[thick] (8,3) -- (8.5,2.5);
+
+\end{tikzpicture}
+
+\end{document}

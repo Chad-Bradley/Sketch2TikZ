@@ -1,0 +1,26 @@
+\documentclass[12pt]{amsart}
+\usepackage{amssymb, amsthm, amsmath, amsfonts, amsxtra, mathrsfs, mathtools}
+\usepackage{color}
+\usepackage[colorlinks=false, allcolors=blue]{hyperref}
+\usepackage{tikz-cd}
+\usepackage{tikz}
+\usepackage{tikzsymbols}
+\usetikzlibrary{decorations.pathreplacing,angles,quotes}
+\usetikzlibrary{matrix}
+
+\begin{document}
+
+\begin{tikzpicture}
+    
+     
+    \filldraw[fill=gray, opacity=0.5, very thick] (2.15,0) -- (2.85,-1) -- (4.15,-1) -- (4.85,0) -- (4.15,1) -- (2.85,1) -- (2.15,0);
+    
+    \node at (5.5,0) {$\times$};
+    
+    \draw[very thick] (7,0) -- (8,0);
+    \draw[very thick] (7,0) -- (6.5,0.866);
+    \draw[very thick] (7,0) -- (6.5,-0.866);
+
+    \end{tikzpicture}
+
+\end{document}

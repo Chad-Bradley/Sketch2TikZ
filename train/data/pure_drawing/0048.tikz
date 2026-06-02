@@ -1,0 +1,42 @@
+\documentclass{article}
+
+% Importing TikZ package
+\usepackage{tikz}
+
+% Setting up the page dimensions
+\usepackage[margin=0.5in]{geometry}
+
+% Defining the colors
+\definecolor{bedcolor}{RGB}{255, 255, 255}
+\definecolor{pillowcolor}{RGB}{255, 204, 204}
+
+\begin{document}
+
+% Creating the bed
+\begin{tikzpicture}
+
+% Drawing the bed frame
+\draw[thick, fill=bedcolor] (0,0) rectangle (8,4);
+
+% Drawing the bed legs
+\draw[thick] (0.5,0) -- (0.5,-0.5) -- (7.5,-0.5) -- (7.5,0);
+\draw[thick] (0.5,4) -- (0.5,4.5) -- (7.5,4.5) -- (7.5,4);
+
+% Drawing the pillow
+\draw[thick, fill=pillowcolor] (1.5,3) rectangle (6.5,3.8);
+
+% Drawing the blanket
+\draw[thick] (1.5,2.5) -- (6.5,2.5);
+\draw[thick] (1.5,2) -- (6.5,2);
+\draw[thick] (1.5,1.5) -- (6.5,1.5);
+\draw[thick] (1.5,1) -- (6.5,1);
+
+% Drawing the pillow lines
+\draw[thick] (2.5,3) -- (2.5,3.8);
+\draw[thick] (3.5,3) -- (3.5,3.8);
+\draw[thick] (4.5,3) -- (4.5,3.8);
+\draw[thick] (5.5,3) -- (5.5,3.8);
+
+\end{tikzpicture}
+
+\end{document}

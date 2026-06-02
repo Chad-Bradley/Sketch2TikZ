@@ -1,0 +1,24 @@
+\documentclass{article}
+
+\usepackage{tikz} % Import TikZ package
+
+\begin{document}
+
+\begin{tikzpicture}
+
+% Draw the frisbee
+\filldraw[black!20] (0,0) circle (1.5cm);
+
+% Draw the parking meter
+\filldraw[gray!50] (4,0) rectangle (5,3);
+\filldraw[black] (4.5,0.5) circle (0.3cm);
+\filldraw[black] (4.5,1.5) circle (0.3cm);
+\filldraw[black] (4.5,2.5) circle (0.3cm);
+\filldraw[black] (4.75,3) rectangle (4.25,2.75);
+
+% Draw the shadow of the frisbee
+\filldraw[black!10] (0,-0.1) ellipse (1.5cm and 0.3cm);
+
+\end{tikzpicture}
+
+\end{document}

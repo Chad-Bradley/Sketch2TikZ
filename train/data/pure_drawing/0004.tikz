@@ -1,0 +1,37 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{tikz}
+
+\begin{document}
+
+\begin{tikzpicture}
+\draw[ultra thick] (-1,0)--(0,1);
+\draw[ultra thick] (0,1)--(1,0);
+\draw[ultra thick] (1,0)--(0,-1);
+\draw[ultra thick] (0,-1)--(-1,0);
+\filldraw[black] (1,0) circle (3pt);
+\filldraw[black] (-1,0) circle (3pt);
+\filldraw[black] (0,1) circle (3pt);
+\filldraw[black] (0,-1) circle (3pt);
+\draw[ultra thick] (2,0)--(3,1);
+\draw[ultra thick] (3,1)--(4,0);
+\draw[ultra thick] (4,0)--(3,-1);
+\draw[ultra thick] (3,-1)--(2,0);
+\draw[->,ultra thick,red] (4,0) arc (0:70:1);
+\draw[->,ultra thick,red] (3,1) arc (90:160:1);
+\draw[->,ultra thick,red] (2,0) arc (180:250:1);
+\draw[->,ultra thick,red] (3,-1) arc (270:340:1);
+\draw[->,ultra thick,red] (4,0) arc (90:160:1);
+\draw[->,ultra thick,red] (3,1) arc (180:250:1);
+\draw[->,ultra thick,red] (2,0) arc (270:340:1);
+\draw[->,ultra thick,red] (3,-1) arc (0:70:1);
+\filldraw[black] (3,1) circle (3pt);
+\filldraw[black] (2,0) circle (3pt);
+\filldraw[black] (4,0) circle (3pt);
+\filldraw[black] (3,-1) circle (3pt);
+\end{tikzpicture}
+
+\end{document}

@@ -1,0 +1,19 @@
+\documentclass{article}
+\usepackage{tikz}
+
+\begin{document}
+
+\begin{tikzpicture}[scale=0.5]
+% Draw the front face of the carton
+\draw (0,0) rectangle (8,6);
+% Draw the top face of the carton
+\draw (0,6) -- (2,8) -- (10,8) -- (8,6) -- cycle;
+% Draw the side face of the carton
+\draw (8,6) -- (10,8) -- (10,14) -- (8,12) -- cycle;
+% Draw the bottom face of the carton
+\draw (0,0) -- (2,2) -- (10,2) -- (8,0) -- cycle;
+% Draw the back face of the carton
+\draw (2,2) -- (2,8) -- (10,8) -- (10,2) -- cycle;
+\end{tikzpicture}
+
+\end{document}

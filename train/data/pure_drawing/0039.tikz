@@ -1,0 +1,30 @@
+\documentclass{article}
+\usepackage{tikz}
+
+\begin{document}
+
+\begin{tikzpicture}
+
+% Draw the ground
+\filldraw[draw=black, fill=green!50!white] (0,0) rectangle (10,-2);
+
+% Draw the sky
+\filldraw[draw=black, fill=blue!50!white] (0,0) rectangle (10,5);
+
+% Draw the sun
+\filldraw[draw=black, fill=yellow!50!white] (8,4) circle (0.5);
+
+% Draw the trees
+\filldraw[draw=black, fill=brown!50!white] (2,-1) rectangle (2.5,0.5);
+\filldraw[draw=black, fill=green!50!white] (1.5,0.5) -- (2.75,1.5) -- (4,0.5) -- cycle;
+\filldraw[draw=black, fill=brown!50!white] (3,-1) rectangle (3.5,0.5);
+\filldraw[draw=black, fill=green!50!white] (2.5,0.5) -- (3.75,1.5) -- (5,0.5) -- cycle;
+
+% Draw the animals
+\filldraw[draw=black, fill=orange!50!white] (6,-1) circle (0.5);
+\filldraw[draw=black, fill=gray!50!white] (4,-1) rectangle (5,0.5);
+\filldraw[draw=black, fill=yellow!50!white] (4.5,0.5) -- (4.75,1) -- (5,0.5) -- cycle;
+
+\end{tikzpicture}
+
+\end{document}

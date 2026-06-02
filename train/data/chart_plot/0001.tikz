@@ -1,0 +1,55 @@
+\documentclass[]{article}
+
+\usepackage{tikz}
+\usepackage{pgfplots}
+\usepgfplotslibrary{fillbetween}
+\usetikzlibrary{plotmarks}
+\usepackage{graphicx}
+\usepgfplotslibrary{groupplots}
+
+\definecolor{babyblue}{rgb}{0.54, 0.81, 0.94}
+\definecolor{bubblegum}{rgb}{0.99, 0.76, 0.8}
+
+\begin{document}
+% plot 1: base plot
+\begin{tikzpicture}[scale=0.40]
+  \pgfplotsset{
+      scale only axis,
+  }
+  \begin{axis}[
+    %xlabel=$A$,
+    %ylabel=$B$,
+    ticks=none,
+  ]
+
+    \addplot[only marks, mark=+, mark size=8pt, thin, color = blue]
+    coordinates{ % + data
+      (0.05,0.50)
+      (0.10,0.15)
+      (0.30,0.85)
+      (0.45, 0.95)
+      (0.60, 0.75)
+    }; %\label{plot_one}
+    \addplot[only marks, mark=halfcircle, mark color=bubblegum, mark size=8pt, thin, color = red]
+    coordinates{ % + data
+      (0.20,0.05)
+      (0.25,0.60)
+      (0.55,0.40)
+      (0.90, 0.15)
+    }; 
+    \addplot[only marks, mark=halfcircle, mark color=babyblue, mark size=8pt, thin, color = red]
+    coordinates{ % + data
+      (0.90, 0.85)
+    }; 
+ 
+     \path[name path = begin_left_shade_path_4] (axis cs:1.0, 0.7) -- (axis cs:0.0, 0.7);
+    \path[name path = end_left_shade_path_4] (axis cs:1.0, 0.0) -- (axis cs:0.0, 0.0);
+    \addplot [bubblegum] fill between[of = begin_left_shade_path_4 and end_left_shade_path_4, soft clip = {domain=0.0:0.95}];
+    
+    \path[name path = begin_left_shade_path_2] (axis cs:0.0, 1.0) -- (axis cs:1.0, 1.0);
+    \path[name path = end_left_shade_path_2] (axis cs:0.0, 0.70) -- (axis cs:1.0, 0.70);
+    \addplot [babyblue] fill between[of = begin_left_shade_path_2 and end_left_shade_path_2, soft clip = {domain=0.0:0.95}];
+    
+  \end{axis}
+\end{tikzpicture}
+\end{document}

@@ -5,7 +5,7 @@ sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 from train.llm_caller import _create, VISION_MODELS, _encode
 from train.pipeline import generate
 
-IMAGE = "train/data/easy/0016.png"
+IMAGE = "plots/output/metrics_trend.png"
 JUDGE_PROMPT = (
     "Compare the two images. Score 1.0-5.0. Be brutally honest. "
     "This is NOT a checklist of what elements exist. "
@@ -21,7 +21,7 @@ JUDGE_PROMPT = (
 
 # Generate
 print(f"Generating {IMAGE}...")
-r = generate(IMAGE, 0, output_dir="output")
+r = generate(IMAGE, 0, output_dir="output", difficulty="chart_plot")
 print(f"Compile: {r.compile_ok}")
 
 if not r.compile_ok:
@@ -52,5 +52,9 @@ raw = raw.strip()
 if raw.startswith("```"):
     raw = raw.split("\n", 1)[-1].replace("```", "").strip()
 j = json.loads(raw)
-print(f"Score: {j['score']}  Pass: {j['is_pass']}")
-print(f"Diagnosis: {j['diagnosis']}")
+score = j.get('score', 0)
+is_pass = j.get('is_pass', score >= 3.0)
+diagnosis = j.get('diagnosis', '')
+print(f"Score: {score}  Pass: {is_pass}")
+print(f"Diagnosis: {diagnosis}")
+

@@ -1,0 +1,26 @@
+\documentclass{article}
+
+% Load TikZ package
+\usepackage{tikz}
+
+% Define the main function to draw a peach
+\newcommand{\peach}{
+  % Draw the outer shape of the peach
+  \fill [orange!80!yellow] (0,0) circle [x radius=1.2cm, y radius=1.5cm];
+  % Draw the stem of the peach
+  \fill [brown!70!black] (-0.1,0.8) rectangle (0.1,1.2);
+  % Draw the leaf of the peach
+  \fill [green!70!black] (-0.3,1.2) -- (-0.1,1.8) -- (0.1,1.8) -- (0.3,1.2) -- cycle;
+  % Draw the shadow of the peach
+  \fill [black!20!white, opacity=0.5] (0,-0.2) ellipse [x radius=1.2cm, y radius=0.5cm];
+}
+
+% Set up the TikZ environment
+\begin{document}
+
+\begin{tikzpicture}
+  % Call the peach function to draw a peach
+  \peach
+\end{tikzpicture}
+
+\end{document}

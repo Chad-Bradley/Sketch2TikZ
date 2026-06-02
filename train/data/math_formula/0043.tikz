@@ -1,0 +1,27 @@
+\documentclass[runningheads]{llncs}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{tikz}
+\usetikzlibrary{automata, positioning}
+\usepackage{xcolor}
+
+\begin{document}
+
+\begin{tikzpicture}[every node/.style={scale=1.0}]
+	\node[state] (l') {$l'$};
+	\node[circle, fill=black, inner sep=2pt, right=of l'] (dot) {};
+	\node[right=of dot] (dots) {$\vdots$};
+	\node[state, right=20mm of dot] (l) {$l$};
+	\node[circle, fill=black, inner sep=2pt, right= 15mm of l, yshift=5mm] (dot2) {};
+	\node[state, right= 28mm of dot2] (l1) {$l_1$};
+	\node[state, right= 15mm of l, yshift=-5mm] (l2) {$l_2$};
+	
+	\draw[->] (l') -- node[above] {$true$} (dot);
+	\draw[->] (dot) edge[bend left] node[above] {$\frac{c}{2^1} \colon [y_1' = 1]$}(l);
+	\draw[->] (dot) edge[bend right] node[below] {$\frac{c}{2^m} \colon [y_m' = 1]$}(l);
+	\draw[->] (l) edge node[above, sloped] {$\bigvee_i (x_i \wedge y_i)$}(dot2);
+	\draw[->] (dot2) edge node[above, sloped] {$[\forall i\colon x_i'=0,~ y_i'=0]$}(l1);
+	\draw[->] (l) edge node[below, sloped] {$\neg (...)$}(l2);
+	\end{tikzpicture}
+
+\end{document}

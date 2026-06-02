@@ -1,0 +1,30 @@
+\documentclass[article,twocolumn,preprintnumbers,superscriptaddress,nofootinbib]{revtex4-1}
+\usepackage{amssymb}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{tikz}
+\usepackage[compat=1.1.0]{tikz-feynman}
+\usepackage[pdftex,bookmarks,linktocpage,pdfpagelabels,plainpages=false,hyperfigures,linkcolor=blue,citecolor=blue]{hyperref}
+\usepackage{mathrsfs,amssymb}
+
+\begin{document}
+
+\begin{tikzpicture}
+              \begin{feynman}
+         \vertex (o1);
+         \vertex [right=1.4cm of o1] (f1) {\(\gamma\)};
+         \vertex [left=1.4cm of o1] (i1){\(a\)} ;
+         \vertex [below=1.4cm of o1] (o2);
+         \vertex [right=1.4cm of o2] (f2) {\(Z\)};
+         \vertex [left=1.4cm of o2] (i2) {\(Z\)};
+
+         \diagram* {
+           (i1) -- [scalar] (o1) -- [boson] (f1),
+           (o1) -- [boson] (o2),
+           (i2) -- [fermion] (o2),
+           (o2) -- [fermion] (f2),
+         };
+        \end{feynman}
+       \end{tikzpicture}
+
+\end{document}

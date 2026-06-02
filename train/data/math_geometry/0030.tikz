@@ -1,0 +1,12 @@
+\documentclass[tikz,border=3mm]{standalone}
+\begin{document}
+\begin{tikzpicture}[>=stealth]
+ \draw[->] (-1,0) -- (4,0) node[below left] {$x$};
+ \draw[->] (0,-1) -- (0,4) node[below left] {$y$};
+ \draw[thick,blue!80!black] 
+  (-0.5,0.5) to[out=45,in=180] (1,1) to[out=0,in=180] 
+  node[midway,above left] (f){$y=f(x)$}(2.5,3) -- (3.5,3);
+ \path (0,0) node[below left] {$0$} (f)
+ node[above=2em,font=\sffamily,align=center] {increasing\\ function}; 
+\end{tikzpicture}
+\end{document}

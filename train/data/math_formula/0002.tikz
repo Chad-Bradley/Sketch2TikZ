@@ -1,0 +1,41 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{color}
+\usepackage{tikz-feynman}
+\usepackage{tikz}
+\usetikzlibrary{calc}
+\usetikzlibrary{patterns}
+\usetikzlibrary{arrows}
+
+\begin{document}
+
+\begin{tikzpicture}[scale=0.7, domain=-2*pi:2*pi , rotate=-45,transform shape]
+    \filldraw[fill=blue!3!white, draw=black]   (0,0) rectangle (2.8,7);
+    \filldraw[fill=blue!3!white, draw=black]   (4.2,0) rectangle (7,7);
+    \draw[pattern=horizontal lines light blue]    (2.8,0) rectangle (4.2,7);
+    \draw [-> ] (7,7.5) -- (4,7.5);
+    \draw [->] (7.5,0) -- (7.5,3);
+    \node[font = {\Large\bfseries\sffamily}, black ] at (6,8) { $\boldsymbol{x^- }$};
+    \node[font = {\Large\bfseries\sffamily}, rotate around={90:(0,0)}, black ] at (8,1) { $\boldsymbol{x^+ }$};
+    \draw [ line width=0.6mm, densely dotted, bend right = 15] (7,0) to (4.2,3.6)  ;
+    \draw [ line width=0.6mm,densely dotted](4.2,3.6) -- (2.8,3.9) ;
+    \draw [ line width=0.6mm, densely dotted, bend right = 40] (0,7) to  (2.8,3.9) ;
+    \node[font = {\Large\bfseries\sffamily}, black ,rotate around={90:(0,0)}] at (2.4,5.7) { $\boldsymbol{x^- = T}$};
+    \node[font = {\Large\bfseries\sffamily}, black ,rotate around={90:(0,0)}] at (4.5,5.7) { $\boldsymbol{x^- = 0}$};
+    \node (I) at (7,0) {} ;
+    \node (J) at (4.2,3.6) {} ;
+    \node (K) at (2.8,3.9)  {} ;
+    \node (L) at (0,7)  {} ;
+    \node  (A) at (1.9,0)  {} ;
+    \path (A.east);
+    \pgfgetlastxy{\ax}{\ay}
+    \node  (B) at (5.1,0)  {} ;
+    \path (B.west);
+    \pgfgetlastxy{\bx}{\by}
+    \pgfmathsetmacro{\mydist}{(\bx-\ax)/28.453}
+    \draw[  smooth,samples=200,color=blue,domain=-1:1,shift={($0.5*(A.east)+0.5*(B.west)$)}] plot (\x/2*\mydist,{0.13*sin(\x*1080)/\x});
+    \foreach \n in {I,J,K,L}
+  \node at (\n)[circle,fill,inner sep=1.5pt]{};
+\end{tikzpicture}
+
+\end{document}

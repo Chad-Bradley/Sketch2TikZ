@@ -1,0 +1,20 @@
+\documentclass{article}
+
+\usepackage{tikz} % Import TikZ package
+
+\begin{document}
+
+\begin{tikzpicture}
+
+% Draw oven
+\filldraw[black] (0,0) rectangle (2,3); % Draw oven body
+\filldraw[gray] (0.2,0.2) rectangle (1.8,2.8); % Draw oven door
+\filldraw[white] (0.3,0.3) rectangle (1.7,2.7); % Draw oven door handle
+
+% Draw orange
+\filldraw[orange] (4,1.5) circle (1); % Draw orange body
+\filldraw[green] (3.5,1.5) -- (4,0.5) -- (4.5,1.5) -- (4,2.5) -- cycle; % Draw orange leaf
+
+\end{tikzpicture}
+
+\end{document}

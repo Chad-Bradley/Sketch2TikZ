@@ -1,0 +1,34 @@
+\documentclass{article}
+
+% Load TikZ package
+\usepackage{tikz}
+
+% Define colors
+\definecolor{pug-brown}{RGB}{101, 67, 33}
+\definecolor{pug-black}{RGB}{0, 0, 0}
+
+% Define pug-dog shape
+\def\pug{
+  % Head
+  \filldraw[pug-brown] (0,0) circle (1);
+  % Ears
+  \filldraw[pug-brown] (-0.8,0.8) arc (135:45:1) -- cycle;
+  \filldraw[pug-brown] (0.8,0.8) arc (45:-135:1) -- cycle;
+  % Eyes
+  \filldraw[pug-black] (-0.4,0.2) circle (0.2);
+  \filldraw[pug-black] (0.4,0.2) circle (0.2);
+  % Nose
+  \filldraw[pug-black] (0,-0.3) circle (0.2);
+  % Mouth
+  \draw[pug-black, line width=0.1cm] (-0.3,-0.5) to[out=-45,in=-135] (0.3,-0.5);
+}
+
+\begin{document}
+
+% Create TikZ picture
+\begin{tikzpicture}
+  % Draw pug-dog
+  \pug
+\end{tikzpicture}
+
+\end{document}

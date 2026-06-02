@@ -1,0 +1,26 @@
+\documentclass{article}
+
+\usepackage{tikz} % Import TikZ package
+
+\begin{document}
+
+\begin{tikzpicture}
+
+% Draw the backboard
+\draw[fill=orange] (-2,0) rectangle (2,0.5);
+
+% Draw the rim
+\draw[fill=gray] (-0.5,0.5) rectangle (0.5,1);
+\draw[fill=white] (-0.25,1) rectangle (0.25,1.25);
+
+% Draw the net
+\draw[thick] (-0.25,1) -- (-0.25,1.5);
+\draw[thick] (0.25,1) -- (0.25,1.5);
+\draw[thick] (-0.25,1.5) to[out=90,in=180] (0,1.75);
+\draw[thick] (0.25,1.5) to[out=90,in=0] (0,1.75);
+\draw[thick] (0,1.75) to[out=-90,in=90] (-0.25,1.5);
+\draw[thick] (0,1.75) to[out=-90,in=90] (0.25,1.5);
+
+\end{tikzpicture}
+
+\end{document}

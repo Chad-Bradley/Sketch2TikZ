@@ -1,0 +1,117 @@
+\documentclass{article}
+\usepackage{tikz}
+\usepackage{tikz-3dplot}
+\usetikzlibrary{backgrounds, intersections}
+
+
+%I don't have a clear idea of what is happening here, but they are used for the plane construction
+\newcommand\pgfmathsinandcos[3]{%
+  \pgfmathsetmacro#1{sin(#3)}%
+  \pgfmathsetmacro#2{cos(#3)}%
+}
+\newcommand\LongitudePlane[3][current plane]{%
+  \pgfmathsinandcos\sinEl\cosEl{#2} % elevation
+  \pgfmathsinandcos\sint\cost{#3} % azimuth
+  \tikzset{#1/.style={cm={\cost,\sint*\sinEl,0,\cosEl,(0,0)}}}
+}
+\newcommand\LatitudePlane[3][current plane]{%
+  \pgfmathsinandcos\sinEl\cosEl{#2} % elevation
+  \pgfmathsinandcos\sint\cost{#3} % latitude
+  \pgfmathsetmacro\yshift{\cosEl*\sint}
+  \tikzset{#1/.style={cm={\cost,0,0,\cost*\sinEl,(0,\yshift)}}} %
+}
+\newcommand\DrawLongitudeCircle[2][1]{
+  \LongitudePlane{\angEl}{#2}
+  \tikzset{current plane/.prefix style={scale=#1}}
+   % angle of "visibility"
+  \pgfmathsetmacro\angVis{atan(sin(#2)*cos(\angEl)/sin(\angEl))} %
+  \draw[current plane] (\angVis:1) arc (\angVis:\angVis+180:1);
+  \draw[current plane,dashed] (\angVis-180:1) arc (\angVis-180:\angVis:1);
+}
+\newcommand\DrawLatitudeCircle[2][1]{
+  \LatitudePlane{\angEl}{#2}
+  \tikzset{current plane/.prefix style={scale=#1}}
+  \pgfmathsetmacro\sinVis{sin(#2)/cos(#2)*sin(\angEl)/cos(\angEl)}
+  % angle of "visibility"
+  \pgfmathsetmacro\angVis{asin(min(1,max(\sinVis,-1)))}
+  \draw[current plane] (\angVis:1) arc (\angVis:-\angVis-180:1);
+  \draw[current plane,dashed] (180-\angVis:1) arc (180-\angVis:\angVis:1);
+}
+
+\begin{document}
+
+\begin{figure}
+    \centering
+    \tdplotsetmaincoords{60}{110}
+    \begin{tikzpicture}[tdplot_main_coords, 
+  declare function={dicri(\t,\th,\ph,\R)=sin(\th)*sin(\ph)*(\R*cos(\t)) - sin(\th)*cos(\ph)*(\R*sin(\t))+ cos(\th)*(1);}] %dicri is defined according to a parametrization n+r*cos(t)*u+r*sen(t)*v, being u and v orthonormal vectors in the intersecting plane
+  \pgfmathsetmacro{\R}{5}% 
+  \path  coordinate (T) at (0,0,3) %center of circle defined by the intersection
+   coordinate (I) at (0,0,0); 
+ 
+  \path[tdplot_screen_coords,shift={(I)},use as bounding box] (-1.2*\R,-1.2*\R)rectangle (1.2*\R,1.2*\R);%this limits the image position
+
+    %draws dot+label for coordinates T and I
+    \foreach \v/\position in {T/above,I/below} { 
+        \draw[fill=black] (\v) circle (0.7pt) node [\position=0.2mm] {$\v$}; 
+    }  
+  
+    \begin{scope}[tdplot_screen_coords, on background layer]
+        \fill[ball color=white] (I) circle[radius=\R]; 
+        % determine the zeros of dicri 
+        \path[overlay,name path=dicri] plot[variable=\x,domain=0:360,samples=73] 
+        ({\x*1pt},{dicri(\x,\tdplotmaintheta,\tdplotmainphi,4)}); 
+        \path[overlay,name path=zero] (0,0) -- (360pt,0); 
+        \path[name intersections={of=dicri and zero,total=\t}] 
+        let \p1=(intersection-1),\p2=(intersection-2) in 
+        \pgfextra{\xdef\tmin{\x1}\xdef\tmax{\x2}}; 
+    \end{scope} %this has to do with finding the equation of the intersection circle, I believe
+    
+    \pgfmathsetmacro{\SmallR}{4} %the radius of the intersection circle is supposed as known
+  
+    
+    % Draw continuous part of intersecting circle
+    \draw[thick,save path=\pathA] plot[variable=\t,domain=\tmax:\tmin+360,samples=50,smooth]
+    ({\SmallR*cos(\t)},
+    {\SmallR*sin(\t)},
+    {3}); %same parametrization used in dicri. 
+     
+     %Plane construction
+        %% some definitions
+        \def\angEl{35} % elevation angle
+        \def\angAz{-105} % azimuth angle
+        \def\angPhi{-40} % longitude of point P
+        \def\angBeta{19} % latitude of point P
+        
+        %% working planes
+        \pgfmathsetmacro\H{\R*cos(\angEl)} % distance to north pole
+        \tikzset{xyplane/.style={
+          cm={cos(\angAz),sin(\angAz)*sin(\angEl),-sin(\angAz),cos(\angAz)*sin(\angEl),(0,-\H)}
+          }, >=latex, % option for nice arrows
+          inner sep=0pt,%
+          outer sep=2pt,%
+          mark coordinate/.style={inner sep=0pt,outer sep=0pt,minimum size=3pt,
+          fill=black,circle}
+        }
+        \LatitudePlane[equator]{\angEl}{0}
+                
+        %% draw xy shifted plane
+       \filldraw[xyplane,shift={(0,0,3)},fill=gray!20,opacity=0.4] 
+          (-1.8*\R,-2.6*\R) rectangle (2.2*\R,2*\R);
+% added
+     \clip ({\SmallR*cos(\tmax)},{\SmallR*sin(\tmax)},{3})
+    coordinate (auxA)
+    plot[variable=\t,domain=\tmax:\tmin+360,samples=50,smooth]
+    ({\SmallR*cos(\t)},{\SmallR*sin(\t)},{3})         
+    coordinate (auxB) -- ($(auxB)!\R*1cm!-90:(auxA)$)
+     -- ($(auxA)!\R*1cm!90:(auxB)$) -- cycle;
+    \fill[ball color=white,tdplot_screen_coords] (I) circle[radius=\R]; 
+% moved
+% Draw dashed part of intersecting circle
+    \draw[dashed] plot[variable=\t,domain=\tmin:\tmax,samples=50,smooth] 
+    ({\SmallR*cos(\t)},
+    {\SmallR*sin(\t)},
+    {3}); 
+\end{tikzpicture}
+\end{figure}
+\end{document}

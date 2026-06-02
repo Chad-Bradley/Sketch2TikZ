@@ -1,0 +1,201 @@
+\documentclass{article}
+\usepackage{amsmath,amsfonts,amssymb,tikz}
+\usetikzlibrary{shapes}
+\usetikzlibrary{arrows,backgrounds}
+\usetikzlibrary{decorations.pathreplacing}
+\usetikzlibrary{decorations.markings}
+\pgfdeclarelayer{foreground}
+\pgfdeclarelayer{background}
+\pgfsetlayers{main,foreground,background}
+%
+\newenvironment{pic}[1][]%
+{\begin{aligned}\begin{tikzpicture}[#1]}%
+{\end{tikzpicture}\end{aligned}}
+%
+% Styles
+\tikzstyle{string}=[line width=1.25pt]
+%%%%%%%%%%%%
+% Triangle
+\newlength\stateheight
+\setlength\stateheight{0.6cm}
+\newlength\minimumstatewidth
+\setlength\minimumstatewidth{0.8cm}
+\newif\ifhflip\pgfkeys{/tikz/hflip/.is if=hflip}
+%%
+%%
+%%
+\makeatletter
+%%
+%%  triangle shape for states in categorical quantum computation
+%%     -- Based on some code by Chris Heunen,
+%%     -- expanded by BF.
+%%
+%%  options:  hflip   (horizonatlly flipps the triangle)
+%%
+\pgfdeclareshape{triangle}
+{% -- some dimensions
+     \saveddimen{\halfbaselength}{%
+         \pgf@x=0.5\wd\pgfnodeparttextbox
+         % get xsep
+         \pgfmathsetlength\pgf@xc{\pgfkeysvalueof{/pgf/inner xsep}}%
+         \advance\pgf@x by \pgf@xc%
+         % get \ht of textbox, add to baselength 
+         \advance\pgf@x by \ht\pgfnodeparttextbox
+         % get minimum width
+         \pgfmathsetlength\pgf@xb{\pgfkeysvalueof{/pgf/minimum width}}%
+         \divide\pgf@xb by 2
+         \ifdim\pgf@x<\pgf@xb%
+             % yes, too small. Enlarge...
+             \pgf@x=\pgf@xb%
+         \fi%
+     }
+     %
+     % do NOT split code here \halfbaselinelength is pased on in \pgf@x 
+     %
+     \saveddimen\triangleheight{%
+         % \pgf@x    contains \halfbaselength
+         %get ysep
+         \pgfmathsetlength\pgf@xc{\pgfkeysvalueof{/pgf/inner ysep}}%
+         \advance\pgf@x by \pgf@xc%
+         %get minimum height
+         \pgfmathsetlength\pgf@xb{\pgfkeysvalueof{/pgf/minimum height}}%
+         \divide\pgf@xb by 2
+         \ifdim\pgf@x<\pgf@xb%
+             %yes, too small. Enlarge...
+             \pgf@x=\pgf@xb%
+         \fi%
+     }
+     % -- anchors
+     \savedanchor\centerpoint{%  midpoint on base line
+         \pgf@x=0pt 
+         \pgf@y=0pt
+     }
+     \anchor{center}{\centerpoint}
+     \anchor{text}{%
+         % horrizontal midpoint of pgfnodeparttextbox
+         \pgf@x=-0.5\wd\pgfnodeparttextbox
+         % vertical positioning (dependent on hflip flag)
+         \ifhflip
+            \pgf@y=-1.2\ht\pgfnodeparttextbox
+            \advance\pgf@y by \dp\pgfnodeparttextbox
+            \advance\pgf@y by -3pt
+         \else
+            \pgf@y=\dp\pgfnodeparttextbox
+            \advance\pgf@y by -\dp\pgfnodeparttextbox
+            \advance\pgf@y by 4pt
+         \fi
+     }
+     \anchor{left}{%
+        \pgf@x=-\halfbaselength
+        \pgf@y=0pt
+     }
+     \anchor{right}{%
+        \pgf@x=\halfbaselength
+        \pgf@y=0pt
+     }
+     \anchor{tip}{%
+        \pgf@x=0pt
+        \ifhflip
+           \pgf@y=-\triangleheight
+        \else
+           \pgf@y=\triangleheight
+        \fi 
+     }
+     \anchor{a}{%
+        \pgf@x=-\halfbaselength
+        \divide\pgf@x by 2
+        \pgf@y=0pt
+     }
+     \anchor{b}{%
+        \pgf@x=\halfbaselength
+        \divide\pgf@x by 2
+        \pgf@y=0pt
+     }
+    %% -- draw the outline of the triangle
+    %% -- fill the triangle if necessary
+    \backgroundpath
+    {
+      % -- draw mode
+          \pgf@xa=\halfbaselength
+          \pgf@ya=\triangleheight 
+      \ifhflip
+            \pgfpathmoveto{\pgfqpoint{0pt}{-\pgf@ya}}
+          \pgfpathlineto{\pgfqpoint{-\pgf@xa}{0pt}}
+          \pgfpathlineto{\pgfqpoint{\pgf@xa}{0pt}}
+          \pgfpathclose
+      \else 
+            \pgfpathmoveto{\pgfqpoint{0pt}{\pgf@ya}}
+           \pgfpathlineto{\pgfqpoint{-\pgf@xa}{0pt}}
+           \pgfpathlineto{\pgfqpoint{\pgf@xa}{0pt}}
+           \pgfpathclose
+      \fi
+    }
+    \anchorborder
+     {%  -- works only on the base line (yet)
+      %  -- range restricted to 0..100
+      % fetch key
+      \pgfkeysgetvalue{/pgf/shape border rotate}{\rotate}%
+      %
+      % Save x and y.
+      %
+      \edef\externalx{\the\pgf@x}%
+      \edef\externaly{\the\pgf@y}%
+      %
+      % Adjust the location of the external 
+      % point relative to \centerpoint.
+      %
+      \centerpoint%
+      \pgf@xa\externalx\relax%
+      \pgf@ya\externaly\relax%
+      \advance\pgf@xa\pgf@x%
+      \advance\pgf@ya\pgf@y%
+      \edef\externalx{\the\pgf@xa}%
+      \edef\externaly{\the\pgf@ya}%
+      %
+      % Get the angle of the external point to the \centerpoint.
+      %
+      \pgfmathanglebetweenpoints{\centerpoint}{\pgfqpoint{\externalx}{\externaly}}%
+      \pgfmathsubtract@{\pgfmathresult}{\rotate}%
+      \ifdim\pgfmathresult pt<0pt\relax%
+     \pgfmathadd@{\pgfmathresult}{360}%
+      \fi%
+      \let\externalangle\pgfmathresult%
+      %
+      % left tip
+      %
+      \pgf@xc=-\halfbaselength
+      \pgf@yc=0pt
+      %
+      %  we use a border parameter in the range 0..100 to parametrize
+      %  the base line from left to right, 50 is the center
+      %  hence \externalangle/50 gives the multiplicator for the
+      %  \halfbaseline   (2\halfbaseline is the length of the baseline)
+      %
+      \pgfmathdivide@{\externalangle}{50}
+      \pgfmathparse{\halfbaselength*\pgfmathresult}
+      \advance\pgf@xc by \pgfmathresult pt%
+      %
+      % set the anchor point
+      %
+      \pgf@y=0pt
+      \pgf@x=\pgf@xc
+    }
+}
+\makeatother
+
+\begin{document}
+
+\begin{align*}
+  \begin{pic}
+    \node (o1) at (0,1) {};
+    \node (o2) at (1,1) {};
+    \node (o3) at (2,1) {};
+    \node[triangle,draw,blue,string,hflip] (t1) at (0,0) {};
+    \node[triangle,fill=blue!40,string,hflip] (t2) at (1,0) {};
+    \node[triangle,draw,fill=green,string,hflip] (t3) at (2,0) {};
+    \draw[blue] (o1) to (t1.center);
+    \draw (o2) to (t2.center);
+    \draw (o3) to (t3.75) (o3) to (t3.25); % tests anchorborder
+  \end{pic}
+\end{align*}
+\end{document}

@@ -1,0 +1,31 @@
+\documentclass[12pt]{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{tikz}
+\usepackage{pgfplots}
+
+\begin{document}
+
+\begin{tikzpicture}[scale = 0.5]
+   
+    \draw[dashed, thin] (-4.5,0.568) node [left] {$y_2$} --
+    (-3.6,-0.728) node [left] {$x$} --(-1, -4.472) node [right]
+    {$y_1$};
+
+    \filldraw [black] (-4.5,0.568) circle [radius=2pt] (-3.6,-0.728)
+    circle [radius=2pt] (-1,-4.472) circle [radius=2pt];
+
+    \draw[domain=-4.32:4.3,smooth,variable=\x,black] plot
+    ({\x},{-1.1664/(\x+4.5) +0.568}); \draw (4,0.4452) node [below]
+    {$H_2$};
+
+    \draw[domain=-8:-2.12,smooth,variable=\x,black] plot
+    ({\x},{-9.9344/(\x+1) - 4.472}); \draw (-2.3,3.016) node [left]
+    {$H_1$};
+
+    \draw[very thick,domain=-5.7:4.5,smooth,variable=\x,black] plot
+    ({\x},{(\x/3)^3 + 1}); \draw (4, 3.37) node [above left] {$G$};
+
+  \end{tikzpicture}
+
+\end{document}

@@ -1,0 +1,46 @@
+\documentclass[tikz, border=1cm]{standalone}
+\usetikzlibrary{arrows.meta}
+\makeatletter
+\tikzset{
+  a/.style={
+    double=green!10,
+    double distance=2pt,
+    draw=teal!50,
+  },
+  foo /.tip={Stealth[inset=0pt, length=4pt, width=6pt, fill=green!10]},
+  pics/arc arrow/.style args={#1:#2:#3}{
+    code={
+      \draw[a, -foo] (0, 0) arc (#1:#2:#3) coordinate (arc@temp);
+      \path (arc@temp) ++(270+#2:4pt) ++(#2:3pt) coordinate (-a);
+    }
+  },
+  pics/straight arrow/.style={
+    code={
+      \begin{scope}[rotate=#1]
+        \draw[a, foo-foo] (0, -0.5) -- (0, 0.5);
+        \fill[green!10] (-1pt, 0.5cm-4.1pt) rectangle (1pt, 0.5cm-3.9pt+\pgflinewidth);
+        \fill[green!10] (1pt, -0.5cm+4.1pt) rectangle (-1pt, -0.5cm+3.9pt-\pgflinewidth);
+        \coordinate (-a) at (3pt, -0.5cm + 4pt);
+      \end{scope}
+    }
+  },
+  mydash/.style={dash pattern=on 2mm off 0.5mm}
+}
+\makeatother
+
+\begin{document}
+\begin{tikzpicture}
+  \path[draw=blue!80, fill=purple!30] (-2, -2) rectangle (2, 2);
+  \foreach \i in {0, 45, ..., 315} {
+    \draw[mydash] (0, 0) -- (\i:4);
+  }
+  \foreach \r/\t/\p [count=\i] in {90/r/above right, 135/s/above left, 180/t/left, 225/u/below left} {
+    \pic (arrow\i) at (\r:3.4cm) {straight arrow=\r};
+    \node[\p, inner sep=1pt] at (arrow\i-a) {$\t$};
+  }
+  \foreach \x/\r/\t/\p [count=\i] in {0.4/360/c/right, 0.8/270/b/below left, 1.2/180/a/above left} {
+    \pic (arc\i) at (0, \x) {arc arrow=90:\r:\x cm};
+    \node[\p, inner sep=1pt] at (arc\i-a) {$\t$};
+  }
+\end{tikzpicture}
+\end{document}

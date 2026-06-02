@@ -1,0 +1,26 @@
+\documentclass[tikz,border=5pt]{standalone}
+
+\usepackage{tikz}
+
+\tikzset{
+  pics/square/.default={1},
+  pics/square/.style = {
+    code = {
+    \draw[pic actions] (0,0) rectangle (#1,#1);
+    }
+  }
+}    
+
+\begin{document}
+
+\begin{tikzpicture}
+   \foreach \x in {1,2,...,10}  {
+     \foreach \y in {1,2,...,5} {
+       \pic[fill=blue!50] at (\x,\y) {square};
+     }
+   }
+   \pic[fill=yellow] at (5,3) {square};
+   \pic[draw=none,fill=yellow] at (1.25,2.25) {square=.5};
+\end{tikzpicture}
+
+\end{document}

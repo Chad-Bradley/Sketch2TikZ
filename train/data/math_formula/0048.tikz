@@ -1,0 +1,30 @@
+\documentclass[prb,preprint]{revtex4-1}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath, natbib, graphicx, enumerate, tikz, float, amsthm, verbatim}
+\usetikzlibrary{patterns}
+\usetikzlibrary{arrows.meta}
+
+\begin{document}
+
+\begin{tikzpicture}[scale = 0.5]
+
+
+\draw[red!50!white, ultra thick] (-6,-4) -- (-6,4) node[black] [anchor=east]{\Large{$T_1$}};
+\draw[blue!50!white,ultra thick] (6,-4) -- (6,4) node[black] [anchor=west]{\Large{$T_2$}};
+\draw[black, thick, pattern=north west lines](0,-2) circle (1);
+
+\draw[black, thick, pattern=vertical lines](0,2) circle (1);
+\draw[black,thick, ->] (-6,-2) -- (-3.5,-2) node[black] [anchor=north]{\large{$Q_1$}};
+\draw[black,thick] (-3.5,-2) -- (-1,-2);
+\draw[black,thick, ->] (1,-2) -- (3.5,-2)node[black] [anchor=north]{\large{$Q_2-\Delta W$}};
+\draw[black,thick] (3.5,-2) -- (6,-2);
+\draw[black,thick] (-6,2) -- (-3.5,2);
+\draw[black,thick, ->](-1,2) -- (-3.5,2)node[black] [anchor=south]{\large{$Q_1$}};
+\draw[black,thick] (1,2) -- (3.5,2);
+\draw[black,thick, ->](6,2) -- (3.5,2)node[black] [anchor=south]{\large{$Q_2$}};
+\draw[black,thick, ->](0,-3) -- (0,-4) node[black][anchor=north]{\large{$\Delta W$}};
+\draw[black,thick, ->](0,-1) -- (0,0) node[black] [anchor=east]{\large{$W$}};
+\draw[black,thick](0,0) -- (0,1);
+\end{tikzpicture}
+
+\end{document}

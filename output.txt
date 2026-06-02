@@ -1,0 +1,61 @@
+Traceback (most recent call last):
+  File "/home/me/miniconda3/envs/tikz_agent/lib/python3.10/runpy.py", line 196, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/home/me/miniconda3/envs/tikz_agent/lib/python3.10/runpy.py", line 86, in _run_code
+    exec(code, run_globals)
+  File "/home/me/ComputerGraphics/PJ3/Sketch2TikZ-v2/train/dev_loop.py", line 230, in <module>
+    main()
+  File "/home/me/ComputerGraphics/PJ3/Sketch2TikZ-v2/train/dev_loop.py", line 90, in main
+    r = pipeline_generate(png, i, output_dir="output")
+  File "/home/me/ComputerGraphics/PJ3/Sketch2TikZ-v2/train/pipeline.py", line 230, in generate
+    desc = image_to_text(image_path, VISION_PROMPT,
+  File "/home/me/ComputerGraphics/PJ3/Sketch2TikZ-v2/train/llm_caller.py", line 100, in image_to_text
+    return _try(platforms, _call, "vision")
+  File "/home/me/ComputerGraphics/PJ3/Sketch2TikZ-v2/train/llm_caller.py", line 82, in _try
+    result = fn(p)
+  File "/home/me/ComputerGraphics/PJ3/Sketch2TikZ-v2/train/llm_caller.py", line 97, in _call
+    return _create(p, VISION_MODELS[p],
+  File "/home/me/ComputerGraphics/PJ3/Sketch2TikZ-v2/train/llm_caller.py", line 62, in _create
+    for chunk in stream:
+  File "/home/me/miniconda3/envs/tikz_agent/lib/python3.10/site-packages/openai/_streaming.py", line 49, in __iter__
+    for item in self._iterator:
+  File "/home/me/miniconda3/envs/tikz_agent/lib/python3.10/site-packages/openai/_streaming.py", line 62, in __stream__
+    for sse in iterator:
+  File "/home/me/miniconda3/envs/tikz_agent/lib/python3.10/site-packages/openai/_streaming.py", line 53, in _iter_events
+    yield from self._decoder.iter_bytes(self.response.iter_bytes())
+  File "/home/me/miniconda3/envs/tikz_agent/lib/python3.10/site-packages/openai/_streaming.py", line 297, in iter_bytes
+    for chunk in self._iter_chunks(iterator):
+  File "/home/me/miniconda3/envs/tikz_agent/lib/python3.10/site-packages/openai/_streaming.py", line 308, in _iter_chunks
+    for chunk in iterator:
+  File "/home/me/miniconda3/envs/tikz_agent/lib/python3.10/site-packages/httpx/_models.py", line 897, in iter_bytes
+    for raw_bytes in self.iter_raw():
+  File "/home/me/miniconda3/envs/tikz_agent/lib/python3.10/site-packages/httpx/_models.py", line 951, in iter_raw
+    for raw_stream_bytes in self.stream:
+  File "/home/me/miniconda3/envs/tikz_agent/lib/python3.10/site-packages/httpx/_client.py", line 153, in __iter__
+    for chunk in self._stream:
+  File "/home/me/miniconda3/envs/tikz_agent/lib/python3.10/site-packages/httpx/_transports/default.py", line 127, in __iter__
+    for part in self._httpcore_stream:
+  File "/home/me/miniconda3/envs/tikz_agent/lib/python3.10/site-packages/httpcore/_sync/connection_pool.py", line 407, in __iter__
+    raise exc from None
+  File "/home/me/miniconda3/envs/tikz_agent/lib/python3.10/site-packages/httpcore/_sync/connection_pool.py", line 403, in __iter__
+    for part in self._stream:
+  File "/home/me/miniconda3/envs/tikz_agent/lib/python3.10/site-packages/httpcore/_sync/http11.py", line 342, in __iter__
+    raise exc
+  File "/home/me/miniconda3/envs/tikz_agent/lib/python3.10/site-packages/httpcore/_sync/http11.py", line 334, in __iter__
+    for chunk in self._connection._receive_response_body(**kwargs):
+  File "/home/me/miniconda3/envs/tikz_agent/lib/python3.10/site-packages/httpcore/_sync/http11.py", line 203, in _receive_response_body
+    event = self._receive_event(timeout=timeout)
+  File "/home/me/miniconda3/envs/tikz_agent/lib/python3.10/site-packages/httpcore/_sync/http11.py", line 217, in _receive_event
+    data = self._network_stream.read(
+  File "/home/me/miniconda3/envs/tikz_agent/lib/python3.10/site-packages/httpcore/_backends/sync.py", line 128, in read
+    return self._sock.recv(max_bytes)
+  File "/home/me/miniconda3/envs/tikz_agent/lib/python3.10/ssl.py", line 1292, in recv
+    return self.read(buflen)
+  File "/home/me/miniconda3/envs/tikz_agent/lib/python3.10/ssl.py", line 1165, in read
+    return self._sslobj.read(len)
+KeyboardInterrupt
+=== Iterative Prompt Optimisation [Iteration 2] ===
+Logs: iteration_logs/iter_002
+Samples: 3
+
+[1/3] 0046.png

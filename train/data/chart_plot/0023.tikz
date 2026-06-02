@@ -1,0 +1,30 @@
+\documentclass{amsart}
+\usepackage{amsmath,amsthm,amssymb,latexsym,fullpage,setspace,graphicx,float,xcolor,hyperref,verbatim}
+\usepackage{tikz-cd,tikz,pgfplots}
+\usetikzlibrary{decorations.markings,math}
+\usepackage[utf8]{inputenc}
+
+\begin{document}
+
+\begin{tikzpicture}
+\draw [->,dashed,line width=1] (0,0) -- (1.5,0) node[midway,above] {$t_0^i$} node[midway,below] {$b_0^i$};
+\draw [<-,line width=1] (-1.5,0) -- (0,0);
+\draw [<->,line width=1] (0,-1.5) -- (0,1.5);
+\draw (1.4,1.4) circle (0pt) node {$c_0^i$};
+%%%
+\draw [->,dashed,line width=1] (4.5,0) -- (6,0) node[midway,above] {$t_1^i$} node[midway,below] {$b_1^i$};
+\draw [<-,line width=1] (3,0) -- (4.5,0);
+\draw [<->,line width=1] (4.5,-1.5) -- (4.5,1.5);
+\draw (5.9,1.4) circle (0pt) node {$c_1^i$};
+%%%
+\draw (7,0) circle (0.025) [fill=black];
+\draw (7.25,0) circle (0.025) [fill=black];
+\draw (7.5,0) circle (0.025) [fill=black];
+%%%
+\draw [->,dashed,line width=1] (10,0) -- (11.5,0) node[midway,above] {$t_{d_i}^i$} node[midway,below] {$b_{d_i}^i$};
+\draw [<-,line width=1] (8.5,0) -- (10,0);
+\draw [<->,line width=1] (10,-1.5) -- (10,1.5);
+\draw (11.4,1.4) circle (0pt) node {$c_{d_i}^i$};
+\end{tikzpicture}
+
+\end{document}

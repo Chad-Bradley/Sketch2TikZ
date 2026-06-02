@@ -1,0 +1,29 @@
+\documentclass{article}
+
+\usepackage{tikz} % Import TikZ package
+
+\begin{document}
+
+\begin{tikzpicture}[scale=0.5] % Create TikZ picture environment with scale of 0.5
+
+% Draw outer circle
+\draw[thick] (0,0) circle (2);
+
+% Draw inner circle
+\draw[thick] (0,0) circle (1.2);
+
+% Draw vertical line
+\draw[thick] (0,-2) -- (0,2);
+
+% Draw horizontal line
+\draw[thick] (-2,0) -- (2,0);
+
+% Draw diagonal line
+\draw[thick] (-1.5,-1.5) -- (1.5,1.5);
+
+% Draw diagonal line
+\draw[thick] (-1.5,1.5) -- (1.5,-1.5);
+
+\end{tikzpicture}
+
+\end{document}

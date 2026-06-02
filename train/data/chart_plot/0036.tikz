@@ -1,0 +1,46 @@
+\documentclass[11pt]{standalone}
+\usepackage{tikz,pgfplots,filecontents}
+\pgfplotsset{compat=newest}
+\usepgfplotslibrary{fillbetween}
+\begin{filecontents*}{data1.dat}
+a b
+1 1
+2 1.2
+3 1.5
+\end{filecontents*}
+\begin{filecontents*}{data2.dat}
+a b
+1 1.5
+2 1.75
+3 1.6
+\end{filecontents*}
+
+\pgfplotsset{
+    name nodes near coords/.style={
+        every node near coord/.append style={
+            name=#1-\coordindex,
+            alias=#1-last,
+        },
+    },
+    name nodes near coords/.default=coordnode
+}
+
+\begin{document}
+%reads data
+\pgfplotstableread[]{data1.dat}{\dataA} %beware that "data1" would trigger an error => do not use numbers
+\pgfplotstablegetrowsof{\dataA}
+\pgfmathtruncatemacro{\N}{\pgfplotsretval-1} %get access to the number of points in data
+
+\begin{tikzpicture}
+
+\begin{axis}[
+    nodes near coords={},nodes near coords style={anchor=center,inner sep=0pt}
+    ]
+\addplot[blue,thick,mark=*,   name nodes near coords=c] 
+table[x=a,y=b]{data1.dat};
+\addplot+[black,thick,mark=*,   name nodes near coords=d] table[x=a,y=b]{data2.dat};
+\end{axis}
+\foreach \X in {0,...,\N}
+{\draw[red,-latex] (c-\X) -- (d-\X);}
+\end{tikzpicture}
+\end{document}

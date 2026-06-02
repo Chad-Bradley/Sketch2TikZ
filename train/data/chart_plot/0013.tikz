@@ -1,0 +1,23 @@
+\documentclass[tikz]{standalone}
+\usepackage{pgfplots}
+
+\begin{document}
+
+\begin{tikzpicture}
+    \begin{axis}[
+    view={45}{30},
+    axis equal image,
+    axis lines=center,
+    xtick=\empty,ytick=\empty,ztick=\empty,
+    colormap={white}{color=(white)color=(white)},
+    mesh/interior colormap={blue}{color=(blue!20)color=(blue!20)},
+    z buffer=sort]
+    \addplot3 [domain=0:8,y domain=0:8,surf,opacity=0.6,shader=flat,samples=2] (x,8,y);
+    \addplot3 [domain=0:8,y domain=0:2*pi,mesh,black,samples=25] ({4+1*cos(deg(y))},{8},{4+1*sin(deg(y))});
+    \addplot3 [domain=0:8,y domain=0:2*pi,surf,shader=interp,samples=25] ({4+1*cos(deg(y))},{x},{4+1*sin(deg(y))});
+    \addplot3 [domain=0:8,y domain=0:8,surf,opacity=0.6,shader=flat,samples=2] (x,0,y); 
+    \addplot3 [domain=0:8,y domain=0:2*pi,mesh,black,samples=25] ({4+1*cos(deg(y))},{0},{4+1*sin(deg(y))});
+    \end{axis}
+\end{tikzpicture}
+
+\end{document}

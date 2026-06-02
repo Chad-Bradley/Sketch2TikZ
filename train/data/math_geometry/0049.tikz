@@ -1,0 +1,50 @@
+\documentclass{standalone}
+\usepackage{tikz,xstring,etoolbox,catchfile}
+\usetikzlibrary{matrix}
+
+%=== Remove these later, it creates a dummy data file
+\usepackage{filecontents}
+\begin{filecontents*}{testdata.txt}
+101101010101011010101010110101010
+100101010101001010101010010101010
+010101110100101011101001010111010
+111100101001111001010011110010100
+011000110010110001100101100011001
+111010101111110101011111101010111
+101010101111010101011110101010111
+101101010101011010101010110101010
+100101010101001010101010010101010
+010101110100101011101001010111010
+111100101001111001010011110010100
+011000110010110001100101100011001
+111010101111110101011111101010111
+101010101111010101011110101010111
+\end{filecontents*}
+%================================
+
+%Replace your file name 
+\CatchFileDef{\mydata}{testdata.txt}{}
+
+\def\doit#1{%
+\let\mymatrixcontent\empty%
+\StrCount{#1}{ }[\myrownumber]%
+\xdef\mormatrix{#1}%
+    \foreach \m in {1,...,\myrownumber}{%
+    \StrCut{\mormatrix}{ }\myextractedrow\myremainingmatrix%
+    \xdef\mormatrix{\myremainingmatrix}%
+    \StrLen{\myextractedrow}[\mycolnum]%
+    \foreach \k in {1,...,\mycolnum}{%
+         \StrChar{\myextractedrow}{\k}[\kk]%
+             \begingroup\edef\x{\endgroup%
+             \noexpand\gappto\noexpand\mymatrixcontent{\ifnum\kk>0|[fill=red]|\fi\noexpand\&}}\x%
+    }\gappto\mymatrixcontent{\\}}%
+\begin{tikzpicture}
+\matrix[matrix of nodes,ampersand replacement=\&,inner sep=0pt,
+    nodes={minimum size=4mm,outer sep=0pt}] {\mymatrixcontent};
+\end{tikzpicture}%
+\let\mymatrixcontent=\empty
+}
+
+\begin{document}
+\doit{\mydata}
+\end{document}

@@ -1,0 +1,28 @@
+\documentclass[tikz,border=3.14159mm]{standalone}
+\usetikzlibrary{patterns}
+
+\begin{document}
+    \begin{tikzpicture}[line width=.75pt]
+        \def\xa{5.5} \def\ya{.2}
+        \def\xb{1.8} \def\yb{2}
+        \def\xc{0} \def\yc{1.3}
+        \def\tang{.7}
+        
+        \def\curve{
+                (-\xa,\ya) .. controls ++ (1.5,0) and ++ (-1.5*\tang,0) ..
+                (-\xb,\yb) .. controls ++ (\tang,0) and ++ (-\tang,0) ..
+                (-\xc,\yc) .. controls ++ (\tang,0) and ++ (-\tang,0) ..
+                (\xb,\yb) .. controls ++ (1.5*\tang,0) and ++ (-1.5,0) ..
+                (\xa,\ya)
+                }
+                
+        \draw [-stealth] (-\xa-1,0) -- (\xa+1,0) node[below left] {$\omega$};
+        \draw [-stealth] (0,0) node[below] {$0$} -- (0,3)  node[below right] {$S_x(\omega)$};
+        
+        \path[pattern=north west lines, pattern color=orange] (-\xa,0) -- \curve -- (\xa,0) -- cycle;
+        \draw  \curve;
+        
+        \draw (\xb+.5,\yc) --++ (1,1) node [inner sep=1pt,right] {Area $E[x^2]$};
+                
+    \end{tikzpicture}
+\end{document}

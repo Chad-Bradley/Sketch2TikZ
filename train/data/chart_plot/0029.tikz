@@ -1,0 +1,46 @@
+\documentclass{article}
+\usepackage{pgfplots,pgfplotstable}
+\usepackage{filecontents}
+\begin{filecontents*}{data.dat}
+        0.  0.
+        0.1 0.00944826
+        0.2 0.0308185
+        0.3 0.0541806
+        0.4 0.0711639
+        0.5 0.0760562
+        0.6 0.0666065
+        0.7 0.0442508
+        0.8 0.0136516
+        0.9 -0.0183828
+        1.  -0.0443726
+    \end{filecontents*}
+\pagestyle{empty}
+\pgfplotsset{compat=1.16}
+\begin{document}
+\pgfplotstableread{data.dat}\data
+\pgfplotstablegetrowsof{\data} 
+\pgfmathtruncatemacro{\NumRows}{\pgfplotsretval-1} 
+\pgfplotstablegetelem{\NumRows}{[index]0}\of{\data}
+\edef\myx{\pgfplotsretval}
+\pgfplotstablegetelem{\NumRows}{[index]1}\of{\data}
+\edef\myy{\pgfplotsretval}
+    \begin{tikzpicture}
+        \begin{axis}[
+             hide axis,
+            colormap/jet,
+            point meta rel=per plot,
+            ymax=10
+        ]
+            \addplot[
+                mesh,
+                point meta=abs(y),
+            ] table {\data};
+            \addplot[
+                mesh,
+                x filter/.code={\pgfmathparse{#1+1}\pgfmathresult},
+                y filter/.code={\pgfmathparse{#1+-0.0443726}\pgfmathresult},
+                rotate around={45:(\myx,\myy)},% works
+                ] table {\data};
+        \end{axis}
+    \end{tikzpicture}
+\end{document}

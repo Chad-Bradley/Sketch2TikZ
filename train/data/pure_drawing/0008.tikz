@@ -1,0 +1,61 @@
+\documentclass{article}
+\usepackage{tikz}
+\usetikzlibrary{decorations.markings}
+
+
+\makeatletter
+\pgfarrowsdeclare{thickarrow}{thickarrow}
+{
+  \pgfutil@tempdima=-0.84pt%
+  \advance\pgfutil@tempdima by-1.3\pgflinewidth%
+  \pgfutil@tempdimb=0.21pt%
+  \advance\pgfutil@tempdimb by.625\pgflinewidth%
+  \pgfarrowsleftextend{+\pgfutil@tempdima}
+  \pgfarrowsrightextend{+\pgfutil@tempdimb}
+}
+{
+  \pgfmathparse{\pgfgetarrowoptions{thickarrow}}%
+  \ifpgfmathunitsdeclared%
+    \pgfmathparse{\pgfmathresult pt}%
+  \else%  
+    \pgfmathparse{\pgfmathresult*\pgflinewidth}%
+  \fi%
+  \let\thickness=\pgfmathresult
+  \pgfsetlinewidth{\thickness pt}
+  \pgfutil@tempdima=0.28pt%
+  \advance\pgfutil@tempdima by.3\pgflinewidth%
+  \pgfsetlinewidth{0.8\pgflinewidth}
+  \pgfsetdash{}{+0pt}
+  \pgfsetroundcap
+  \pgfsetroundjoin
+  \pgfpathmoveto{\pgfqpoint{-3\pgfutil@tempdima}{4\pgfutil@tempdima}}
+  \pgfpathcurveto
+  {\pgfqpoint{-2.75\pgfutil@tempdima}{2.5\pgfutil@tempdima}}
+  {\pgfqpoint{0pt}{0.25\pgfutil@tempdima}}
+  {\pgfqpoint{0.75\pgfutil@tempdima}{0pt}}
+  \pgfpathcurveto
+  {\pgfqpoint{0pt}{-0.25\pgfutil@tempdima}}
+  {\pgfqpoint{-2.75\pgfutil@tempdima}{-2.5\pgfutil@tempdima}}
+  {\pgfqpoint{-3\pgfutil@tempdima}{-4\pgfutil@tempdima}}
+  \pgfusepathqstroke
+}
+\makeatother
+
+\tikzset{
+    set thickarrow thickness/.code={
+        \pgfsetarrowoptions{thickarrow}{#1}},
+    thick arrow/.style={set thickarrow thickness=#1,-thickarrow},
+    thick arrow/.default=0.6pt
+}
+
+
+\begin{document}
+
+\begin{tikzpicture}[transform canvas={scale=3}]
+\draw [thick arrow] (0,0) to (2,0);
+\draw [thick arrow=2pt] (0,-1) to (2,-1);
+\draw [line width=2pt,thick arrow=1,shorten >=5pt] (0,-2) to (2,-2);
+\draw [line width=2pt,thick arrow=2,shorten >=5pt] (0,-3) to (2,-3);
+\draw [thick arrow=2,shorten >=5pt,line width=2pt] (0,-3) to (2,-3);
+\end{tikzpicture}
+\end{document}

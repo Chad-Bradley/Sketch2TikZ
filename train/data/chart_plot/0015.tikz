@@ -1,0 +1,38 @@
+\documentclass[tikz,convert=false]{standalone}
+%\usetikzlibrary{3d}
+\makeatletter
+\pgfqkeys{/tikz/cs}{
+  latitude/.store in=\tikz@cs@latitude,% not needed with '3d' library
+  longitude/.style={angle={#1}},% not needed with '3d' library
+  theta/.style={latitude={#1}},
+  rho/.style={angle={#1}}
+}
+\tikzdeclarecoordinatesystem{xyz spherical}{% needed even with '3d' library!
+  \pgfqkeys{/tikz/cs}{angle=0,radius=0,latitude=0,#1}%
+  \pgfpointspherical{\tikz@cs@angle}{\tikz@cs@latitude}{\tikz@cs@xradius}% fix \tikz@cs@radius to \tikz@cs@xradius
+}
+\makeatother
+
+\tikzset{my color/.code=\pgfmathparse{(#1+90)/180*100}\pgfkeysalso{every path/.style={color=red!\pgfmathresult!blue}}}
+\begin{document}
+\begin{tikzpicture}[radius=+0.4pt]% (this is the radius of little dots on the lines)
+\foreach \lat in {-90,-80,...,90} {
+ \tikzset{my color=\lat}
+ \foreach \lon in {0,10,...,359} {
+  \filldraw (xyz spherical cs: radius=1, angle=\lon,    latitude=\lat) circle[]
+         -- (xyz spherical cs: radius=1, angle=\lon+10, latitude=\lat);
+ }}
+\end{tikzpicture}
+
+\begin{tikzpicture}
+\foreach \lat in {-90,-75,...,30}
+  \filldraw[line join=round, fill=lightgray]
+    \foreach \lon in {0,20,...,359} {
+         (xyz spherical cs: radius=1, rho=\lon,    theta=\lat   )
+      -- (xyz spherical cs: radius=1, rho=\lon+20, theta=\lat   )
+      -- (xyz spherical cs: radius=1, rho=\lon+20, theta=\lat+15)
+      -- (xyz spherical cs: radius=1, rho=\lon,    theta=\lat+15)
+      -- cycle
+    };
+\end{tikzpicture}
+\end{document}

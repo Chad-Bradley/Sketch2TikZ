@@ -1,0 +1,36 @@
+\documentclass{standalone}
+\usepackage{tikz}
+\usepackage{xcolor}
+
+\globalcolorstrue
+
+\newcommand\polygon[5][]{
+\pgfmathtruncatemacro{\x}{2*#2}
+\foreach \c in {0,1,...,\x}{
+  \colorlet{color\c}{#3}
+ }
+ \foreach \c in {#4} {
+    \colorlet{color\c}{#5}
+ }
+\pgfmathsetmacro{\angle}{360/#2}
+\pgfmathsetmacro{\startangle}{-90 + \angle/2}
+\pgfmathsetmacro{\y}{cos(\angle/2)}
+\begin{scope}[#1]
+ \foreach \i in {1,2,...,#2} {
+  \pgfmathsetmacro{\x}{\startangle + \angle*\i}
+  \pgfmathtruncatemacro{\colorA}{\i*2}
+  \pgfmathtruncatemacro{\colorB}{\i*2-1}
+  \draw[fill=color\colorB] (0, 0) -- (\x:1 cm) -- (\x + \angle/2:\y cm) -- cycle;
+  \draw[fill=color\colorA] (0, 0) -- (\x + \angle/2:\y cm) -- (\x + \angle:1 cm) -- cycle;
+}
+\end{scope}
+}
+
+\begin{document}
+\begin{tikzpicture}
+\polygon{5}{blue!20}{1,...,5}{blue!60}
+\polygon[xshift=2.2cm]{6}{red!20}{7,8,9}{red}
+\polygon[xshift=4.4cm]{7}{green!20}{5,6,...,12}{green}
+\polygon[xshift=6.6cm]{8}{yellow!30}{1,2,5,7}{orange!70}
+\end{tikzpicture}
+\end{document}

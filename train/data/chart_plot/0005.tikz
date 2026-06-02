@@ -1,0 +1,44 @@
+\documentclass[border=5mm]{standalone}
+\usepackage{pgfplots}
+\pgfplotsset{compat=newest}
+\usepgfplotslibrary{polar}
+
+% parameters
+\def\clr{7}       % clearance
+\def\pen{-6.}     % negative penetration
+\def\fz{0.625}    % fake zero
+\def\nl{2}        % number of lobes
+\def\wl{0.18}     % width of lobes
+\def\th{0.3}      % thickness
+
+\pgfplotsset{
+  colormap={greycolormap}{color=(black!50) color=(black!5)}
+}
+
+\begin{document}
+\begin{tikzpicture}
+  \begin{axis}[
+      view={0}{90},
+      data cs=polarrad,
+      domain=0.3*pi:0.7*pi,
+      y domain=0:\th,
+      samples=32,
+      axis equal,
+      hide axis,
+      colormap name=greycolormap,
+      declare function={
+        innerring(\x)=\clr-(\clr+\pen)*exp(-((\x-(pi/\nl))/\wl)^2);
+        outerring(\x)=\th+innerring(\x);
+      }
+    ]
+    \addplot3 [surf, shader=interp]
+      (x,
+       {y + innerring(x)},
+       y);
+    \draw [line width=1.4pt, black!50, domain=0.3*pi:0.7*pi, samples=32, smooth]
+      plot (xy polar cs:angle=\x r, radius={innerring(\x)});
+    \draw [thick, black!50, domain=0.3*pi:0.7*pi, samples=32, smooth]
+      plot (xy polar cs:angle=\x r, radius={outerring(\x)});
+  \end{axis}
+\end{tikzpicture}
+\end{document}

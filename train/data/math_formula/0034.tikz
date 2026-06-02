@@ -1,0 +1,38 @@
+\documentclass[a4paper, 10pt]{article} % for A4 size paper
+\usepackage{tikz}
+\usetikzlibrary{calc}
+\begin{document}
+\pagestyle{empty}
+
+\begin{tikzpicture}[remember picture, 
+                    overlay,
+                    normal lines/.style={gray, very thin},
+                    margin lines/.style={gray, thick},
+                    mm lines/.style={gray, ultra thin}, 
+                    strong lines/.style={black, very thin}, 
+                    master lines/.style={black, very thick}, 
+                    dashed master lines/.style={loosely dashed, black, very thick}
+                   ]
+
+  \coordinate (origin) at (current page.north west);
+  \path 
+        coordinate (my top center) at (current page.north) 
+        coordinate (my bot center) at (current page.south)
+        coordinate (my top left)   at ($(current page.north west)+(0,-0.5\paperwidth)$)
+        coordinate (my top right)  at ($(current page.north east)+(0,-0.5\paperwidth)$)
+        coordinate (my bot left)   at ($(current page.south west)+(0,0.5\paperwidth)$)
+        coordinate (my bot right)  at ($(current page.south east)+(0,0.5\paperwidth)$)
+        ;
+  \draw[dashed] (my top center) -- (my top left);
+  \path let
+          \p1=($(my top left)-(my top center)$),
+          \p2=($(my top right)-(my top center)$),
+          \n1={veclen(\x1,\y1)},
+          \n2={atan2(\y1,\x1)},
+          \n3={atan2(\y2,\x2)}
+        in
+        [draw,dashed] (my top left) arc (\n2:180:\n1);
+
+\end{tikzpicture} 
+
+\end{document}1

@@ -1,0 +1,329 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage{epsf,epsfig,amsfonts,amsgen,amsmath,amssymb,amstext,amsbsy,amsopn,amsthm,lineno}
+\usepackage{color}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{tkz-graph}
+\usetikzlibrary{calc,arrows.meta,positioning}
+\usetikzlibrary{decorations.markings}
+\tikzset{
+  LabelStyle/.style = {font = \tiny\bfseries },
+  VertexStyle/.append style = { inner sep=5pt,
+                                font = \tiny\bfseries},
+  EdgeStyle/.append style = {->} }
+\usetikzlibrary{arrows, shapes, positioning}
+
+\begin{document}
+
+\begin{tikzpicture}[->,>=latex,shorten >=0pt,auto,node distance=2.5cm,
+  main node/.style={circle,fill=blue!10,draw, font=\sffamily\Large\bfseries}]%
+  \tikzset{VertexStyle/.append style={%,fill=black,
+  font=\itshape\large, shape = circle,inner sep = 2pt, outer sep = 0pt,minimum size = 20 pt,draw}}
+  \tikzset{EdgeStyle/.append style={thin}}
+  \tikzset{LabelStyle/.append style={font = \itshape}}
+  \SetVertexMath
+  \def\x{0.0}
+  \def\y{1.0}
+\node at (\x-1.5,3+\y+2) {$G$};
+\node at (\x-1.5,\y+10.8) {$R_1=C_1$};
+\node at (\x-1.5+19,\y-1.2) {$R_5=C_6$};
+\node at (\x+4.5,\y+8.4) {$R_2$};
+\node at (\x+1.5,\y+4.4) {$C_2$};
+\node at (\x+4.5,\y+5.6) {$R_3$};
+\node at (\x+5.5,\y+4.4) {$C_3$};
+\node at (\x+4.5,\y+3-0.4) {$R_4$};
+\node at (\x+9.5,\y+4.4) {$C_4$};
+\node at (\x+13.5,\y+4.4) {$C_5$};
+\node at (\x+0.5,\y-1-2) {$G/C_1^6$};
+\node at (\x-1.5,\y-5-2) {$G/R_1^5$};
+\node at (\x+2,\y-5-2) {$Z$};
+\node at (\x+15.5,\y-3.1-2) {$G/_{i=1}^5R_i\boxtimes G/_{j=1}^6C_i$};
+  \def\x{0.5}
+  \def\y{9.0+1}
+  \Vertex[x=\x+-2, y=\y+3.0,L={u_{1,1}}]{u_1}
+  \Vertex[x=\x+1.5, y=\y+0.0,L={u_{2,2}}]{u_2}
+  \Vertex[x=\x+1.5, y=\y-3.0,L={u_{3,2}}]{u_3}
+  \Vertex[x=\x+1.5, y=\y-6.0,L={u_{4,2}}]{u_4}
+  \Vertex[x=\x+5.5, y=\y+0.0,L={u_{2,3}}]{u_5}
+  \Vertex[x=\x+5.5, y=\y-3,L={u_{3,3}}]{u_6}
+  \Vertex[x=\x+5.5, y=\y-6,L={u_{4,3}}]{u_7}
+  \Vertex[x=\x+9.5, y=\y+0.0,L={u_{2,4}}]{u_8}
+  \Vertex[x=\x+9.5, y=\y-3.0,L={u_{3,4}}]{u_9}
+  \Vertex[x=\x+9.5, y=\y-6.0,L={u_{4,4}}]{u_10}
+  \Vertex[x=\x+13.5, y=\y+0,L={u_{2,5}}]{u_11}
+  \Vertex[x=\x+13.5, y=\y-3,L={u_{3,5}}]{u_12}
+  \Vertex[x=\x+13.5, y=\y-6,L={u_{4,5}}]{u_13}
+  \Vertex[x=\x+17, y=\y-9.0,L={u_{5,6}}]{u_14}
+
+  \Edge[label = b](u_2)(u_3) 
+  \Edge[label = c](u_3)(u_4) 
+  \Edge[label = b](u_5)(u_6) 
+  \Edge[label = c](u_6)(u_7) 
+  \Edge[label = b](u_8)(u_9) 
+  \Edge[label = c](u_9)(u_10) 
+  \Edge[label = b](u_11)(u_12) 
+  \Edge[label = c](u_12)(u_13) 
+  \Edge[label = d](u_2)(u_5) 
+  \Edge[label = e](u_5)(u_8) 
+  \Edge[label = f](u_8)(u_11) 
+  \Edge[label = d](u_3)(u_6) 
+  \Edge[label = e](u_6)(u_9) 
+  \Edge[label = f](u_9)(u_12) 
+  \Edge[label = d](u_4)(u_7) 
+  \Edge[label = e](u_7)(u_10) 
+  \Edge[label = f](u_10)(u_13) 
+  \Edge[label = j](u_13)(u_14) 
+  
+  \Edge(u_2)(u_3) 
+  \Edge(u_3)(u_4) 
+  \Edge(u_5)(u_6) 
+  \Edge(u_6)(u_7) 
+  \Edge(u_8)(u_9) 
+  \Edge(u_9)(u_10) 
+  \Edge(u_11)(u_12) 
+  \Edge(u_12)(u_13) 
+  \Edge(u_2)(u_5) 
+  \Edge(u_5)(u_8) 
+  \Edge(u_8)(u_11) 
+  \Edge(u_3)(u_6) 
+  \Edge(u_6)(u_9) 
+  \Edge(u_9)(u_12) 
+  \Edge(u_4)(u_7) 
+  \Edge(u_7)(u_10) 
+  \Edge(u_10)(u_13) 
+  \Edge(u_13)(u_14)   
+  
+ \Edge[label = j, labelstyle={xshift=0pt, yshift=2pt}, style={in = -180, out = -45,min distance=1cm}](u_10)(u_14)
+\Edge[label = i, labelstyle={xshift=0pt, yshift=2pt}, style={bend right=-60,min distance=12cm}](u_1)(u_14)
+\Edge[label = a, labelstyle={xshift=0pt, yshift=2pt}, style={bend right=-30,min distance=1cm}](u_1)(u_2)
+\Edge[label = a, labelstyle={xshift=-30pt, yshift=-5pt}, style={bend right=-30,min distance=1cm}](u_1)(u_3)
+\Edge[label = a, labelstyle={xshift=0pt, yshift=2pt}, style={bend right=-45,min distance=1cm}](u_1)(u_5)
+\Edge[label = a, labelstyle={xshift=0pt, yshift=2pt}, style={bend right=-45,min distance=2cm}](u_1)(u_6)
+\Edge[label = g, labelstyle={xshift=-16pt, yshift=-4pt}, style={in = 210, out=225,min distance=6cm}](u_2)(u_7)
+  \def\x{4.0}
+  \def\y{-2.5}
+  \Vertex[x=\x+-2, y=\y+0.0,L={\tilde{x}''_1}]{u_1}
+  \Vertex[x=\x+1, y=\y+0.0,L={\tilde{x}''_2}]{s_1}
+  \Vertex[x=\x+4, y=\y+0.0,L={\tilde{x}''_3}]{s_2}
+  \Vertex[x=\x+7, y=\y+0.0,L={\tilde{x}''_4}]{s_3}
+  \Vertex[x=\x+10, y=\y+0.0,L={\tilde{x}''_5}]{s_4}
+  \Vertex[x=\x+13, y=\y+0.0,L={\tilde{x}''_6}]{u_14}
+  
+  \Edge[label = a](u_1)(s_1) 
+  \Edge[label = d](s_1)(s_2) 
+  \Edge[label = e](s_2)(s_3) 
+  \Edge[label = f](s_3)(s_4) 
+  \Edge[label = j](s_4)(u_14) 
+  \Edge[label = j, labelstyle={xshift=0pt, yshift=0pt}, style={in = -150, out = -30,min distance=1cm}](s_3)(u_14)
+\Edge[label = i, labelstyle={xshift=0pt, yshift=2pt}, style={bend right=-25,min distance=1cm}](u_1)(u_14)
+\Edge[label = a, labelstyle={xshift=0pt, yshift=0pt}, style={bend left=-25,min distance=1cm}](u_1)(s_2)
+\Edge[label = g, labelstyle={xshift=0pt, yshift=-0pt}, style={in = 150, out=30,min distance=1cm}](s_1)(s_2)
+\Edge[label = h, labelstyle={xshift=0pt, yshift=-0pt}, style={in = -150, out=-30,min distance=1cm}](s_2)(s_4)
+\Edge[style={in = 150, out=30,min distance=1cm}](s_1)(s_2)
+\Edge[style={in = -150, out=-30,min distance=1cm}](s_2)(s_4)
+
+  \def\x{-0.5}
+  \def\y{-7.0}
+  \Vertex[x=\x+0, y=\y+0.0,L={\tilde{x}'_1}]{u_1}
+  \Vertex[x=\x+0, y=\y-3.0,L={\tilde{x}'_2}]{t_1}
+  \Vertex[x=\x+0, y=\y-6.0,L={\tilde{x}'_3}]{t_2}
+  \Vertex[x=\x+0, y=\y-9.0,L={\tilde{x}'_4}]{t_3}
+  \Vertex[x=\x+0, y=\y-12.0,L={\tilde{x}'_5}]{u_14}
+
+  \Edge[label = a](u_1)(t_1) 
+  \Edge[label = b](t_1)(t_2) 
+  \Edge[label = c](t_2)(t_3) 
+  \Edge[label = j](t_3)(u_14) 
+\Edge[label = i, labelstyle={xshift=-16pt, yshift=0pt}, style={bend right=25,min distance=1cm}](u_1)(u_14)
+\Edge[label = a, labelstyle={xshift=0pt, yshift=0pt}, style={bend right=25,min distance=1cm}](u_1)(t_2)
+\Edge[label = h, labelstyle={xshift=-16pt, yshift=-0pt}, style={in = 60, out=30,min distance=5.5cm}](u_5)(u_12)
+  \Edge(u_1)(t_1) 
+  \Edge(t_1)(t_2) 
+  \Edge(t_2)(t_3) 
+  \Edge(t_3)(u_14) 
+  \Edge[style={in = 210, out=225,min distance=6cm}](u_2)(u_7)
+  \Edge[style={in = 60, out=30,min distance=5.5cm}](u_5)(u_12)
+\Edge[label = g, labelstyle={xshift=0pt, yshift=-0pt}, style={in = 120, out=-120,min distance=1cm}](t_1)(t_3)
+\Edge[label = h, labelstyle={xshift=0pt, yshift=-0pt}, style={in = 60, out=-60,min distance=1cm}](t_1)(t_2)
+\Edge[style={in = 120, out=-120,min distance=1cm}](t_1)(t_3)
+\Edge[style={in = 60, out=-60,min distance=1cm}](t_1)(t_2)
+
+
+\tikzset{VertexStyle/.append style={%,fill=black,
+  font=\itshape\large,shape = rounded rectangle,inner sep = 0pt, outer sep = 0pt,minimum size = 20 pt,draw}}
+
+
+  \def\x{2.0}
+  \def\y{-7.0}
+  \Vertex[x=\x+0.0, y=\y-0.0,L={(\tilde{x}'_1,\tilde{x}''_1)}]{u_1u_1}
+  \Vertex[x=\x+3.0, y=\y-0.0,L={(\tilde{x}'_1,\tilde{x}''_2)}]{u_1s_1}
+  \Vertex[x=\x+6.0, y=\y-0.0,L={(\tilde{x}'_1,\tilde{x}''_3)}]{u_1s_2}
+  \Vertex[x=\x+9.0, y=\y-0.0,L={(\tilde{x}'_1,\tilde{x}''_4)}]{u_1s_3}
+  \Vertex[x=\x+12.0, y=\y-0.0,L={(\tilde{x}'_1,\tilde{x}''_5)}]{u_1s_4}
+  \Vertex[x=\x+15.0, y=\y-0.0,L={(\tilde{x}'_1,\tilde{x}''_6)}]{u_1u_14}
+
+  \def\x{2.0}
+  \def\y{-10.0}
+  \Vertex[x=\x+0.0, y=\y-0.0,L={(\tilde{x}'_2,\tilde{x}''_1)}]{t_1u_1}
+  \Vertex[x=\x+3.0, y=\y-0.0,L={(\tilde{x}'_2,\tilde{x}''_2)}]{t_1s_1}
+  \Vertex[x=\x+6.0, y=\y-0.0,L={(\tilde{x}'_2,\tilde{x}''_3)}]{t_1s_2}
+  \Vertex[x=\x+9.0, y=\y-0.0,L={(\tilde{x}'_2,\tilde{x}''_4)}]{t_1s_3}
+  \Vertex[x=\x+12.0, y=\y-0.0,L={(\tilde{x}'_2,\tilde{x}''_5)}]{t_1s_4}
+  \Vertex[x=\x+15.0, y=\y-0.0,L={(\tilde{x}'_2,\tilde{x}''_6)}]{t_1u_14}
+  \def\x{2.0}
+  \def\y{-13.0}
+  \Vertex[x=\x+0.0, y=\y-0.0,L={(\tilde{x}'_3,\tilde{x}''_1)}]{t_2u_1}
+  \Vertex[x=\x+3.0, y=\y-0.0,L={(\tilde{x}'_3,\tilde{x}''_2)}]{t_2s_1}
+  \Vertex[x=\x+6.0, y=\y-0.0,L={(\tilde{x}'_3,\tilde{x}''_3)}]{t_2s_2}
+  \Vertex[x=\x+9.0, y=\y-0.0,L={(\tilde{x}'_3,\tilde{x}''_4)}]{t_2s_3}
+  \Vertex[x=\x+12.0, y=\y-0.0,L={(\tilde{x}'_3,\tilde{x}''_5)}]{t_2s_4}
+  \Vertex[x=\x+15.0, y=\y-0.0,L={(\tilde{x}'_3,\tilde{x}''_6)}]{t_2u_14}
+  \def\x{2.0}
+  \def\y{-16.0}
+  \Vertex[x=\x+0.0, y=\y-0.0,L={(\tilde{x}'_4,\tilde{x}''_1)}]{t_3u_1}
+  \Vertex[x=\x+3.0, y=\y-0.0,L={(\tilde{x}'_4,\tilde{x}''_2)}]{t_3s_1}
+  \Vertex[x=\x+6.0, y=\y-0.0,L={(\tilde{x}'_4,\tilde{x}''_3)}]{t_3s_2}
+  \Vertex[x=\x+9.0, y=\y-0.0,L={(\tilde{x}'_4,\tilde{x}''_4)}]{t_3s_3}
+  \Vertex[x=\x+12.0, y=\y-0.0,L={(\tilde{x}'_4,\tilde{x}''_5)}]{t_3s_4}
+  \Vertex[x=\x+15.0, y=\y-0.0,L={(\tilde{x}'_4,\tilde{x}''_6)}]{t_3u_14}
+    \def\x{2.0}
+  \def\y{-19.0}
+  \Vertex[x=\x+0.0, y=\y-0.0,L={(\tilde{x}'_5,\tilde{x}''_1)}]{u_14u_1}
+  \Vertex[x=\x+3.0, y=\y-0.0,L={(\tilde{x}'_5,\tilde{x}''_2)}]{u_14s_1}
+  \Vertex[x=\x+6.0, y=\y-0.0,L={(\tilde{x}'_5,\tilde{x}''_3)}]{u_14s_2}
+  \Vertex[x=\x+9.0, y=\y-0.0,L={(\tilde{x}'_5,\tilde{x}''_4)}]{u_14s_3}
+  \Vertex[x=\x+12.0, y=\y-0.0,L={(\tilde{x}'_5,\tilde{x}''_5)}]{u_14s_4}
+  \Vertex[x=\x+15.0, y=\y-0.0,L={(\tilde{x}'_5,\tilde{x}''_6)}]{u_14u_14}
+
+\Edge[label = a, labelstyle={xshift=0pt, yshift=2pt}, style={bend right=10,min distance=1cm}](u_1u_1)(t_1s_1)
+\Edge[label = a, labelstyle={xshift=-30pt, yshift=-5pt}, style={bend right=-10,min distance=1cm}](u_1u_1)(t_1s_2)
+\Edge[label = a, labelstyle={xshift=0pt, yshift=2pt}, style={bend right=10,min distance=1cm}](u_1u_1)(t_2s_1)
+\Edge[label = a, labelstyle={xshift=0pt, yshift=2pt}, style={bend right=-20,min distance=2cm}](u_1u_1)(t_2s_2)
+
+
+
+  \Edge[label = j](t_3s_4)(u_14u_14) 
+  \Edge[label = d](u_1s_1)(u_1s_2) 
+  \Edge[label = e](u_1s_2)(u_1s_3) 
+  \Edge[label = f](u_1s_3)(u_1s_4) 
+  \Edge(t_3s_4)(u_14u_14) 
+  \Edge(u_1s_1)(u_1s_2) 
+  \Edge(u_1s_2)(u_1s_3) 
+  \Edge(u_1s_3)(u_1s_4) 
+
+  \Edge[label = d](t_1s_1)(t_1s_2) 
+  \Edge[label = e](t_1s_2)(t_1s_3) 
+  \Edge[label = f](t_1s_3)(t_1s_4) 
+  \Edge(t_1s_1)(t_1s_2) 
+  \Edge(t_1s_2)(t_1s_3) 
+  \Edge(t_1s_3)(t_1s_4) 
+
+  \Edge[label = d](t_2s_1)(t_2s_2) 
+  \Edge[label = e](t_2s_2)(t_2s_3) 
+  \Edge[label = f](t_2s_3)(t_2s_4) 
+  \Edge(t_2s_1)(t_2s_2) 
+  \Edge(t_2s_2)(t_2s_3) 
+  \Edge(t_2s_3)(t_2s_4) 
+
+  \Edge[label = d](t_3s_1)(t_3s_2) 
+  \Edge[label = e](t_3s_2)(t_3s_3) 
+  \Edge[label = f](t_3s_3)(t_3s_4) 
+  \Edge(t_3s_1)(t_3s_2) 
+  \Edge(t_3s_2)(t_3s_3) 
+  \Edge(t_3s_3)(t_3s_4) 
+
+  \Edge[label = d](u_14s_1)(u_14s_2) 
+  \Edge[label = e](u_14s_2)(u_14s_3) 
+  \Edge[label = f](u_14s_3)(u_14s_4) 
+  \Edge(u_14s_1)(u_14s_2) 
+  \Edge(u_14s_2)(u_14s_3) 
+  \Edge(u_14s_3)(u_14s_4) 
+
+ 
+  \Edge[label = b](t_1u_1)(t_2u_1) 
+  \Edge[label = b](t_1s_1)(t_2s_1) 
+  \Edge[label = b](t_1s_2)(t_2s_2) 
+  \Edge[label = b](t_1s_3)(t_2s_3)
+  \Edge[label = b](t_1s_4)(t_2s_4)  
+  \Edge[label = b](t_1u_14)(t_2u_14) 
+  \Edge(t_1u_1)(t_2u_1) 
+  \Edge(t_1s_1)(t_2s_1) 
+  \Edge(t_1s_2)(t_2s_2) 
+  \Edge(t_1s_3)(t_2s_3)
+  \Edge(t_1s_4)(t_2s_4)  
+  \Edge(t_1u_14)(t_2u_14) 
+ 
+  \Edge[label = c](t_2u_1)(t_3u_1) 
+  \Edge[label = c](t_2s_1)(t_3s_1) 
+  \Edge[label = c](t_2s_2)(t_3s_2) 
+  \Edge[label = c](t_2s_3)(t_3s_3)
+  \Edge[label = c](t_2s_4)(t_3s_4)  
+  \Edge[label = c](t_2u_14)(t_3u_14) 
+  \Edge(t_2u_1)(t_3u_1) 
+  \Edge(t_2s_1)(t_3s_1) 
+  \Edge(t_2s_2)(t_3s_2) 
+  \Edge(t_2s_3)(t_3s_3)
+  \Edge(t_2s_4)(t_3s_4)  
+  \Edge(t_2u_14)(t_3u_14) 
+ 
+
+  \Edge[label = j, labelstyle={xshift=0pt, yshift=0pt}, style={in = 165, out = -30,min distance=1cm}](t_3s_3)(u_14u_14)
+ \Edge[label = i, labelstyle={xshift=0pt, yshift=2pt}, style={in = 70, out = 15,min distance=15.1cm}](u_1u_1)(u_14u_14)
+\Edge[label = g, labelstyle={xshift=0pt, yshift=-0pt}, style={in = 210, out=240,min distance=5cm}](t_1s_1)(t_3s_2)
+\Edge[label = h, labelstyle={xshift=0pt, yshift=-0pt}, style={in = 60, out=30,min distance=4.8cm}](t_1s_2)(t_2s_4)
+\Edge[style={in = 210, out=240,min distance=5cm}](t_1s_1)(t_3s_2)
+\Edge[style={in = 60, out=30,min distance=4.8cm}](t_1s_2)(t_2s_4)
+
+ 
+  \def\x{1.7}
+  \def\y{8.9+1}
+\draw[circle, -,dashed, very thick,rounded corners=18pt] (\x-0.5,\y+0.0)--(\x-0.5,\y+0.7) --(\x+1.0,\y+0.7) -- (\x+1.0,\y-6.6) -- (\x-0.5,\y-6.6) --  (\x-0.5,\y+0.0);
+  \def\x{5.7}
+  \def\y{8.9+1}
+\draw[circle, -,dashed, very thick,rounded corners=18pt] (\x-0.5,\y+0.0)--(\x-0.5,\y+0.7) --(\x+1.0,\y+0.7) -- (\x+1.0,\y-6.6) -- (\x-0.5,\y-6.6) --  (\x-0.5,\y+0.0);
+  \def\x{9.7}
+  \def\y{8.9+1}
+\draw[circle, -,dashed, very thick,rounded corners=18pt] (\x-0.5,\y+0.0)--(\x-0.5,\y+0.7) --(\x+1.0,\y+0.7) -- (\x+1.0,\y-6.6) -- (\x-0.5,\y-6.6) --  (\x-0.5,\y+0.0);
+  \def\x{13.7}
+  \def\y{8.9+1}
+\draw[circle, -,dashed, very thick,rounded corners=18pt] (\x-0.5,\y+0.0)--(\x-0.5,\y+0.7) --(\x+1.0,\y+0.7) -- (\x+1.0,\y-6.6) -- (\x-0.5,\y-6.6) --  (\x-0.5,\y+0.0);
+ 
+
+  
+  \def\x{1.7}
+  \def\y{8.1+1}
+\draw[circle, -,dashed, very thick,rounded corners=18pt] (\x+2.8,\y+0.0)--(\x-0.5,\y+0.0)--(\x-0.5,\y+1.5)--(\x+13.0,\y+1.5) --(\x+13.0,\y) -- (\x+2.8,\y+0.0);
+
+  \def\x{1.7}
+  \def\y{5.3+1}
+\draw[circle, -,dashed, very thick,rounded corners=18pt] (\x+2.8,\y+0.0)--(\x-0.5,\y+0.0)--(\x-0.5,\y+1.5)--(\x+13.0,\y+1.5) --(\x+13.0,\y) -- (\x+2.8,\y+0.0);
+
+  \def\x{1.7}
+  \def\y{3-0.7+1}
+\draw[circle, -,dashed, very thick,rounded corners=18pt] (\x+2.8,\y+0.0)--(\x-0.5,\y+0.0)--(\x-0.5,\y+1.5)--(\x+13.0,\y+1.5) --(\x+13.0,\y) -- (\x+2.8,\y+0.0);
+
+  \def\x{17.2}
+  \def\y{-0.8+1}
+\draw[circle, -,dashed, very thick,rounded corners=18pt] (\x+0.5,\y+0.0)--(\x-0.5,\y+0.0)--(\x-0.5,\y+1.5)--(\x+1.0,\y+1.5) --(\x+1.0,\y) -- (\x+0.0,\y+0.0);
+
+  \def\x{-1.8}
+  \def\y{-0.8+13}
+\draw[circle, -,dashed, very thick,rounded corners=18pt] (\x+0.5,\y+0.0)--(\x-0.5,\y+0.0)--(\x-0.5,\y+1.5)--(\x+1.0,\y+1.5) --(\x+1.0,\y) -- (\x+0.0,\y+0.0);
+
+
+    \def\x{0.5}
+  \def\y{9.2+1}
+
+
+  \def\x{1.5}
+  \def\y{-6.0}
+\draw[circle, -,dotted, very thick,rounded corners=8pt] (\x-0.5,\y-0.5)--(\x-0.5,\y-0.3) --(\x+1.5,\y-0.3) -- (\x+3.3,\y-2.0) -- (\x+14,\y-2.0) -- (\x+14,\y-4.7)--(\x+14,\y-10)-- (\x+16.8,\y-12.7) -- (\x+16.8,\y-13.2) -- (\x+16.5,\y-13.7)  -- (\x+15,\y-13.7) -- (\x+11.75,\y-11.7)-- (\x+1.5,\y-11.7)-- (\x+1.5,\y-3.7)-- (\x+0.5,\y-1.7)-- (\x-0.5,\y-1.7)  --  (\x-0.5,\y-0.5);
+
+
+  \def\x{1.5}
+  \def\y{-6.4}
+\draw[circle, -,dashed, very thick,rounded corners=8pt] (\x+0.2,\y+2)--(\x+17.4,\y+2) --(\x+17.9,\y+1.5) -- (\x+17.9,\y-13)-- (\x+17.4,\y-13.5) -- (\x-0.3,\y-13.5) -- (\x-0.8,\y-13) -- (\x-0.8,\y+1.5) -- (\x-0.3,\y+2)--(\x+0.1,\y+2);
+
+\end{tikzpicture}
+
+\end{document}

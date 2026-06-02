@@ -1,0 +1,53 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage{amssymb,amsthm}
+\usepackage{amsmath,amssymb,amsfonts,bm,amscd}
+\usepackage{tikz-cd}
+\usepackage{tikz}
+
+\begin{document}
+
+\begin{tikzpicture}[x=0.55pt,y=0.55pt,yscale=-1,xscale=1]
+
+\draw    (298,180) -- (309,191.72) ;
+\draw    (298,192) -- (307,180.72) ;
+
+\draw    (375,300) -- (386,311.72) ;
+\draw    (375,312) -- (384,300.72) ;
+
+\draw    (173,321) -- (184,332.72) ;
+\draw    (173,333) -- (182,321.72) ;
+
+\draw    (197.5,147.72) .. controls (177.5,170.72) and (243,281.72) .. (235,329.72) ;
+\draw  [color={rgb, 255:red, 208; green, 2; blue, 27 }  ,draw opacity=1 ] (345,306.72) .. controls (345,295.67) and (361.57,286.72) .. (382,286.72) .. controls (402.43,286.72) and (419,295.67) .. (419,306.72) .. controls (419,317.76) and (402.43,326.72) .. (382,326.72) .. controls (361.57,326.72) and (345,317.76) .. (345,306.72) -- cycle ;
+\draw    (357.5,281.72) .. controls (441.5,20.72) and (333.5,256.72) .. (382,306.72) ;
+\draw  [color={rgb, 255:red, 208; green, 2; blue, 27 }  ,draw opacity=1 ] (266,184.75) .. controls (266,173.7) and (282.57,164.75) .. (303,164.75) .. controls (323.43,164.75) and (340,173.7) .. (340,184.75) .. controls (340,195.8) and (323.43,204.75) .. (303,204.75) .. controls (282.57,204.75) and (266,195.8) .. (266,184.75) -- cycle ;
+\draw    (283,55.75) .. controls (223,47.75) and (298,138.75) .. (303,184.75) ;
+\draw    (210,401) -- (221,412.72) ;
+\draw    (210,413) -- (219,401.72) ;
+
+\draw    (374,386) -- (385,397.72) ;
+\draw    (374,398) -- (383,386.72) ;
+
+\draw   (128.75,359) .. controls (128.75,262.76) and (206.76,184.75) .. (303,184.75) .. controls (399.24,184.75) and (477.25,262.76) .. (477.25,359) .. controls (477.25,455.24) and (399.24,533.25) .. (303,533.25) .. controls (206.76,533.25) and (128.75,455.24) .. (128.75,359) -- cycle ;
+
+
+\draw (275,171.4) node [anchor=north west][inner sep=0.75pt]    {$\infty $};
+% Text Node
+\draw (114,115.4) node [anchor=north west][inner sep=0.75pt]    {$H\left( F^{\bullet } ,W^{\bullet },Q(\cdot,\cdot)\right)$};
+% Text Node
+\draw (361,100.4) node [anchor=north west][inner sep=0.75pt]    {$H_{s\ \ \ \ }\left( F^{\bullet } ,W^{\bullet }\right)$};
+% Text Node
+\draw (360,75.4) node [anchor=north west][inner sep=0.75pt]    {$H_{lim}\left( F^{\bullet } ,W^{\bullet }(N)\right)$};
+% Text Node
+\draw (360,125.4) node [anchor=north west][inner sep=0.75pt]    {$H_{van}\left( F^{\bullet } ,W^{\bullet }(N)\right)$};
+% Text Node
+\draw (427,305.4) node [anchor=north west][inner sep=0.75pt]    {$T$};
+% Text Node
+\draw (248,22.4) node [anchor=north west][inner sep=0.75pt]    {$H_{\infty }\left( F^{\bullet } ,W^{\bullet }(N_\infty)\right)$};
+% Text Node
+\draw (450,396.4) node [anchor=north west][inner sep=0.75pt]    {$u$};
+
+
+\end{tikzpicture}
+
+\end{document}

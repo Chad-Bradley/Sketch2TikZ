@@ -1,0 +1,53 @@
+\documentclass{article}
+
+% Load TikZ package
+\usepackage{tikz}
+
+% Define scarecrow colors
+\definecolor{straw}{RGB}{255, 222, 173}
+\definecolor{shirt}{RGB}{0, 128, 0}
+\definecolor{pants}{RGB}{139, 69, 19}
+\definecolor{hat}{RGB}{0, 0, 0}
+
+\begin{document}
+
+% Create TikZ picture environment
+\begin{tikzpicture}
+
+% Draw scarecrow head
+\filldraw[fill=straw, draw=black] (0,0) circle (1.5cm);
+
+% Draw scarecrow shirt
+\filldraw[fill=shirt, draw=black] (-1.5,-2) rectangle (1.5,0);
+
+% Draw scarecrow pants
+\filldraw[fill=pants, draw=black] (-1,-6) rectangle (1, -2);
+
+% Draw scarecrow hat
+\filldraw[fill=hat, draw=black] (-1.5,0) rectangle (1.5,0.5);
+
+% Draw scarecrow eyes
+\filldraw[fill=white, draw=black] (-0.5,0.3) circle (0.2cm);
+\filldraw[fill=white, draw=black] (0.5,0.3) circle (0.2cm);
+
+% Draw scarecrow pupils
+\filldraw[fill=black, draw=black] (-0.5,0.3) circle (0.1cm);
+\filldraw[fill=black, draw=black] (0.5,0.3) circle (0.1cm);
+
+% Draw scarecrow nose
+\filldraw[fill=orange, draw=black] (0,-0.3) circle (0.15cm);
+
+% Draw scarecrow mouth
+\draw (-0.5,-0.7) arc (-30:30:0.5cm);
+
+% Draw scarecrow arms
+\draw[thick] (-1.5,-1) -- (-3,-2);
+\draw[thick] (1.5,-1) -- (3,-2);
+
+% Draw scarecrow hands
+\filldraw[fill=straw, draw=black] (-3,-2) circle (0.2cm);
+\filldraw[fill=straw, draw=black] (3,-2) circle (0.2cm);
+
+\end{tikzpicture}
+
+\end{document}

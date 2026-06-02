@@ -1,0 +1,41 @@
+\documentclass{article}
+\usepackage{tikz}
+\usetikzlibrary{calc,arrows,intersections}
+\def\buildsquare#1#2{
+\draw[red] 
+   (#2) -- (#1) -- 
+   ($(#1)!1!-90:(#2)$) coordinate (x) -- 
+   ($(#2)!1!90:(#1)$) coordinate (y) -- cycle;
+\draw[red,dashed] (#1) -- (y) (#2) -- (x);
+\node[fill=blue,circle,minimum size=5pt, inner sep=0pt]
+     (#1#2) at ($(#1)!.5!(y)$) {};
+}
+
+\def\markangle#1#2#3#4{ % (#1)--(#2) intersect (#3) -- (#4)
+  \path[name path=horizontal] (#1) -- (#2);
+  \path[name path=vertical] (#3) -- (#4);
+  \coordinate[name intersections={
+    of=horizontal and vertical, 
+    by=center}] {};
+  \draw[blue] ($(center)!1ex!(#2)$) -- 
+              ($(center)!1ex!(#2)!1ex!90:(#2)$) --
+              ($(center)!1ex!(#4)$);
+}
+
+\begin{document}
+\begin{tikzpicture}
+\coordinate (A) at (-.3, 1);
+\coordinate (B) at (2,2);
+\coordinate (C) at (.2,3.5);
+\coordinate (D) at (-2,2.3);
+
+\foreach \a/\b in {A/B, B/C, C/D, D/A} 
+   \buildsquare{\a}{\b};
+
+\draw[blue] (AB) -- (CD)
+                   (BC) -- (DA);
+\draw[ultra thick] (A)--(B)--(C)--(D)--cycle;
+\coordinate (center) at ($(AB)!.5!(CD)$);
+\markangle{DA}{BC}{AB}{CD};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,33 @@
+\documentclass{standalone}
+\usepackage{tikz}
+\usetikzlibrary{calc, chains}
+\begin{document}
+\begin{tikzpicture}
+  % new command: inverval
+  \newcommand{\op}[3]{ % #1: start point; #2: end point; #3: operation name
+    \coordinate (start #3) at #1;   % start point
+    \coordinate (end #3) at #2; % end point
+
+    \draw[ultra thick, blue, |-|] (start #3) -- (end #3) % draw the interval
+    node[pos=.5,above=8mm,font=\huge, text=black] {$#3$}; % attach the operation name
+  }
+  % define three intervals
+  \op{(0,2)}{(2,2)}{a};
+  \op{(4,3)}{(6,3)}{b};
+  \op{(7,2)}{(10,2)}{c};
+  % contract them into single nodes in a line (or a chain)
+  \begin{scope}[font=\huge, start chain=schedule, node distance=3.0cm,
+    every join/.style={very thick, ->, red}]
+    \foreach \opi in {a, b, c} {
+      \node [circle,draw,on chain,join,label={[]below:$\opi$}] (\opi) {};
+    }
+  \end{scope}
+  % connect interval and its corresponding node in the line
+  \begin{scope}[cedge/.style = {->, dashed, draw, thick}]
+    \foreach \interval in {a,b,c}{
+      \draw [cedge] (start \interval) to (\interval);
+      \draw [cedge] (end \interval) to (\interval);
+    }
+  \end{scope}
+\end{tikzpicture}
+\end{document}

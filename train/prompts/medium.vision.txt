@@ -1,0 +1,37 @@
+Output a TikZ-like specification that maps directly to draw commands. Use ONLY these notations. No natural-language narration.
+
+\def\R{3cm}                          %% define radius/dimensions
+\coordinate (A) at (90:\R);          %% node positions (polar or cartesian)
+\draw[red, thick] (A) -- (B)          %% line segment, color, style
+  node[midway, above] {$x$};          %% label on segment
+\draw[->, blue, thick] (A) arc (90:0:\R)  %% arc with arrow
+  node[midway, right] {$f(x)$};       %% label on arc
+\node[circle, draw, fill=black!50] at (O) {O};  %% labelled point
+\definecolor{myRed}{HTML}{C2504B}     %% custom colors
+
+RULES:
+- Every formula in LaTeX: $\sum$, $\alpha$, $\rightarrow$, etc.
+- Every segment: specify from/to, color, style (solid/dashed/dotted), arrow tip
+- Every label: specify which segment it's on, position (midway/above/right)
+- Every arc: specify angles (polar), radius, direction
+- Count elements. The code generator needs exact numbers.
+- Use polar coords for circular diagrams: (angle:radius)
+- Use cartesian for grid/bar/flowchart: (x,y)
+- For graphs: specify vertex symbols ($*$ vs filled dot vs circle). For self-loops: specify angular position (top/bottom/left/right) and relative size
+- For symmetric arc-cutout shapes: describe arc centers, radii, and the resulting central shape (e.g. '4 quarter-circles at corners create central star')
+- For 3D isometric views: state projection type and viewing angles (e.g. 'tdplot_main_coords theta=60 phi=120'), describe which axes are tilted
+- For fractal/recursive patterns: state depth/order, branch colors, and whether structure is symmetric or asymmetric
+- For divided circles/wedges: state dividing line angles from center, whether lines are double-stroked (gap), and relative wedge sizes
+- **OUTPUT CHECKLIST — before finalizing, verify ALL of the following are included in your description:**
+  - Every visible line, segment, border, and outline (including outer borders/bounding boxes of diagrams)
+  - Every arrowhead and its direction (from→to)
+  - Every label with exact subscript/superscript notation ($b'_n$, $x_j$, $\beta_1$, $C_{k-1}$, etc.)
+  - Every tick mark on axes, circles, or curves
+  - Every dashed, dotted, or hatched line/region
+  - Every filled region or shaded area (including the pattern direction)
+  - Every curved line or arc (with start/end points and clockwise vs counterclockwise routing)
+  - Every node/vertex shape (filled circle, open circle, rectangle, square, ellipse) and its color
+  - The outer bounding box or frame of the entire figure, if present
+- **Multi-panel figures**: describe each panel (a), (b), (c) separately with its own layout and coordinates.
+- **For curved/feedback arrows**: specify the exact start and end connection points, and whether clockwise or counterclockwise.
+

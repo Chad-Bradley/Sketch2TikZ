@@ -1,0 +1,42 @@
+\documentclass{article}
+
+% Load TikZ package
+\usepackage{tikz}
+
+% Define colors
+\definecolor{radio}{RGB}{255, 102, 102}
+\definecolor{screen}{RGB}{204, 204, 204}
+\definecolor{button}{RGB}{51, 51, 51}
+
+% Define radio dimensions
+\def\radioheight{4cm}
+\def\radiowidth{6cm}
+
+% Define screen dimensions
+\def\screenheight{2.5cm}
+\def\screenwidth{4cm}
+
+% Define button dimensions
+\def\buttonheight{0.5cm}
+\def\buttonwidth{1cm}
+
+% Define radio shape
+\def\radioshape{
+  % Draw radio body
+  [rounded corners=5pt, fill=radio] (-\radiowidth/2,0) rectangle (\radiowidth/2,-\radioheight);
+  % Draw screen
+  \fill[screen] (-\screenwidth/2,-\radioheight+\buttonheight) rectangle (\screenwidth/2,-\radioheight+\buttonheight+\screenheight);
+  % Draw buttons
+  \fill[button] (-\buttonwidth/2,-\radioheight+\buttonheight/2) rectangle (\buttonwidth/2,-\radioheight-\buttonheight/2);
+  \fill[button] (-\buttonwidth/2,-\radioheight+\buttonheight+\screenheight+\buttonheight/2) rectangle (\buttonwidth/2,-\radioheight+\buttonheight+\screenheight-\buttonheight/2);
+}
+
+\begin{document}
+
+% Create TikZ picture
+\begin{tikzpicture}
+  % Draw radio
+  \radioshape
+\end{tikzpicture}
+
+\end{document}

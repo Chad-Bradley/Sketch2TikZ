@@ -1,0 +1,20 @@
+\documentclass{standalone}
+\usepackage{pgfplots}
+\usepgfplotslibrary{colormaps}
+\pgfplotsset{compat=1.12}
+\begin{document}
+    \begin{tikzpicture}
+        \begin{axis}[hide axis,
+                     colormap/hot,
+                     xmin=-2.5, xmax=2.5,
+                     ymin=-2.5, ymax=2.5,
+                     domain=0:360, samples=61, thick]
+            \addplot[execute at begin plot visualization={\pgfplotscolormapdefinemappedcolor{0}}, 
+                     mapped color, variable=\t,rotate around={-20:(0,0)}] ({.5*cos(t)},{.25*sin(t)});
+            \addplot[execute at begin plot visualization={\pgfplotscolormapdefinemappedcolor{300}}, 
+                     mapped color, variable=\t] ({.45*cos(t)+1},{.3*sin(t)});
+            \addplot[execute at begin plot visualization={\pgfplotscolormapdefinemappedcolor{600}}, 
+                     mapped color, variable=\t,rotate around={20:(2,0)}] ({.4*cos(t)+2},{.35*sin(t)});
+        \end{axis}
+    \end{tikzpicture}
+\end{document}

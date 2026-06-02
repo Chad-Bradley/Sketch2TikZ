@@ -1,0 +1,35 @@
+\documentclass{article}
+
+% Load TikZ package
+\usepackage{tikz}
+
+% Define colors
+\definecolor{fireorange}{RGB}{255, 69, 0}
+\definecolor{fireyellow}{RGB}{255, 165, 0}
+\definecolor{firewhite}{RGB}{255, 255, 255}
+
+% Define the warning fire
+\newcommand{\warningfire}{
+  % Draw the flames
+  \fill[fireorange] (-0.5,0) -- (0.5,0) -- (0.25,1) -- (-0.25,1) -- cycle;
+  \fill[fireyellow] (-0.25,1) -- (0.25,1) -- (0,2) -- cycle;
+  \fill[firewhite] (0,2) circle (0.25);
+  
+  % Draw the smoke
+  \fill[black!50] (-0.75,2.25) -- (0.75,2.25) -- (0.5,3) -- (-0.5,3) -- cycle;
+  \fill[black!30] (-1,3.25) -- (1,3.25) -- (0.75,4) -- (-0.75,4) -- cycle;
+  \fill[black!10] (-1.25,4.25) -- (1.25,4.25) -- (1,5) -- (-1,5) -- cycle;
+}
+
+% Begin the TikZ picture
+\begin{document}
+
+\begin{tikzpicture}
+
+% Call the warning fire command
+\warningfire
+
+% End the TikZ picture
+\end{tikzpicture}
+
+\end{document}

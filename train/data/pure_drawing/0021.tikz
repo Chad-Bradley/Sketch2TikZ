@@ -1,0 +1,33 @@
+\documentclass[10pt,a4paper]{article}
+    \usepackage[french]{babel}
+    \usepackage[T1]{fontenc}
+
+    \usepackage[dvipsnames]{xcolor}
+    \usepackage{tikz}
+    \usetikzlibrary{arrows, calc, decorations.text}
+
+    \begin{document}
+        \begin{tikzpicture}
+    \foreach \x/\t [count=\xx from 0] in {%
+        orange/orange,      jaune/yellow,    jaune-vert/LimeGreen, vert/green,
+        bleu-vert/SeaGreen, cyan/Cyan,       bleu-rois/NavyBlue,   bleu/blue, violet/Violet,      magenta/magenta, rouge-rosé/RubineRed, rouge/red}
+    {
+    \pgfmathsetmacro{\angle}{30*\xx}
+    \path[decoration={text along path,
+                      text={\x},
+                      text align=center,
+                      reverse path},
+          postaction={decorate},
+          ] 
+            \ifnum\xx<7
+        (\angle-15:4) arc (\angle-15:\angle+15:4);
+            \else
+        (\angle+15:4.2) arc (\angle+15:\angle-15:4.2);
+            \fi
+    \draw[double=\t, semithick,
+          double distance=5mm] (\angle-15:3.6) arc (\angle-15:\angle+15:3.6);
+    \draw[semithick]    (\angle-15:3.35) -- (\angle-15:3.85);
+    \draw[->]           (0,0) -- (\angle:3);
+    }
+        \end{tikzpicture}
+    \end{document}

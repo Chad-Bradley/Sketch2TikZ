@@ -11,94 +11,27 @@ load_dotenv(override=True)
 from train.llm_caller import image_to_text, text_to_text, _create
 from train.llm_caller import CODE_MODELS, VISION_MODELS, VISION_PLATFORMS, CODE_PLATFORMS
 from train.contract import SampleResult
+from train.prompts import load_prompts
 
 XELATEX = os.getenv("XELATEX_PATH", "xelatex")
 
-# ── Prompts ──────────────────────────────────────────
-VISION_PROMPT = (
-    "Output a TikZ-like specification that maps directly to draw commands. "
-    "Use ONLY these notations. No natural-language narration.\n\n"
-    "\\def\\R{3cm}                          %% define radius/dimensions\n"
-    "\\coordinate (A) at (90:\\R);          %% node positions (polar or cartesian)\n"
-    "\\draw[red, thick] (A) -- (B)          %% line segment, color, style\n"
-    "  node[midway, above] {$x$};          %% label on segment\n"
-    "\\draw[->, blue, thick] (A) arc (90:0:\\R)  %% arc with arrow\n"
-    "  node[midway, right] {$f(x)$};       %% label on arc\n"
-    "\\node[circle, draw, fill=black!50] at (O) {O};  %% labelled point\n"
-    "\\definecolor{myRed}{HTML}{C2504B}     %% custom colors\n\n"
-    "RULES:\n"
-    "- Every formula in LaTeX: $\\sum$, $\\alpha$, $\\rightarrow$, etc.\n"
-    "- Every segment: specify from/to, color, style (solid/dashed/dotted), arrow tip\n"
-    "- Every label: specify which segment it's on, position (midway/above/right)\n"
-    "- Every arc: specify angles (polar), radius, direction\n"
-    "- Count elements. The code generator needs exact numbers.\n"
-    "- Use polar coords for circular diagrams: (angle:radius)\n"
-    "- Use cartesian for grid/bar/flowchart: (x,y)\n"
-    "- For graphs: specify vertex symbols ($*$ vs filled dot vs circle). "
-    "For self-loops: specify angular position (top/bottom/left/right) and relative size\n"
-    "- For symmetric arc-cutout shapes: describe arc centers, radii, "
-    "and the resulting central shape (e.g. '4 quarter-circles at corners create central star')\n"
-    "- For 3D isometric views: state projection type and viewing angles "
-    "(e.g. 'tdplot_main_coords theta=60 phi=120'), describe which axes are tilted\n"
-    "- For fractal/recursive patterns: state depth/order, branch colors, "
-    "and whether structure is symmetric or asymmetric\n"
-    "- For divided circles/wedges: state dividing line angles from center, "
-    "whether lines are double-stroked (gap), and relative wedge sizes"
-)
+# ── Prompts (loaded from train/prompts/ by difficulty) ──
+_VISION_PROMPT_CACHE = {}
+_CODE_SYSTEM_CACHE = {}
 
-CODE_SYSTEM = (
-    "You are a TikZ LaTeX expert. Generate correct, compilable TikZ code.\n"
-    "RULES:\n"
-    "1) First line: \\documentclass[tikz, border=2pt]{standalone}\n"
-    "2) Output ONLY raw LaTeX. No markdown, no explanation.\n"
-    "3) No \\usepackage{inputenc}, \\usepackage{fontenc}, or [pdftex] driver.\n"
-    "4) No \\ensuremath in node styles.\n"
-    "5) FILLED DOTS: only place \\fill (X) circle (2pt) at exactly the vertices "
-    "the description specifies. Do NOT add dots at every vertex automatically.\n"
-    "6) Every formula in the description MUST appear verbatim in LaTeX math mode.\n"
-    "7) \\draw[->, <color>] for colored arrows, \\node[draw,circle] for circled nodes, "
-    "\\node[draw,rectangle] for boxes. Every color in the description must "
-    "appear as an explicit draw/fill color.\n"
-    "7) Every shape in the description MUST be rendered. Count them: if the "
-    "description says N circles, your code must have N circles.\n"
-    "8) ARC AND LINE LABELS: place labels via 'node[midway, above] {label}' directly "
-    "on the \\draw command. NEVER place labels at separate unconnected coordinates.\n"
-    "9) POLAR COORDINATES: for circular/radial diagrams, use (angle:radius) — "
-    "e.g. (90:\\R), (180:3cm). Define \\def\\R{2cm} for radius, use \\coordinate.\n"
-    "10) COLORS: use \\definecolor{name}{HTML}{hex} for precise colors. "
-    "Match the description's colors exactly — don't substitute generic 'red' for 'myRed'.\n"
-    "11) SELF-LOOPS: use `edge [in=<angle>,out=<angle>,loop]` with explicit angles "
-    "matching the described position (top=70/110, right=0/30, bottom=270/290, left=150/180). "
-    "Render vertex symbols literally: $*$ for asterisk, $\\bullet$ for filled dot.\n"
-    "12) SYMMETRIC ARCS: for shapes built from quarter-circle cutouts, chain arc "
-    "commands with `--` connectors (e.g. `arc (0:90:r) arc (-90:0:r) -- cycle`). "
-    "Ensure arcs share endpoints at edge midpoints to form a closed region.\n"
-    "13) Lines: -- (straight), .. controls .. (curved), -| or |- (right-angle).\n"
-    "14) 3D PROJECTIONS: use \\usepackage{tikz-3dplot} + \\tdplotsetmaincoords{60}{120} "
-    "+ [tdplot_main_coords]. Include dashed projection wireframe from vector tip "
-    "to all three coordinate planes.\n"
-    "15) FRACTAL/RECURSIVE: use \\usetikzlibrary{lindenmayersystems} + "
-    "\\pgfdeclarelindenmayersystem with production rules, not manual drawing.\n"
-    "16) DIVIDED CIRCLES: use `double, double distance=2mm` for parallel-line "
-    "cut edges. Draw sectors with \\clip on the circle + radial lines at specified angles.\n"
-    "17) MATRIX/TABLE: use \\usetikzlibrary{matrix,fit}. Use `matrix of nodes` "
-    "with `nodes in empty cells` so ALL cells share the grid. Place operators "
-    "($\\times$, $=$) between matrices via `right=of <matrix>` at mid-height.\n"
-    "18) TEXT IN NODES: for ragged-right with wide word spacing, use "
-    "\\usepackage{ragged2e} + \\RaggedRight + \\parbox{width}{...}. No naked text.\n"
-    "19) Match the description's layout: row, column, grid, tree, radial, 3D, fractal.\n"
-    "20) No unused packages, no commented-out blocks.\n"
-    "EXAMPLE:\n"
-    "\\documentclass[tikz, border=2pt]{standalone}\n"
-    "\\usetikzlibrary{arrows.meta}\n"
-    "\\begin{document}\n"
-    "\\begin{tikzpicture}\n"
-    "  \\def\\R{2cm}\n"
-    "  \\coordinate (A) at (90:\\R);\n"
-    "  \\draw[red, thick] (A) arc (90:-30:\\R) node[midway, right] {$x$};\n"
-    "\\end{tikzpicture}\n"
-    "\\end{document}"
-)
+def get_vision_prompt(difficulty: str = "easy") -> str:
+    if difficulty not in _VISION_PROMPT_CACHE:
+        _VISION_PROMPT_CACHE[difficulty] = load_prompts(difficulty)["vision_prompt"]
+    return _VISION_PROMPT_CACHE[difficulty]
+
+def get_code_system(difficulty: str = "easy") -> str:
+    if difficulty not in _CODE_SYSTEM_CACHE:
+        _CODE_SYSTEM_CACHE[difficulty] = load_prompts(difficulty)["code_system"]
+    return _CODE_SYSTEM_CACHE[difficulty]
+
+# Backward-compatible defaults
+VISION_PROMPT = get_vision_prompt("easy")
+CODE_SYSTEM = get_code_system("easy")
 
 CRITIC_PROMPT = (
     "Compare the two images. Score 1.0-5.0. Be brutally honest.\n"
@@ -222,12 +155,24 @@ def _internal_critic(original_path: str, pdf_path: str, output_dir: str) -> dict
 
 
 # ── Main pipeline ────────────────────────────────────
-def generate(image_path: str, index: int, output_dir: str = "output") -> SampleResult:
+def generate(image_path: str, index: int, output_dir: str = "output",
+             difficulty: str = "easy") -> SampleResult:
+    """Generate TikZ from an image.
+    
+    Args:
+        image_path: Path to input PNG
+        index: Sample index
+        output_dir: Where to save generated files
+        difficulty: Which prompt set to use ("easy", "medium", "difficult", etc.)
+    """
     t_start = time.time()
     os.makedirs(output_dir, exist_ok=True)
 
+    vision_prompt = get_vision_prompt(difficulty)
+    code_system = get_code_system(difficulty)
+
     # N1: Vision description
-    desc = image_to_text(image_path, VISION_PROMPT,
+    desc = image_to_text(image_path, vision_prompt,
                          platforms=VISION_PLATFORMS, temperature=0.0, max_tokens=1024)
     vision_time = round(time.time() - t_start, 1)
 
@@ -237,7 +182,7 @@ def generate(image_path: str, index: int, output_dir: str = "output") -> SampleR
     pdf_path = os.path.join(output_dir, f"gen_{tag}.pdf")
 
     msgs = [
-        {"role": "system", "content": CODE_SYSTEM},
+        {"role": "system", "content": code_system},
         {"role": "user", "content": f"Generate TikZ code for:\n{desc}"},
     ]
 

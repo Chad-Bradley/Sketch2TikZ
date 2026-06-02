@@ -1,0 +1,22 @@
+\documentclass{amsart}
+\usepackage{amsmath,amsfonts}
+\usepackage{tikz}
+
+\newcommand{\bkappa}{{\boldsymbol \kappa}}
+
+\newcommand{\bx}{{\mathbf x}}
+
+\begin{document}
+
+\begin{tikzpicture}\begin{scope}[scale=0.3]
+\draw[thick,->] (-4,5.5) -- node [above] {Shear flow} (4,5.5);
+\draw[dashed] (-8.6,3) -- (7.4,5);
+\draw[dashed] (-8.3,1) -- (7.7,3);
+\draw[dashed] (-8,-1) -- node [above,sloped] {level curves of $\sin(\bkappa\cdot\bx)$} (8,1);
+\draw[dashed] (-7.7,-3) -- (8.3,-1);
+\draw[dashed] (-7.4,-5) -- (8.6,-3);
+\draw [->,very thick](0.55,-4.4) -- (-0.55,4.4) node [above]{$\bkappa$} ;
+\draw[thick,<-] (-4,-5.5) -- (4,-5.5) ;
+\end{scope}\end{tikzpicture}
+
+\end{document}

@@ -1,0 +1,40 @@
+\documentclass{article}
+
+% Importing TikZ package
+\usepackage{tikz}
+
+% Starting the document
+\begin{document}
+
+% Creating a TikZ picture environment
+\begin{tikzpicture}
+
+% Drawing the tie
+\draw[thick,red] (0,0) -- (1,1) -- (2,0) -- (1,-1) -- cycle;
+
+% Drawing the bear
+\draw[thick,brown] (4,0) circle (1);
+\draw[thick,brown] (3.5,0.5) -- (4.5,0.5);
+\draw[thick,brown] (3.5,-0.5) -- (4.5,-0.5);
+\draw[thick,brown] (4,-0.5) -- (4,-1.5);
+\draw[thick,brown] (4,-1.5) -- (3.5,-2);
+\draw[thick,brown] (4,-1.5) -- (4.5,-2);
+
+% Adding a smile to the bear
+\draw[thick,brown] (4,0.5) arc (90:270:0.5);
+
+% Adding eyes to the bear
+\filldraw[black] (3.75,0.25) circle (0.1);
+\filldraw[black] (4.25,0.25) circle (0.1);
+
+% Adding a nose to the bear
+\filldraw[black] (4,0) circle (0.1);
+
+% Adding a mouth to the bear
+\draw[thick,brown] (4,-0.25) -- (4,-0.75);
+
+% Ending the TikZ picture environment
+\end{tikzpicture}
+
+% Ending the document
+\end{document}

@@ -1,0 +1,57 @@
+\documentclass{article}
+\usepackage[many]{tcolorbox}
+
+\definecolor{bluebg}{RGB}{201,218,248}
+\definecolor{bluelabel}{RGB}{0,0,255}
+
+\DeclareTCBox{\mylib}{O{}mO{}}{
+  enhanced,
+  nobeforeafter,
+  tcbox raise base,
+  boxrule=0.4pt,
+  top=0.4cm,
+  bottom=0.4cm,
+  right=0pt,
+  left=4mm,
+  arc=5pt,
+  boxsep=2pt,
+  before upper={\vphantom{dlg}},
+  colframe=bluelabel!50!black,
+  coltext=black,
+  colback=bluebg,
+  overlay={
+    \begin{tcbclipinterior}
+      \fill[bluelabel,#3] 
+        (frame.south west)
+        rectangle 
+        node[
+          text=white,
+          font=\sffamily\bfseries\footnotesize,
+          rotate=90
+        ] {#2} 
+        ([xshift=4mm]frame.north west);\end{tcbclipinterior}
+  },
+  #1
+}
+
+\begin{document}
+
+\begin{center}
+\mylib[remember as=box1]{Label1}{some test text for box1}\qquad
+\mylib[remember as=box2,colback=orange!40]{Label2}[red]{text for box2}
+\end{center}
+
+\begin{tikzpicture}[
+  remember picture,
+  overlay,
+  line width=3pt,
+  shorten >= 3pt,
+  shorten <= 3pt,
+  ]
+\draw[->,red!75!black] 
+  (box1.north) to[bend left] (box2.north);
+\draw[->,green!75!black] 
+  (box2.south) to[bend left] (box1.south);
+\end{tikzpicture}
+
+\end{document}

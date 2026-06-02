@@ -1,0 +1,34 @@
+\documentclass{article}
+
+% Importing the TikZ package
+\usepackage{tikz}
+
+% Defining the radius of the wheel
+\def\radius{2cm}
+
+% Defining the number of spokes
+\def\numberofspokes{8}
+
+% Defining the angle between each spoke
+\def\angle{360/\numberofspokes}
+
+% Starting the TikZ picture environment
+\begin{document}
+
+\begin{tikzpicture}
+
+% Drawing the outer circle of the wheel
+\draw (0,0) circle (\radius);
+
+% Drawing the spokes of the wheel
+\foreach \i in {1,...,\numberofspokes}{
+    \draw (0,0) -- (\i*\angle:\radius);
+}
+
+% Drawing the hub of the wheel
+\draw (0,0) circle (0.5*\radius);
+
+% Ending the TikZ picture environment
+\end{tikzpicture}
+
+\end{document}

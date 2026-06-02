@@ -1,0 +1,32 @@
+\documentclass[preprint,superscriptaddress,floatfix,amsmath,amssymb,amsfonts]{revtex4}
+\usepackage{amsmath}
+\usepackage{color}
+\usepackage{tikz-feynman}
+\usetikzlibrary{decorations.markings}
+
+\begin{document}
+
+\begin{tikzpicture}[scale = 1.5]
+\draw (0,0) .. controls (1,0.5) and (3,-0.5) .. (4,0) ;
+\draw (0,2) .. controls (1,1.8) and (3,2.2) .. (4,2) ;
+\draw (0,4) .. controls (1,3.5) and (3,4.5) .. (4,4) ;
+\draw (0,0) -- (0,4);
+\draw (4,0) -- (4,4);
+\node at (4.5,1) {$M$};
+\node at (4.5,3) {$M^-$};
+\draw[thick] (2,0) node {\textbullet} node[anchor = north] {$\tau_i$} .. controls (2.5,0.5) .. (2,2) node {\textbullet} node[anchor = south east] {$\tau_f$};
+\draw[thick] (2,2) .. controls (2.5,3.5) .. (2,4) node {\textbullet} node[anchor = south east] {$2\tau_f-\tau_i$};
+\node at (2.5,0.3) {$z$};
+\node at (2.6,3.7) {$z^-$};
+\node at (1,0.3) {$\Sigma_i$};
+\node at (1,1.7) {$\Sigma_f$};
+\node at (1,3.7) {$\Sigma_i^-$};
+\node at (2.32,1) {\textbullet};
+\node at (3.1,1.2) {$\hat{\phi}(z(\tau))$};
+\draw[dashed] (0,1) -- (4,1);
+\node at (2.32,3) {\textbullet};
+\node at (2.8,2.8) {$\hat{\phi}(z^ -(\tau))$};
+\draw[dashed] (0,3) -- (4,3);
+\end{tikzpicture}
+
+\end{document}

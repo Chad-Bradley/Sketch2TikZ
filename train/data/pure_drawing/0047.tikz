@@ -1,0 +1,28 @@
+\documentclass{article}
+
+% Importing TikZ package
+\usepackage{tikz}
+
+% Defining the size of the button
+\newcommand{\buttonsize}{1.5}
+
+% Defining the color of the button
+\definecolor{buttoncolor}{RGB}{255, 102, 102}
+
+\begin{document}
+
+% Creating the TikZ picture environment
+\begin{tikzpicture}
+
+% Drawing the outer circle of the button
+\draw[fill=buttoncolor] (0,0) circle (\buttonsize);
+
+% Drawing the inner circle of the button
+\draw[fill=white] (0,0) circle (0.8*\buttonsize);
+
+% Drawing the triangle inside the button
+\draw[fill=buttoncolor] (-0.3*\buttonsize,-0.2*\buttonsize) -- (0.3*\buttonsize,-0.2*\buttonsize) -- (0,0.6*\buttonsize) -- cycle;
+
+\end{tikzpicture}
+
+\end{document}

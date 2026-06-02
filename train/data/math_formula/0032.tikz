@@ -1,0 +1,42 @@
+\documentclass[tikz,border=5mm]{standalone}
+\usetikzlibrary{matrix}
+
+\begin{document}
+
+\begin{tikzpicture}
+\matrix (m) [matrix of math nodes,
+            column sep = 0cm,
+            row sep = 0pt,
+            nodes = {align = center,
+                text width = 15mm,
+                text height = 3ex,
+                text depth = 1.5ex}
+            ]
+{
+x-1     &   -   &   +   &   +   &   +\\
+x-2     &   -   &   -   &   +   &   +\\
+x-3     &   -   &   -   &   -   &   +\\
+f'(x)   &   -   &   +   &   -   &   +\\
+};
+\foreach \i in {1, 2, 3, 4}
+{
+\draw (m-\i-1.north west) -- (m-\i-5.north east);
+\draw (m-1-\i.north east) -- (m-4-\i.south east);
+}
+\draw   (m-4-1.south west) -- (m-4-5.south east);
+%
+\node[above] at (m-1-1.north east) {$-\infty$};
+\node[above] at (m-1-2.north east) {$1$};
+\node[above] at (m-1-3.north east) {$2$};
+\node[above] at (m-1-4.north east) {$3$};
+\node[above] at (m-1-5.north east) {$\infty$};
+
+\tikzstyle{cero} = [above, inner sep=3mm]
+
+\node[cero] at (m-2-2.north east) {$0$};
+\node[cero] at (m-3-3.north east) {$0$};
+\node[cero] at (m-4-4.north east) {$0$};
+
+\end{tikzpicture}
+
+\end{document}

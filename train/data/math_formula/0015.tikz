@@ -1,0 +1,36 @@
+\documentclass[letterpaper,11pt,twoside]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage[T1]{fontenc}
+\usepackage{xcolor}
+\usepackage[colorlinks,citecolor=blue,linkcolor=magenta,bookmarks=true]{hyperref}
+\usepackage{tikz}
+
+\begin{document}
+
+\begin{tikzpicture}[thick, smooth, scale = 1.75]
+    \draw [dashed, fill = gray!30] (-2, -2) rectangle (2, 2);
+    \draw [dashed, fill = white] (-1, -1) rectangle (1, 1);
+    \draw[->] (-2.5, 0) -- (2.5, 0);
+    \draw[->] (0, -2.5) -- (0, 2.5);
+    \node[right] at (2.5, 0) {$z_{1}$};
+    \node[above] at (0, 2.5) {$z_{2}$};
+    \draw[dashed] (2, 2) -- (-2, 2) -- (-2, -2) -- (2, -2) -- (2, 2);
+    \draw[dashed] (1, 1) -- (-1, 1) -- (-1, -1) -- (1, -1) -- (1, 1);
+    \draw[blue, very thick] (-2.2, -0.5) -- (2.2, 0.5) (-0.5, 2.2) -- (0.5, -2.2);
+    \draw[red, dotted] (1.2, 1.5) -- (0, 0);
+    \draw[stealth-stealth, red] (1.2, 1.5) -- (-0.2652, 1.1670);
+    \draw[stealth-stealth, red] (1.2, 1.5) -- (1.4652, 0.3330);
+    \node[right, red] at (1.3326, 0.9165) {$d'$};
+    \node[above, red] at (0.4674, 1.3335) {$d''$};
+    \node[above, red] at (1.2, 1.5) {$(y_{1}, y_{2})$};
+    \draw[black, fill = red] (1.2, 1.5) circle [radius = 1pt];
+    \node[right, blue] at (2.2, 0.5) {$L': c_{1} z_{1} + c_{2} z_{2} = 0$};
+    \node[right, blue] at (0.5, -2.2) {$L'': c_{2} z_{1} - c_{1} z_{2} = 0$};
+    
+    
+    \node[anchor = 45] at (0, 0) {$0$};
+    \end{tikzpicture}
+
+\end{document}

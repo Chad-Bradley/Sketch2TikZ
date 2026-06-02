@@ -1,0 +1,141 @@
+{
+  "timestamp": "2026-05-31T15:10:57.341955",
+  "difficulty": "pure_drawing",
+  "num_samples": 13,
+  "skip_judge": false,
+  "samples": [
+    {
+      "sample": "0000.png",
+      "index": 0,
+      "compile_ok": true,
+      "compile_attempts": 1,
+      "score": 5.0,
+      "diagnosis": "The generated image perfectly matches the reference in all aspects including topology, connections, and spatial layout.",
+      "vision_time": 18.2,
+      "codegen_time": 14.8
+    },
+    {
+      "sample": "0001.png",
+      "index": 1,
+      "compile_ok": true,
+      "compile_attempts": 1,
+      "score": 3.0,
+      "diagnosis": "The generated image lacks the black outline around the red circle present in the reference, making it visually distinct despite matching shapes and positions.",
+      "vision_time": 21.9,
+      "codegen_time": 13.9
+    },
+    {
+      "sample": "0002.png",
+      "index": 2,
+      "compile_ok": true,
+      "compile_attempts": 1,
+      "score": 2.5,
+      "diagnosis": "The generated image has the correct nodes and connections, but the diagonal lines are drawn differently: in the reference, they cross between blue and red nodes, while in the generated image, they connect orange to blue and blue to red without crossing.",
+      "vision_time": 20.8,
+      "codegen_time": 16.2
+    },
+    {
+      "sample": "0003.png",
+      "index": 3,
+      "compile_ok": true,
+      "compile_attempts": 1,
+      "score": 0.0,
+      "diagnosis": "The generated image uses circles instead of curved lines to represent bonds, which severely distorts the molecular topology and shape compared to the reference.",
+      "vision_time": 23.0,
+      "codegen_time": 16.3
+    },
+    {
+      "sample": "0004.png",
+      "index": 4,
+      "compile_ok": true,
+      "compile_attempts": 1,
+      "score": 3.0,
+      "diagnosis": "The generated image lacks the prominent red outline present in the reference, though the shape and gradient are otherwise well-preserved.",
+      "vision_time": 25.0,
+      "codegen_time": 13.9
+    },
+    {
+      "sample": "0005.png",
+      "index": 5,
+      "compile_ok": true,
+      "compile_attempts": 1,
+      "score": 1.0,
+      "diagnosis": "The generated image lacks the grid lines present in the reference, which are visually prominent and essential to the figure's structure.",
+      "vision_time": 27.2,
+      "codegen_time": 14.5
+    },
+    {
+      "sample": "0006.png",
+      "index": 6,
+      "compile_ok": true,
+      "compile_attempts": 1,
+      "score": 5.0,
+      "diagnosis": "The generated image perfectly matches the reference in all aspects including shapes, colors, connections, and layout.",
+      "vision_time": 11.0,
+      "codegen_time": 626.3
+    },
+    {
+      "sample": "0007.png",
+      "index": 7,
+      "compile_ok": true,
+      "compile_attempts": 1,
+      "score": 5.0,
+      "diagnosis": "The generated image perfectly matches the reference in all aspects including shapes, colors, connections, and layout.",
+      "vision_time": 14.1,
+      "codegen_time": 13.9
+    },
+    {
+      "sample": "0008.png",
+      "index": 8,
+      "compile_ok": true,
+      "compile_attempts": 1,
+      "score": 2.5,
+      "diagnosis": "The generated image has misaligned text and bracket positioning under the timeline, with some labels slightly overlapping or shifted compared to the reference, but all key elements are present.",
+      "vision_time": 22.1,
+      "codegen_time": 16.9
+    },
+    {
+      "sample": "0009.png",
+      "index": 9,
+      "compile_ok": true,
+      "compile_attempts": 1,
+      "score": 1.5,
+      "diagnosis": "The generated image incorrectly adds extra green lines and omits the white circle nodes present in the reference, altering both connectivity and node representation.",
+      "vision_time": 38.3,
+      "codegen_time": 36.9
+    },
+    {
+      "sample": "0010.png",
+      "index": 10,
+      "compile_ok": true,
+      "compile_attempts": 1,
+      "score": 3.0,
+      "diagnosis": "The generated image has slightly irregular petal shapes and minor line thickness variations compared to the reference, but overall structure and topology are preserved.",
+      "vision_time": 15.0,
+      "codegen_time": 16.8
+    },
+    {
+      "sample": "0011.png",
+      "index": 11,
+      "compile_ok": true,
+      "compile_attempts": 1,
+      "score": 1.0,
+      "diagnosis": "The generated image lacks the spiral shape and consists only of three vertical lines, completely missing the key structural and visual elements of the reference.",
+      "vision_time": 26.8,
+      "codegen_time": 14.9
+    },
+    {
+      "sample": "0012.png",
+      "index": 12,
+      "compile_ok": true,
+      "compile_attempts": 1,
+      "score": 5.0,
+      "diagnosis": "The generated image is identical to the reference in all aspects: shapes, colors, topology, and spatial layout.",
+      "vision_time": 15.2,
+      "codegen_time": 8.6
+    }
+  ],
+  "progress": "13/13",
+  "compile_rate": "13/13",
+  "avg_fidelity_score": 2.88
+}

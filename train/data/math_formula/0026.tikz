@@ -1,0 +1,13 @@
+\documentclass{article}
+
+\usepackage{tikz}
+\usetikzlibrary{shapes,tikzmark,bending}
+
+\begin{document}
+
+\[a^2\tikzmark{eq}=\big(b\cdot \sin (\alpha)\big)^2+n^2\]
+\begin{tikzpicture}[remember picture, overlay]  
+    \node[cloud, cloud puffs=15.7, cloud ignores aspect, minimum width=3cm, minimum height=0.5cm, align=center, draw] (C) at (2,-.5) {$h=b\cdot \sin (\alpha)$};
+    \draw [thick, ->] (C.east) to [out=0,in=270,in looseness=0.25] ([shift={(.2,-.1)}]{pic cs:eq});
+\end{tikzpicture}
+\end{document}

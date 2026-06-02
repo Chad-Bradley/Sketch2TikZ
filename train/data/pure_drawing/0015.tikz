@@ -1,0 +1,33 @@
+\documentclass{article}
+\usepackage{tikz,eso-pic,xparse}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\drawlinecenter}{%
+  \AddToShipoutPictureBG{%
+    \AtTextCenter{%
+      \begin{tikzpicture}
+        \draw[center,line width=6pt]
+          (0,0) -- (0,1);
+      \end{tikzpicture}
+    }}}
+%    
+\newcommand{\drawlineupperleft}{%
+  \AddToShipoutPictureBG{%
+    \AtTextUpperLeft{%
+      \begin{tikzpicture}
+        \draw[upperleft,line width=6pt]
+          (0,0) -- (0,1);
+      \end{tikzpicture}
+    }}}
+%      
+% main macro:
+\NewDocumentCommand{\drawline}{O{}m}{% #1-optional style arg. #2-position
+  \tikzset{#2/.style={#1}}
+  \csname drawline#2\endcsname
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+\drawline[color=blue]{center}
+\drawline[color=red]{upperleft}
+firstpage\clearpage second page\clearpage third page
+\end{document}

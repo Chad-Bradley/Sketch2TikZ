@@ -1,0 +1,17 @@
+[
+  {
+    "png": "plots/output/metrics_trend.png",
+    "gt_code": "",
+    "gen_code": "",
+    "compile_ok": true,
+    "compile_attempts": 1,
+    "critic": {
+      "score": 3.5,
+      "is_pass": true,
+      "diagnosis": "Same dual-panel layout, same line trends, same color mapping, and same annotated values. Differences: generated uses serif/LaTeX-style typography vs reference sans-serif; markers on data points are missing or much less visible in the generated version; value labels overlap more densely (e.g., '78%/72%' cluster, '50%/48%' overlap) due to tighter spacing; legend box and overall plot proportions slightly compressed horizontally; gridlines fainter. Structure and data are faithful but visual styling and marker rendering noticeably differ."
+    },
+    "vision_time": 90.5,
+    "codegen_time": 69.3,
+    "elapsed": 173.36157393455505
+  }
+]

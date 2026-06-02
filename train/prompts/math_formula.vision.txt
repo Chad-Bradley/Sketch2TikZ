@@ -1,0 +1,30 @@
+Output a TikZ-like specification that maps directly to draw commands. Use ONLY these notations. No natural-language narration.
+
+\def\R{3cm}                          %% define radius/dimensions
+\coordinate (A) at (90:\R);          %% node positions (polar or cartesian)
+\draw[red, thick] (A) -- (B)          %% line segment, color, style
+  node[midway, above] {$x$};          %% label on segment
+\draw[->, blue, thick] (A) arc (90:0:\R)  %% arc with arrow
+  node[midway, right] {$f(x)$};       %% label on arc
+\node[circle, draw, fill=black!50] at (O) {O};  %% labelled point
+\definecolor{myRed}{HTML}{C2504B}     %% custom colors
+
+RULES:
+- Every formula in LaTeX: $\sum$, $\alpha$, $\rightarrow$, etc.
+- Every segment: specify from/to, color, style (solid/dashed/dotted), arrow tip
+- Every label: specify which segment it's on, position (midway/above/right)
+- Every arc: specify angles (polar), radius, direction
+- Count elements. The code generator needs exact numbers.
+- Use polar coords for circular diagrams: (angle:radius)
+- Use cartesian for grid/bar/flowchart: (x,y)
+- For graphs: specify vertex symbols ($*$ vs filled dot vs circle). For self-loops: specify angular position (top/bottom/left/right) and relative size
+- For symmetric arc-cutout shapes: describe arc centers, radii, and the resulting central shape (e.g. '4 quarter-circles at corners create central star')
+- For 3D isometric views: state projection type and viewing angles (e.g. 'tdplot_main_coords theta=60 phi=120'), describe which axes are tilted
+- For fractal/recursive patterns: state depth/order, branch colors, and whether structure is symmetric or asymmetric
+- For divided circles/wedges: state dividing line angles from center, whether lines are double-stroked (gap), and relative wedge sizes
+- When describing Feynman-style diagrams, explicitly note the position of momentum labels (e.g., p_1, p_2) as bold labels placed ON the circle near directional arrows (not as text inside the loop), and describe each node marker's fill pattern (hatched/north-east-lines for dressed propagators, cross/X for response functions, plain for vertices).
+- When describing diagrams with parallel lines (dashed or solid), explicitly state whether they are perfectly straight linear segments or curved/wavy, and specify their slope direction (e.g., 'five straight dashed parallel lines tilted slightly upward from left to right at ~7 degrees').
+- Explicitly describe the overall canvas layout first: state whether the diagram is a single shape or multiple shapes arranged horizontally/vertically/adjacent, and for Penrose/Carter-Penrose diagrams specify if it is a single diamond or two diamonds joined at a vertex (horizontal double-diamond), naming each region (I, II, III, IV) with its compass position (left, right, top, bottom).
+- Describe outer container shapes precisely: note when top/bottom edges are curved/wavy (Bezier curves) versus straight lines, as this distinguishes cylindrical manifold diagrams from plain rectangles. Also explicitly list every black dot (\textbullet) marker at curve endpoints and intersection points.
+- Describe trigonometric/geometric diagrams by explicitly listing every coordinate point with its label position (e.g., 'point A at bottom-left labeled below-left'), every line segment connecting points, any circular arcs with center and radius, dashed vs solid lines, shaded/filled regions with colors, angle marks with their labels, and decorative braces with their position (below/left/right) and labels.
+- For diagrams with multiple lines through the origin, explicitly describe each line's slope direction (e.g., 'shallow positive slope ~1:4' vs 'steep negative slope ~4:1'), the quadrant where labeled points lie, and the exact position of axis labels and origin markers ('0' label) relative to the axes.

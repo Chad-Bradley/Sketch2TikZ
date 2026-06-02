@@ -1,0 +1,29 @@
+\documentclass[margin=10pt]{standalone}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\usetikzlibrary{positioning,calc}
+
+\begin{document}
+\begin{tikzpicture}
+
+\newcommand\gauss[2]{1/(#2*sqrt(2*pi))*exp(-((x-#1)^2)/(2*#2^2))} % Gauss function, parameters mu and sigma
+
+\begin{axis}[
+  hide y axis,
+  axis x line*=bottom,
+  xtick align=center,
+  tickwidth=0.3cm,
+  xticklabels={},
+  xmin=0, xmax=14,
+  xtick={0,2, 6, 12, 14},
+  no markers,
+  at={(0,0)},
+  y=0.5cm,
+  x=1cm] 
+\addplot[samples=50, domain=1:3] {\gauss{2}{0.1}};
+\addplot[samples=50, domain=4.5:7.5] {\gauss{6}{0.3}};
+\addplot[samples=50, domain=11:13] {\gauss{12}{0.1}};
+\end{axis}
+
+\end{tikzpicture}
+\end{document}

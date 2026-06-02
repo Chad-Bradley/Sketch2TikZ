@@ -1,0 +1,35 @@
+\documentclass[margin=3mm]{standalone}
+\usepackage{tikz}
+\usetikzlibrary{calc,
+                decorations.pathreplacing,
+                    calligraphy,% had to be after decorations.pathreplacing
+                matrix,
+                tikzmark}
+
+\begin{document}
+    \begin{tikzpicture}[remember picture,
+BC/.style = {decorate,
+             decoration={calligraphic brace, amplitude=4pt, raise=0pt},
+             thick,
+             pen colour=black}, 
+ sn/.style = {inner xsep=0pt},
+lbl/.style = {sn, pos=0.6, fill=white},
+                        ] 
+\matrix (m) [matrix of nodes,
+             nodes in empty cells,
+             nodes = {text width=60mm,
+                      text depth=.5ex, text height=3ex, font=\large,
+                      inner ysep=1pt, anchor=center},
+             row 1/.style={align=left},
+             row 2/.style={align=right},
+            ]
+{
+\subnode[sn]{a}{ceci} est une pomme \\
+\subnode[sn]{b}{this} is an apple   \\
+};
+\draw[BC]   (a.south east) -- (a.south west);
+\draw[BC]   (b.south east) -- (b.south west);
+\draw[shorten <=5pt,shorten >=5pt]
+            (a) -- node[lbl] {$\approx$} ++ (0,-1.2) -| (b);
+    \end{tikzpicture}
+\end{document}

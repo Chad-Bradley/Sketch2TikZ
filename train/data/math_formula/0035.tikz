@@ -1,0 +1,32 @@
+\documentclass[12pt]{article}
+\usepackage{tikz}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,physics}
+
+\begin{document}
+
+\begin{tikzpicture}[x=0.75pt,y=0.75pt,yscale=-1,xscale=1]
+
+\draw  [line width=3] [line join = round][line cap = round] (456.8,71.41) .. controls (456.8,74.75) and (456.8,78.08) .. (456.8,81.41) ;
+\draw [line width=3]    (161,76) -- (480.8,76.81) ;
+\draw  [line width=3] [line join = round][line cap = round] (211.8,71.41) .. controls (211.8,74.75) and (211.8,78.08) .. (211.8,81.41) ;
+\draw  [line width=3] [line join = round][line cap = round] (294.8,70.41) .. controls (294.8,73.75) and (294.8,77.08) .. (294.8,80.41) ;
+\draw  [line width=3] [line join = round][line cap = round] (376.8,71.41) .. controls (376.8,74.75) and (376.8,78.08) .. (376.8,81.41) ;
+\draw [color={rgb, 255:red, 74; green, 144; blue, 226 }  ,draw opacity=1 ][line width=2.25]    (209.8,75.61) .. controls (260.8,19.21) and (293.8,3.21) .. (335.8,33.21) ;
+\draw [color={rgb, 255:red, 74; green, 144; blue, 226 }  ,draw opacity=1 ][line width=2.25]    (335.8,33.21) .. controls (383.8,2.21) and (429.8,32.21) .. (458.8,76.61) ;
+\draw [color={rgb, 255:red, 208; green, 2; blue, 27 }  ,draw opacity=1 ][line width=2.25]    (291.8,75.61) .. controls (306.8,58.21) and (319.8,45.21) .. (335.8,33.21) ;
+\draw [color={rgb, 255:red, 208; green, 2; blue, 27 }  ,draw opacity=1 ][line width=2.25]    (335.8,33.21) .. controls (338.8,35.21) and (376.8,69.21) .. (376.8,76.61) ;
+
+% Text Node
+\draw (249,85) node [anchor=north west][inner sep=0.75pt]   [align=left] {\textbf{A}};
+% Text Node
+\draw (327,85) node [anchor=north west][inner sep=0.75pt]   [align=left] {\textbf{B}};
+% Text Node
+\draw (408,85) node [anchor=north west][inner sep=0.75pt]   [align=left] {\textbf{C}};
+% Text Node
+\draw (149,115.4) node [anchor=north west][inner sep=0.75pt]  [font=\Large]  {$\mathrm{S( ABC)} \ +\ \mathrm{S( B)} \ \leq \ \mathrm{S( AB) \ +\ S( BC)}$};
+
+
+\end{tikzpicture}
+
+\end{document}

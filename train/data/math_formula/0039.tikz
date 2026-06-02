@@ -1,0 +1,128 @@
+\documentclass[11pt]{amsart}
+\usepackage[utf8]{inputenc}
+\usepackage{ graphicx, amsmath, amssymb,csquotes}
+\usepackage{tikz}
+\usepackage{tikz-dependency}
+\usetikzlibrary{arrows.meta}
+\usetikzlibrary{decorations}
+\usetikzlibrary{decorations.markings}
+\usetikzlibrary{decorations.pathreplacing}
+\tikzset{  fullVertex/.style={circle, draw=black, thick, fill= black,  minimum size =2.5mm, inner sep=0mm},
+	diffVertex/.style={circle, draw=black, thick, fill= white,  minimum size =2.5mm},
+	point/.style={circle, draw=black, thick, fill= black,  minimum size =1.0mm, inner sep=0mm},
+	treeVertex/.style={regular polygon, regular polygon sides=4,   draw, thick, fill= white,  minimum size =3.8mm, inner sep=0mm}, 
+	counterVertex/.style={draw=black, line width=.2mm, circle, path picture={ 
+			\draw[line width=.2mm] (-1.3mm,-1.3mm) -- (1.3mm,1.3mm) ;
+			\draw[line width=.2mm] (-1.3mm,1.3mm) -- (1.3mm,-1.3mm);
+	}},
+	treeCounterVertex/.style={regular polygon, regular polygon sides=4,   draw=black, line width=.2mm, fill= white,  minimum size =4.5mm, inner sep=0mm, path picture={ 
+			\draw[line width=.2mm] (-1.5mm,-1.5mm) -- (1.5mm, 1.5mm) ;
+			\draw[line width=.2mm] (-1.5mm, 1.5mm) -- (1.5mm,-1.5mm);
+	}},
+	-|-/.style={decoration={markings, 	mark=at position .5 with {\arrow{|}}},postaction={decorate}},
+	every picture/.style=thick
+}
+\tikzset{
+	ncbar angle/.initial=90,
+	ncbar/.style={
+		to path=(\tikztostart)
+		-- ($(\tikztostart)!#1!\pgfkeysvalueof{/tikz/ncbar angle}:(\tikztotarget)$)
+		-- ($(\tikztotarget)!($(\tikztostart)!#1!\pgfkeysvalueof{/tikz/ncbar angle}:(\tikztotarget)$)!\pgfkeysvalueof{/tikz/ncbar angle}:(\tikztostart)$)
+		-- (\tikztotarget)
+	},
+	ncbar/.default=0.5cm,
+}
+\tikzset{square left bracket/.style={ncbar=0.5cm}}
+\tikzset{square right bracket/.style={ncbar=-0.5cm}}
+
+\begin{document}
+
+\begin{tikzpicture}
+	
+	\node [treeCounterVertex, label={[label distance=-2mm]5:{$\scriptstyle (1)$}}] (c) at (-1,0){};
+	
+	\draw [-|]  (c) --++ (0:.6);
+	\draw  [-|](c) --++ (-70:.6);
+	\draw  [-|](c) --++ (-110:.6);
+	\draw [-|] (c) --++ (190:.6);
+	\draw [-|] (c) --++ (110:.6);
+	\draw [-|] (c) --++ (150:.6);
+	
+	\node (tx) at ($(c)+(-40:1.5)$) {valence $n$};
+	\draw [thin, -Stealth, bend angle = 20,shorten >=1mm ] (tx) to (c);
+	
+	
+	\node [anchor=east] at (2,0) {$= 0  =\quad \displaystyle \sum  $};
+	
+	
+
+	
+
+	
+	
+
+	\node [counterVertex, label={[label distance=-1mm]90:{$\scriptstyle (1)$}}  ] (c) at (3.5,0) {};
+	\node [diffVertex] (b) at ($(c)+(0:1)$) {};
+
+	\node [diffVertex] (b1) at ($(c)+(140:.8)$) {};
+	\node [diffVertex] (b2) at ($(c)+(190:.8)$) {};
+	\node [diffVertex] (b3) at ($(c)+(240:.8)$) {};
+	
+	\draw [-<]  (c) --  node[label={[label distance = -2mm]above:$e$}]{}(b);
+	\draw [-<] (c) -- (b1);
+	\draw [>>-<] (c) -- (b2);
+	\draw [-<] (c) -- (b3);
+	
+	\draw  [-|](b) --++ (20:.5);
+	\draw  [-|](b) --++ (-20:.5);
+	\draw [-|] (b1) --++ (140:.5);
+	\draw  [-|](b3) --++ (-70:.5);
+	\draw  [-|](b3) --++ (-110:.5);
+	\draw [-|] (b2) --++ (190:.5);
+	\draw [-|] (b2) --++ (150:.5);
+	\draw [-|] (b2) --++ (240:.5);
+	
+	\node (tx) at ($(c)+(-30:2.3)$) {no triple cancellation};
+	
+	\draw [thin, -Stealth, bend angle = 20,shorten >=1mm ] (tx) to  ($(c)+(0:.4)$);
+	
+	
+	
+	\node [anchor=west] at (5.5,0){$+\quad \displaystyle \sum_{k=3}^{n-1} \sum_{Q^{(n,k)}}$};
+	
+	\node [ diffVertex] (v) at (8.7,.2) {};
+	\node [counterVertex, label={[label distance=-2mm]5:{$\scriptstyle (1)$}} ] (c) at ($(v)+(-20:1.2)$) {};
+	
+	\draw [>-<<] (v) -- node[label={[label distance = -2mm]above:$e$}]{} (c);
+	
+	\draw  [-|](c) --++ (10:.5);
+	\draw  [-|](c) --++ (-30:.5);
+	\draw  [-|](c) --++ (-70:.5);
+	
+	\draw  [-|](v) --++ (90:.5);
+	\draw  [-|](v) --++ (130:.5);
+	\draw [-|] (v) --++ (200:.5);
+	\draw [-|] (v) --++ (170:.5);
+	\draw [-|] (v) --++ (240:.5);
+	
+	\node (tx) at ($(c)+(220:1.5)$) {valence $k$};
+	\draw [thin, -Stealth, bend angle = 20,shorten >=1mm ] (tx) to  (c);
+	
+		\node at (11.5,0){$+$};
+	
+	\node [counterVertex,label={[label distance=-2mm]5:{$\scriptstyle (1)$}} ] (c) at (12.5,0) {};
+	
+	\draw [-|]  (c) --++ (0:.6);
+	\draw [-|]  (c) --++ (-40:.6);
+	
+	\draw  [-|](c) --++ (-70:.6);
+	\draw  [-|](c) --++ (-110:.6);
+	\draw [-|] (c) --++ (190:.6);
+	\draw [-|] (c) --++ (110:.6);
+	\draw [-|] (c) --++ (150:.6);
+	
+
+	
+	\end{tikzpicture}
+
+\end{document}

@@ -1,0 +1,15 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[czech]{babel}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{tkz-tab}
+\usetikzlibrary{babel}
+\begin{document}
+\begin{tikzpicture}
+   \tkzTabInit{$x$ / 1 , $f(x)$ / 2}{$-\infty$, $-5$, $-3$, $2$, $+\infty$}
+   \tkzTabVar{-/ $-\infty$, +C/ $0$, +H/ $0$, D-/ $-10$, +/ $+\infty$}
+\end{tikzpicture}
+\end{document}

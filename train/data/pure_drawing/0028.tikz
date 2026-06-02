@@ -1,0 +1,44 @@
+\documentclass{article}
+\usepackage{arrayjobx} % <-changed but also works with arrayjob
+\usepackage{calc}
+\usepackage{ifthen}
+\usepackage{tikz}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usetikzlibrary{automata,positioning}
+\begin{document}
+\begin{tikzpicture}
+\def \length {7} 
+\newarray\myarray %\newarray\newarray is dangerous and prevents you from using \newarray at later occasions
+\readarray{myarray}{%
+B&B&%
+A&B&%
+A&A&%
+B&D&%
+C&C&%
+C&A&%
+D&D&
+}
+
+\dataheight=2
+\foreach \x in {1,...,\length}
+{
+
+\draw (\x,-6) node {\x};
+\draw (\x,-5) node {\myarray(\x,1)};
+\draw (\x,-4) node {\myarray(\x,2)};
+
+\checkmyarray(\x,1)% \cachedata is now the (\x,1) element
+\edef\myx{\cachedata}% save the element in \myx
+\checkmyarray(\x,2)% \cachedata is now the (\x,2) element
+
+    \ifx\myx\cachedata\relax
+    \draw (\x,0) node {\myarray(\x,1)};
+    \else 
+    \draw (\x,2) node {\myarray(\x,2)};
+    \fi
+
+}
+
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,141 @@
+{
+  "timestamp": "2026-05-31T12:03:27.110361",
+  "difficulty": "pure_drawing",
+  "num_samples": 13,
+  "skip_judge": false,
+  "samples": [
+    {
+      "sample": "0000.png",
+      "index": 0,
+      "compile_ok": true,
+      "compile_attempts": 1,
+      "score": 3.0,
+      "diagnosis": "The generated image has the correct topology and connections, but the spatial layout is vertically stretched compared to the reference, altering relative positions and aspect ratio.",
+      "vision_time": 18.1,
+      "codegen_time": 15.3
+    },
+    {
+      "sample": "0001.png",
+      "index": 1,
+      "compile_ok": true,
+      "compile_attempts": 1,
+      "score": 2.0,
+      "diagnosis": "The right shape is distorted from a crescent to a teardrop, altering its topology and form compared to the reference.",
+      "vision_time": 26.2,
+      "codegen_time": 9.2
+    },
+    {
+      "sample": "0002.png",
+      "index": 2,
+      "compile_ok": true,
+      "compile_attempts": 1,
+      "score": 3.0,
+      "diagnosis": "The generated image has the correct topology and colors, but the diagonal lines are missing in the red and blue sections, altering the visual structure compared to the reference.",
+      "vision_time": 26.0,
+      "codegen_time": 16.6
+    },
+    {
+      "sample": "0003.png",
+      "index": 3,
+      "compile_ok": true,
+      "compile_attempts": 1,
+      "score": 1.0,
+      "diagnosis": "The generated image completely lacks the complex branching structures and curved lines present in the reference, showing only minimal squares and arrows.",
+      "vision_time": 20.9,
+      "codegen_time": 19.0
+    },
+    {
+      "sample": "0004.png",
+      "index": 4,
+      "compile_ok": true,
+      "compile_attempts": 1,
+      "score": 3.0,
+      "diagnosis": "The generated image lacks the red outline present in the reference and has a uniform gray-green gradient instead of the green-to-blue gradient, though the overall cross shape and topology are preserved.",
+      "vision_time": 24.8,
+      "codegen_time": 15.9
+    },
+    {
+      "sample": "0005.png",
+      "index": 5,
+      "compile_ok": true,
+      "compile_attempts": 1,
+      "score": 2.5,
+      "diagnosis": "The generated image has thicker axes lines and lacks the grid lines present in the reference, but retains the correct layout and orientation.",
+      "vision_time": 30.4,
+      "codegen_time": 20.4
+    },
+    {
+      "sample": "0006.png",
+      "index": 6,
+      "compile_ok": true,
+      "compile_attempts": 1,
+      "score": 3.0,
+      "diagnosis": "The generated image incorrectly labels node B as R, while all other elements including shapes, colors, connections, and layout are preserved.",
+      "vision_time": 15.2,
+      "codegen_time": 11.0
+    },
+    {
+      "sample": "0007.png",
+      "index": 7,
+      "compile_ok": true,
+      "compile_attempts": 1,
+      "score": 5.0,
+      "diagnosis": "The generated image perfectly matches the reference in all aspects including shapes, colors, connections, and layout.",
+      "vision_time": 18.5,
+      "codegen_time": 14.4
+    },
+    {
+      "sample": "0008.png",
+      "index": 8,
+      "compile_ok": true,
+      "compile_attempts": 1,
+      "score": 5.0,
+      "diagnosis": "The generated image is a pixel-perfect match to the reference, with identical text, layout, line styles, and spatial relationships.",
+      "vision_time": 20.7,
+      "codegen_time": 14.2
+    },
+    {
+      "sample": "0009.png",
+      "index": 9,
+      "compile_ok": true,
+      "compile_attempts": 1,
+      "score": 1.5,
+      "diagnosis": "The generated image omits the dashed vertical lines and alters the topology by adding extra green diagonal connections not present in the reference, while also misaligning node positions.",
+      "vision_time": 40.0,
+      "codegen_time": 27.0
+    },
+    {
+      "sample": "0010.png",
+      "index": 10,
+      "compile_ok": true,
+      "compile_attempts": 1,
+      "score": 3.0,
+      "diagnosis": "The generated image has slightly distorted petal shapes and uneven spacing compared to the reference, making the differences easily discernible to the naked eye.",
+      "vision_time": 19.6,
+      "codegen_time": 16.4
+    },
+    {
+      "sample": "0011.png",
+      "index": 11,
+      "compile_ok": true,
+      "compile_attempts": 1,
+      "score": 0.0,
+      "diagnosis": "The generated image is severely distorted with flattened, angular shapes and incorrect topology compared to the smooth, continuous spiral in the reference.",
+      "vision_time": 41.7,
+      "codegen_time": 16.6
+    },
+    {
+      "sample": "0012.png",
+      "index": 12,
+      "compile_ok": true,
+      "compile_attempts": 1,
+      "score": 5.0,
+      "diagnosis": "The generated image is identical to the reference in all aspects: shapes, colors, topology, positions, and layout.",
+      "vision_time": 18.5,
+      "codegen_time": 10.5
+    }
+  ],
+  "progress": "13/13",
+  "compile_rate": "13/13",
+  "avg_fidelity_score": 2.85
+}

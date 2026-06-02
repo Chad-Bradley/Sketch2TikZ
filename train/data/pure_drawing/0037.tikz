@@ -1,0 +1,36 @@
+\documentclass{article}
+
+\usepackage{tikz}
+
+\begin{document}
+
+\begin{tikzpicture}[scale=0.5]
+
+% Draw the base of the hand
+\draw[fill=gray!50] (0,0) rectangle (10,2);
+
+% Draw the fingers
+\draw[fill=white] (1,2) rectangle (3,8);
+\draw[fill=white] (4,2) rectangle (6,8);
+\draw[fill=white] (7,2) rectangle (9,8);
+
+% Draw the thumb
+\draw[fill=white] (0,4) rectangle (2,6);
+
+% Draw the joints
+\draw[fill=black] (2,8) circle (0.2);
+\draw[fill=black] (5,8) circle (0.2);
+\draw[fill=black] (8,8) circle (0.2);
+\draw[fill=black] (2,4) circle (0.2);
+
+% Draw the connections between the fingers and the joints
+\draw[thick] (2,8) -- (2,6) -- (1,6) -- (1,2);
+\draw[thick] (5,8) -- (5,6) -- (4,6) -- (4,2);
+\draw[thick] (8,8) -- (8,6) -- (7,6) -- (7,2);
+
+% Draw the connection between the thumb and the joint
+\draw[thick] (2,4) -- (0,4) -- (0,6) -- (2,6);
+
+\end{tikzpicture}
+
+\end{document}

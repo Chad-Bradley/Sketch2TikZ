@@ -1,0 +1,27 @@
+\documentclass[tikz, border=12cm]{standalone}
+\begin{document}
+\foreach \i in {0.05,0.1,0.15,0.2,0.25,0.3,0.35,0.375,0.4}{
+\begin{tikzpicture}[>=stealth, scale=5]
+\draw[smooth, ->] (0.8,0)--(4.5,0) node[above] {$x$};
+\draw[smooth, ->] (1,-0.2)--(1,3.5) node[left] {$y$};
+\begin{scope}[shift={(0,0)},scale=1.5]
+  \filldraw[red!30!white, opacity=0.7]
+    (1.6+\i, 0)--
+    (1.6+\i, {1/7*((\i+1.6)-1)^3+((\i+1.6)-1)^2*ln((\i+1.6)-1)+1})--
+    (1.6-\i, {1/7*((1.6-\i)-1)^3+((1.6-\i)-1)^2*ln((1.6-\i)-1)+1})--
+    (1.6-\i, 0)--cycle;
+\draw[domain=1.1:2.08,blue, samples=900,scale=1,fill=white] plot(\x, {(1/7)*(\x-1)^3+(\x-1)^2*ln(\x-1)+1});
+\draw[domain=1.3:1.9,blue!30!black, samples=900, <->,scale=1] plot(\x, {0.846+0.1412*(\x-1.6)});
+\draw[dashed] (1.6-\i,0)--(1.6-\i,{1/7*((1.6-\i)-1)^3+((1.6-\i)-1)^2*ln((1.6-\i)-1)+1})--(0.665,{1/7*((1.6-\i)-1)^3+((1.6-\i)-1)^2*ln((1.6-\i)-1)+1})node[left, red] {$f(a)$};
+\draw[dashed] (1.6+\i,0)--(1.6+\i,{1/7*((\i+1.6)-1)^3+((\i+1.6)-1)^2*ln((\i+1.6)-1)+1})--(0.665,{1/7*((\i+1.6)-1)^3+((\i+1.6)-1)^2*ln((\i+1.6)-1)+1})node[left, red] {$f(b)$};
+\draw[dashed] (1.6,0)--(1.6,0.846)--(0.665,0.846)node[left=0.1cm, red] {$f(x_0)$};
+\filldraw[red] (0.665,{1/7*((\i+1.6)-1)^3+((\i+1.6)-1)^2*ln((\i+1.6)-1)+1})circle(0.01);
+\filldraw[red] (0.665,0.846)circle(0.01);
+\filldraw[red] (0.665,{1/7*((1.6-\i)-1)^3+((1.6-\i)-1)^2*ln((1.6-\i)-1)+1})circle(0.01);
+\draw[thick, magenta] (1.6-\i,{1/7*((1.6-\i)-1)^3+((1.6-\i)-1)^2*ln((1.6-\i)-1)+1})--(1.6+\i,{1/7*((1.6+\i)-1)^3+((1.6+\i)-1)^2*ln((1.6+\i)-1)+1}) ;
+\filldraw[red] (1.6,0)circle(0.01) node[below] {$x_0$};
+\filldraw[red] (1.6-\i,0)circle(0.01) node[below] {$a$};
+\filldraw[red] (1.6+\i,0)circle(0.01) node[below] {$b$};
+\end{scope}
+\end{tikzpicture}}
+\end{document}

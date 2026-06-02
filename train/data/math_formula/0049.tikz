@@ -1,0 +1,24 @@
+\documentclass[pra,reprint]{revtex4-2}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{tikz}
+\usetikzlibrary{positioning,calc,fadings,decorations.pathreplacing,shadings}
+\usetikzlibrary{arrows}
+\usetikzlibrary{shapes,backgrounds,positioning,fit}
+
+\begin{document}
+
+\begin{tikzpicture}[scale=1.7]
+    \draw[->] (0,0)--(0,2) node[pos=1.1]{$n_3$};
+    \draw[->] (0,0)--(1.85,0.6) node[pos=1.1]{$n_2$};
+    \draw[->] (0,0)--(1.2,-1.4) node[pos=1.1]{$n_1$};
+    \draw[->] (0,0)--(0.5,0.55) node[midway, above left]{$a$};
+    
+    \filldraw[color=teal!20!white, opacity=0.5] (0,1.4)--(1.3,0.422)--(0.7,-0.81667)--(0,1.4);
+    \filldraw [teal] (0,1.4) circle (0.5pt) node[left, color=black]{\small{$2$}};
+    \filldraw [teal] (1.3,0.422) circle (0.5pt) node[above, color=black]{\small{$2$}};
+    \filldraw [teal] (0.7,-0.81667) circle (0.5pt) node[left, color=black]{\small{$2$}};
+    \draw[color=teal] (0,1.4)--(1.3,0.422)--(0.7,-0.81667)--(0,1.4);
+\end{tikzpicture}
+
+\end{document}

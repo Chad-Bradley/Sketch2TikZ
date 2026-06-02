@@ -1,0 +1,82 @@
+\documentclass[11pt]{article}
+\usepackage{tikz-cd}
+\usepackage[T1]{fontenc}
+\usepackage{tikz-3dplot}
+\usetikzlibrary{patterns}
+\usetikzlibrary{knots}
+\usetikzlibrary{decorations}
+\usetikzlibrary{decorations.pathreplacing}
+\usetikzlibrary{calc,math,angles,quotes}
+\usetikzlibrary{decorations.markings,arrows.meta}
+\tikzset{->-/.style={decoration={
+  markings,
+  mark=at position 1 with {\arrow[scale=1.3]{>}}},postaction={decorate}}}
+\tikzset{-<-/.style={decoration={
+  markings,
+  mark=at position .4 with {\arrow[scale=1.3]{<}}},postaction={decorate}}}
+\usetikzlibrary{arrows}
+\tikzset{
+  on each segment/.style={
+    decorate,
+    decoration={
+      show path construction,
+      moveto code={},
+      lineto code={
+        \path[#1]
+        (\tikzinputsegmentfirst) -- (\tikzinputsegmentlast);
+      },
+      curveto code={
+        \path[#1] (\tikzinputsegmentfirst)
+        .. controls
+        (\tikzinputsegmentsupporta) and (\tikzinputsegmentsupportb)
+        ..
+        (\tikzinputsegmentlast);
+      },
+      closepath code={
+        \path[#1]
+        (\tikzinputsegmentfirst) -- (\tikzinputsegmentlast);
+      },
+    },
+  },
+  mid arrow/.style={postaction={decorate,decoration={
+        markings,
+        mark=at position .5 with {\arrow[#1]{stealth}}
+      }}},
+}
+
+\begin{document}
+
+\begin{tikzpicture}[x=0.75pt,y=0.75pt,yscale=-1,xscale=1]
+\draw [line width=2.25]    (360,142) -- (480,142) ;
+\draw [shift={(420,142)}, rotate = 180] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (14.29,-6.86) -- (0,0) -- (14.29,6.86) -- cycle    ;
+\draw  [dash pattern={on 4.5pt off 4.5pt}]  (411,72) -- (481,142) ;
+\draw [shift={(446,107)}, rotate = 225] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (8.93,-4.29) -- (0,0) -- (8.93,4.29) -- cycle    ;
+\draw [line width=2.25]    (361,142) .. controls (355.5,114) and (388.5,69) .. (411,72) ;
+\draw [shift={(373.97,97.56)}, rotate = 482.37] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (14.29,-6.86) -- (0,0) -- (14.29,6.86) -- cycle    ;
+\draw  [dash pattern={on 4.5pt off 4.5pt}]  (361,142) .. controls (385.5,134) and (410.5,92) .. (411,72) ;
+\draw [shift={(394.15,112.76)}, rotate = 485.88] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (8.93,-4.29) -- (0,0) -- (8.93,4.29) -- cycle    ;
+\draw  [dash pattern={on 4.5pt off 4.5pt}]  (331,162) -- (361,142) ;
+\draw [shift={(346,152)}, rotate = 506.31] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (8.93,-4.29) -- (0,0) -- (8.93,4.29) -- cycle    ;
+\draw  [dash pattern={on 4.5pt off 4.5pt}]  (321,142) -- (361,142) ;
+\draw [shift={(341,142)}, rotate = 180] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (8.93,-4.29) -- (0,0) -- (8.93,4.29) -- cycle    ;
+\draw  [dash pattern={on 4.5pt off 4.5pt}]  (361,62) -- (411,72) ;
+\draw [shift={(386,67)}, rotate = 191.31] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (8.93,-4.29) -- (0,0) -- (8.93,4.29) -- cycle    ;
+\draw  [dash pattern={on 4.5pt off 4.5pt}]  (411,72) -- (451,62) ;
+\draw [shift={(431,67)}, rotate = 525.96] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (8.93,-4.29) -- (0,0) -- (8.93,4.29) -- cycle    ;
+\draw  [dash pattern={on 4.5pt off 4.5pt}]  (481,142) -- (521,142) ;
+\draw [shift={(501,142)}, rotate = 180] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (8.93,-4.29) -- (0,0) -- (8.93,4.29) -- cycle    ;
+\draw [line width=2.25]    (481,142) -- (511,162) ;
+\draw [shift={(496,152)}, rotate = 213.69] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (14.29,-6.86) -- (0,0) -- (14.29,6.86) -- cycle    ;
+
+\draw (313,164.4) node [anchor=north west][inner sep=0.75pt]    {$\infty $};
+\draw (303,124.4) node [anchor=north west][inner sep=0.75pt]    {$\infty $};
+\draw (342,54.4) node [anchor=north west][inner sep=0.75pt]    {$\infty $};
+\draw (452,54.4) node [anchor=north west][inner sep=0.75pt]    {$\infty $};
+\draw (522,124.4) node [anchor=north west][inner sep=0.75pt]    {$\infty $};
+\draw (513,154.4) node [anchor=north west][inner sep=0.75pt]    {$\infty $};
+\draw (362,145.4) node [anchor=north west][inner sep=0.75pt]    {$1$};
+\draw (481,122.4) node [anchor=north west][inner sep=0.75pt]    {$2$};
+\draw (407,52.4) node [anchor=north west][inner sep=0.75pt]    {$3$};
+\end{tikzpicture}
+
+\end{document}

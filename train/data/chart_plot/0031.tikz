@@ -1,0 +1,50 @@
+\documentclass[border=15pt]{standalone}
+\usepackage{pgfplots}
+    \usetikzlibrary{calc}
+    \pgfplotsset{compat=1.11}
+\begin{document}
+\begin{tikzpicture}
+    \begin{axis}[
+        width=3in,
+        height=3in,
+        axis lines=middle,
+        xmin=-1000,
+        xmax=37320.5,
+        ymin=-200000,
+        ymax=725000,
+        xtick={20000},
+        % ---------------------------------------------------------------------
+        % you don't want the ticks/tick labels to be scaled
+        scaled ticks=false,
+%        % and the tick labels are shown by default the way you want them,
+%        % so you don't need to specify them explicitely
+%        xticklabels={$20000$},
+        % ---------------------------------------------------------------------
+        ytick={\empty},
+        ticklabel style={font=\scriptsize},
+        xlabel=$x$,
+        ylabel=$y$,
+        axis line style={
+            latex-latex,
+            shorten >=-12.5pt,
+            shorten <=-12.5pt,
+        },
+        xlabel style={at={(ticklabel* cs:1)}, xshift=12.5pt, anchor=north west},
+        ylabel style={at={(ticklabel* cs:1)}, yshift=12.5pt, anchor=south west},
+    ]
+
+        \addplot[samples=51,smooth,domain=-1000:37320.5] {-0.003*x^2 + 120*x - 500000};
+
+        %P = (25000, 625000) is a point on the parabola. The slope of the tangent line at P
+        %is -30. An equation for the tangent line at P is y = -30x + 1,375,000.
+        \coordinate (P) at (25000, 625000);
+        \coordinate (Q) at (137500/3, 0);
+
+    \end{axis}
+
+    %A "pin" is drawn to the parabola.
+    \draw[draw=gray, shorten <=1mm, shorten >=1mm] (P) -- ($(P)!0.75cm!90:(Q)$);
+    \node[anchor=west, inner sep=0, font=\footnotesize] at ($(P)!0.75cm!90:(Q)$){$y=P(x)$};
+
+\end{tikzpicture}
+\end{document}

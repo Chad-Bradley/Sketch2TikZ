@@ -1,0 +1,47 @@
+\documentclass{article}
+\usepackage{tikz}
+
+\begin{document}
+
+\begin{tikzpicture}[scale=0.5]
+
+% Base
+\draw[fill=gray!50] (-5,-1) rectangle (5,-2);
+
+% Legs
+\draw[fill=gray!50] (-3,-1) rectangle (-2,-8);
+\draw[fill=gray!50] (2,-1) rectangle (3,-8);
+
+% Torso
+\draw[fill=gray!50] (-4,-2) rectangle (4,-8);
+
+% Arms
+\draw[fill=gray!50] (-4,-2) rectangle (-6,-4);
+\draw[fill=gray!50] (4,-2) rectangle (6,-4);
+
+% Head
+\draw[fill=gray!50] (-2,-8) rectangle (2,-12);
+
+% Hair
+\draw[fill=gray!50] (-3,-12) rectangle (3,-14);
+\draw[fill=gray!50] (-4,-14) rectangle (4,-16);
+\draw[fill=gray!50] (-5,-16) rectangle (5,-18);
+
+% Face
+\draw[fill=white] (-1,-9) rectangle (1,-11);
+\draw[fill=white] (-2,-10) rectangle (2,-11);
+\draw[fill=white] (-3,-11) rectangle (3,-12);
+
+% Eyes
+\draw[fill=black] (-1,-10) circle (0.2);
+\draw[fill=black] (1,-10) circle (0.2);
+
+% Mouth
+\draw (-1,-11) to[out=0,in=-180] (1,-11);
+
+% Lightning bolt
+\draw[fill=yellow] (0,-2) -- (-1,-4) -- (1,-4) -- cycle;
+
+\end{tikzpicture}
+
+\end{document}

@@ -1,0 +1,148 @@
+\documentclass[tikz]{standalone}
+\usepackage[scaled]{helvet} 
+\usetikzlibrary{backgrounds,arrows.meta,decorations.text,decorations.markings,calc}
+\definecolor{myRed}{HTML}{C2504B}
+\definecolor{myGreen}{HTML}{769144}
+\definecolor{myBlue}{HTML}{375C8C}
+\definecolor{myColor1}{HTML}{AABFC8}
+
+\begin{document}
+    \begin{tikzpicture}[
+        %Environment Config
+        font=\sffamily,
+        %Environment Styles
+        ThickNode/.style={
+            circle,
+            draw=black,
+            line width=5pt,
+            inner sep=2pt,
+        },
+        HugeLine/.style={
+            line width=4pt,
+            shorten >=-4pt,
+            shorten <=-4pt,
+            preaction={
+                transform canvas={
+                    shift={(2pt,-1pt)}
+                },
+                draw=gray,
+                draw opacity=0.4,
+                very thick
+            }
+        },
+        HugeArrow/.style={
+            >={Straight Barb[line cap=round,length=7pt]},
+            line width=4pt,
+            shorten >=4pt,
+            shorten <=-4pt,
+            preaction={
+                transform canvas={
+                    shift={(1pt,-2pt)}
+                },
+                draw=gray,
+                draw opacity=0.3,
+                line width=3pt,
+            },
+            preaction={
+                transform canvas={
+                    shift={(1pt,-2pt)}
+                },
+                draw=gray,
+                draw opacity=0.2,
+                line width=5pt,
+            }
+        },
+        Dim/.style={
+            draw,
+            >={Turned Square[length=5pt]},
+            shorten >=0pt,
+            shorten <=0pt,
+            <->,
+            densely dotted,
+            line width=0.75pt,
+            preaction={
+                transform canvas={
+                    shift={(1pt,-1pt)}
+                },
+                draw=gray,
+                draw opacity=0.3,
+                very thick
+            },
+            preaction={
+                transform canvas={
+                    shift={(1pt,-1pt)}
+                },
+                draw=gray,
+                draw opacity=0.1,
+                line width=3pt,
+            },
+            postaction={
+                decoration={
+                markings,
+                mark= at position .5 with {
+                    \node[fill=white,text=white,transform shape]{#1};
+                    }
+                },
+                decorate
+            },
+            postaction={
+                decoration={
+                    text along path,
+                    raise=-2pt,
+                    text={||#1{}},
+                    text align=center,
+                    reverse path
+                },
+                decorate
+            }
+        },
+    ]
+    \def\Rad{3cm}
+    \def\PolarA{90}
+    \def\PolarB{-40}
+    \def\PolarE{160}
+    \draw
+    (0,0) node[ThickNode,label={[inner sep=1pt]5:O}](O){}
+    (\PolarA:\Rad) node[ThickNode,label={[inner sep=1pt]-45:A}](A){}
+    (\PolarE:\Rad) node[ThickNode,label={[inner sep=3pt]25:E}](E){}
+    (\PolarB:\Rad) node[ThickNode,label={[inner sep=3pt]-90:B}](B){};
+    \begin{scope}[on background layer]
+        \draw[draw=myColor1]
+        (0,0)
+            edge (0:\Rad)
+            edge (-90:\Rad)
+            edge (180:\Rad);
+        \draw[myBlue,ultra thick]
+        (\PolarE:\Rad) 
+            arc (\PolarE:360+\PolarB:\Rad);
+        %Draw Red section   
+        \draw[HugeArrow,myRed,->]
+        (\PolarA:\Rad) 
+            arc (\PolarA:\PolarB:\Rad);
+        \draw[Dim,myRed]
+        (\PolarA:\Rad+0.5cm) 
+            arc (\PolarA:\PolarB:\Rad+0.5cm) node[midway,circle,fill=white]{$x$};
+
+        %Draw Green section 
+        \draw[HugeArrow,myGreen,->]
+        (\PolarA:\Rad) 
+            arc (\PolarA:\PolarE:\Rad)
+            -- (B.center);
+        \draw[Dim=$x-f(x)$,myGreen]
+        (\PolarA:\Rad+0.5cm) 
+            arc (\PolarA:\PolarE:\Rad+0.5cm);
+        \coordinate (B') at ($ (B.center)!.5cm!90:(E.center) $);
+        \coordinate (E') at ($ (E.center)!-.5cm!90:(B.center) $);
+        \draw[Dim=$f(x)$,myGreen]
+        (B') 
+            -- (E');
+        %Draw A-O
+        \draw[HugeLine,myGreen]
+        (O.90+25) 
+            -- (A.-90-25);
+        \draw[HugeLine,myRed]
+        (O.90-25) 
+            -- (A.-90+25);
+    \end{scope}
+\end{tikzpicture}
+\end{document}

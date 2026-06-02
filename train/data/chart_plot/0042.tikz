@@ -1,0 +1,68 @@
+\documentclass{standalone}
+
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.9}
+\usepackage{tikz}
+
+\usepackage{pdftexcmds} % for testing atom types
+\usepackage{boolexpr}
+\makeatletter\long\def\isequal#1#2{\pdf@strcmp{#1}{#2}}\makeatother
+
+\begin{document}
+
+\begin{tikzpicture}
+\begin{axis}[
+view = {0}{0},
+axis lines=none,
+axis equal
+]
+\def\COORDINATES{0.483/0.593/0.525/H,
+                 0.425/0.501/0.590/H,
+                 0.510/0.580/0.640/H,
+                 0.573/0.518/0.626/H,
+                 0.517/0.463/0.322/H,
+                 0.363/0.503/0.418/H,
+                 0.538/0.422/0.558/H,
+                 0.528/0.503/0.731/H,
+                 0.559/0.505/0.428/C,
+                 0.491/0.497/0.406/C,
+                 0.449/0.518/0.455/C,
+                 0.490/0.539/0.514/C,
+                 0.478/0.497/0.578/C,
+                 0.519/0.525/0.636/C,
+                 0.610/0.491/0.397/O,
+                 0.475/0.473/0.344/O,
+                 0.382/0.521/0.459/O,
+                 0.559/0.531/0.492/O,
+                 0.490/0.428/0.566/O,
+                 0.498/0.492/0.695/O}
+\newcounter{u}
+\newcounter{v}
+\foreach \ux/\uy/\uz/\ut in \COORDINATES {
+  \stepcounter{u}
+  \begingroup\edef\temp{\endgroup\noexpand%
+      \addplot3[scatter,red,only marks, point meta=explicit symbolic,
+            z buffer=sort, scatter/classes={H={mark size=3pt,blue},
+            O={mark size=5pt,red},C={mark size=5pt,yellow}}]
+      coordinates { (\ux,\uy,\uz) [\ut] };
+  }\temp
+  \setcounter{v}{0}
+  \foreach \vx/\vy/\vz/\vt in \COORDINATES {
+    \stepcounter{v}
+    \ifnum\value{u}<\value{v}
+    \pgfmathparse{less(sqrt((\ux-\vx)^2+(\uy-\vy)^2+(\uz-\vz)^2), 0.1)}
+    \ifnum\pgfmathresult=1
+      \edef\bond{\switch
+        \case{\isequal{\ut}{O} \OR \isequal{\vt}{O}}  thick,color=red
+        \case{\isequal{\ut}{\vt}}                     color=green
+        \otherwise                                    color=black
+        \endswitch}
+      \begingroup\edef\temp{\endgroup\noexpand%
+        \draw[\bond] (axis cs:\ux,\uy,\uz) -- (axis cs:\vx,\vy,\vz);
+      }\temp
+    \fi\fi
+  }
+}
+\end{axis}
+\end{tikzpicture}
+\end{document}

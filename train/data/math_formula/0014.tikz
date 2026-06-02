@@ -1,0 +1,26 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage{amsmath,amssymb,amsfonts,amsthm}
+\usepackage{tikz-cd}
+\usepackage{tikz}
+
+\begin{document}
+
+\begin{tikzpicture}[x=0.45pt,y=0.45pt,yscale=-1,xscale=1]
+
+\draw   (250,133.92) .. controls (250,89.19) and (286.26,52.92) .. (331,52.92) .. controls (375.74,52.92) and (412,89.19) .. (412,133.92) .. controls (412,178.66) and (375.74,214.92) .. (331,214.92) .. controls (286.26,214.92) and (250,178.66) .. (250,133.92) -- cycle ;
+\draw   (365,139.96) .. controls (365,136.67) and (367.46,134) .. (370.5,134) .. controls (373.54,134) and (376,136.67) .. (376,139.96) .. controls (376,143.25) and (373.54,145.92) .. (370.5,145.92) .. controls (367.46,145.92) and (365,143.25) .. (365,139.96) -- cycle ; \draw   (366.61,135.75) -- (374.39,144.18) ; \draw   (374.39,135.75) -- (366.61,144.18) ;
+\draw   (295,139.96) .. controls (295,136.67) and (297.46,134) .. (300.5,134) .. controls (303.54,134) and (306,136.67) .. (306,139.96) .. controls (306,143.25) and (303.54,145.92) .. (300.5,145.92) .. controls (297.46,145.92) and (295,143.25) .. (295,139.96) -- cycle ; \draw   (296.61,135.75) -- (304.39,144.18) ; \draw   (304.39,135.75) -- (296.61,144.18) ;
+\draw   (325,72.96) .. controls (325,69.67) and (327.46,67) .. (330.5,67) .. controls (333.54,67) and (336,69.67) .. (336,72.96) .. controls (336,76.25) and (333.54,78.92) .. (330.5,78.92) .. controls (327.46,78.92) and (325,76.25) .. (325,72.96) -- cycle ; \draw   (326.61,68.75) -- (334.39,77.18) ; \draw   (334.39,68.75) -- (326.61,77.18) ;
+
+% Text Node
+\draw (437,133) node [xslant=-0.06] [align=left] {$u$};
+% Text Node
+\draw (290,159) node   {$\Lambda $};
+% Text Node
+\draw (380,159) node   {$-\Lambda $};
+% Text Node
+\draw (352,72) node   {$\infty $};
+
+\end{tikzpicture}
+
+\end{document}

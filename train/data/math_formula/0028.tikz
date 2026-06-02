@@ -1,0 +1,36 @@
+\documentclass[tikz,border=2mm]{standalone}
+\usetikzlibrary{shapes,fit,calc}
+
+\definecolor{lightblue}{HTML}{DEF2FB}
+\definecolor{darkblue}{HTML}{BCE5FB}
+\definecolor{lightbluetext}{HTML}{E6F7FF}
+\definecolor{darkbluetext}{HTML}{D3EFFE}
+\definecolor{bluetext}{HTML}{2E73A3}
+\definecolor{grey}{HTML}{AFAFAF}
+
+\begin{document}
+\sffamily\bfseries
+\begin{tikzpicture}[squares/.style={align=center, text width=3cm, text=bluetext, minimum width=4cm, minimum height=4cm}]
+
+    \node[squares,fill=lightblue] (A) at (0,0) {Enablement,\\Risk};
+    \node[squares,fill=darkblue,anchor=west] (B) at (A.east) {Self improvement\\imperative for\\enterprise\\security leaders};
+    \node[squares,fill=darkblue,anchor=north] (C) at (A.south){};
+    \node[squares,fill=lightblue,anchor=north] (D) at (B.south) {Compliance,\\Cost};
+    \node[inner sep=0pt,draw=grey,ultra thick,rounded corners=2pt,fit=(A)(B)(C)(D)] {}; 
+
+    \node[text=lightbluetext,anchor=south east, inner sep=0pt,xshift=.4mm,yshift=.2mm] at (A.south east) {\Huge 3};
+    \node[text=darkbluetext,anchor=south west, inner sep=0pt,xshift=-.3mm] at (B.south west) {\Huge 4};
+    \node[text=darkbluetext,anchor=north east, inner sep=0pt,xshift=.7mm,yshift=-.2mm] at (C.north east) {\Huge 1};
+    \node[text=lightbluetext,anchor=north west, inner sep=0pt,xshift=-.4mm,yshift=-.2mm] at (D.north west) {\Huge 2};
+    \draw[>=latex,->,color=bluetext,thick] ($(A.east)+(-1,-.1)$) -- ($(B.west)+(1,-.1)$);
+
+    \node[align=center,anchor=south,yshift=2mm] at (A.north east) {Self-improvement for security leaders: Enterprise security\\professionals need to communicate more effectively\\about the things that matter most};
+    \node[anchor=east,text=grey,xshift=-2mm] at (A.west) {High};
+    \node[anchor=east,text=grey,xshift=-2mm,align=right] at (A.south west) {Strategic\\business\\value\\provided by\\information\\security};
+    \node[anchor=east,text=grey,xshift=-2mm] at (C.west) {Low};
+    \node[anchor=north,text=grey,yshift=-2mm] at (C.south) {Low};
+    \node[anchor=north,text=grey,yshift=-1cm] at (C.south east) {Effectiveness of communicating};
+    \node[anchor=north,text=grey,yshift=-2mm] at (D.south) {High};
+\end{tikzpicture}
+
+\end{document}

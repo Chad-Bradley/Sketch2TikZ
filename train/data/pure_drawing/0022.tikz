@@ -1,0 +1,32 @@
+\documentclass{article}
+
+\usepackage{tikz} % Import TikZ package
+
+\begin{document}
+
+\begin{tikzpicture}
+
+% Draw the first aid bag
+\draw[thick, fill=red!20] (0,0) rectangle (4,3);
+
+% Draw the handle
+\draw[thick, fill=black] (2,2.8) rectangle (2.2,3.2);
+
+% Draw the zipper
+\draw[thick] (1.5,2.5) -- (2.5,2.5);
+\draw[thick] (1.5,2.5) -- (1.5,2.2);
+\draw[thick] (2.5,2.5) -- (2.5,2.2);
+\draw[thick] (1.5,2.2) -- (2.5,2.2);
+
+% Draw the cross symbol
+\draw[thick] (2,1.5) -- (2,1.8);
+\draw[thick] (1.7,1.65) -- (2.3,1.65);
+
+% Draw the first aid symbol
+\draw[thick, fill=white] (1,0.5) circle (0.4);
+\draw[thick] (1,0.9) -- (1,0.1);
+\draw[thick] (0.6,0.5) -- (1.4,0.5);
+
+\end{tikzpicture}
+
+\end{document}

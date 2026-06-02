@@ -1,0 +1,291 @@
+{
+  "timestamp": "2026-06-02T08:03:28.252987",
+  "difficulty": "math_formula",
+  "num_samples": 28,
+  "skip_judge": false,
+  "samples": [
+    {
+      "sample": "0000.png",
+      "index": 0,
+      "compile_ok": true,
+      "compile_attempts": 1,
+      "score": 3.0,
+      "diagnosis": "The generated image uses dashed lines for connections while the reference uses solid lines, and the central triangle in the left diagram is filled with a lighter shade of gray.",
+      "vision_time": 35.8,
+      "codegen_time": 21.2
+    },
+    {
+      "sample": "0001.png",
+      "index": 1,
+      "compile_ok": true,
+      "compile_attempts": 1,
+      "score": 5.0,
+      "diagnosis": "The generated image perfectly matches the reference in all aspects including shapes, line styles, positions, and topology.",
+      "vision_time": 21.7,
+      "codegen_time": 12.7
+    },
+    {
+      "sample": "0002.png",
+      "index": 2,
+      "compile_ok": true,
+      "compile_attempts": 1,
+      "score": 3.0,
+      "diagnosis": "The generated image is missing the prominent black arrowhead on the vector labeled cR that is present in the reference image.",
+      "vision_time": 19.9,
+      "codegen_time": 12.8
+    },
+    {
+      "sample": "0003.png",
+      "index": 3,
+      "compile_ok": true,
+      "compile_attempts": 1,
+      "score": 2.5,
+      "diagnosis": "The generated image incorrectly adds arrows to the square diagrams, which are absent in the reference, and slightly misaligns the overline on T1′.",
+      "vision_time": 22.6,
+      "codegen_time": 15.9
+    },
+    {
+      "sample": "0004.png",
+      "index": 4,
+      "compile_ok": true,
+      "compile_attempts": 1,
+      "score": 0.0,
+      "diagnosis": "The generated image is severely distorted with collapsed and overlapping nodes, missing arrows, and incorrect topology compared to the reference.",
+      "vision_time": 20.8,
+      "codegen_time": 14.0
+    },
+    {
+      "sample": "0005.png",
+      "index": 5,
+      "compile_ok": true,
+      "compile_attempts": 1,
+      "score": 5.0,
+      "diagnosis": "The generated image perfectly matches the reference in all aspects including shapes, line styles, topology, connections, and spatial layout.",
+      "vision_time": 13.7,
+      "codegen_time": 9.9
+    },
+    {
+      "sample": "0006.png",
+      "index": 6,
+      "compile_ok": true,
+      "compile_attempts": 1,
+      "score": 2.5,
+      "diagnosis": "The generated image has a distorted shape for the outer dashed loop and misplaced labels, with some lines incorrectly drawn or missing compared to the reference.",
+      "vision_time": 29.0,
+      "codegen_time": 15.3
+    },
+    {
+      "sample": "0007.png",
+      "index": 7,
+      "compile_ok": true,
+      "compile_attempts": 1,
+      "score": 3.0,
+      "diagnosis": "The generated image omits the prominent horizontal dotted line at q=1/2 present in the reference, which is a visually discernible difference.",
+      "vision_time": 31.7,
+      "codegen_time": 18.1
+    },
+    {
+      "sample": "0008.png",
+      "index": 8,
+      "compile_ok": true,
+      "compile_attempts": 1,
+      "score": 3.0,
+      "diagnosis": "The generated image has minor differences in line thickness and axis label placement compared to the reference, but all key elements and their relative positions are preserved.",
+      "vision_time": 27.5,
+      "codegen_time": 14.1
+    },
+    {
+      "sample": "0009.png",
+      "index": 9,
+      "compile_ok": true,
+      "compile_attempts": 1,
+      "score": 2.5,
+      "diagnosis": "The generated image has the correct shapes and topology but exhibits minor color gradient inconsistencies and slight misalignment in segment boundaries compared to the reference.",
+      "vision_time": 22.2,
+      "codegen_time": 14.0
+    },
+    {
+      "sample": "0010.png",
+      "index": 10,
+      "compile_ok": true,
+      "compile_attempts": 1,
+      "score": 2.5,
+      "diagnosis": "The generated image has minor discrepancies in node labeling (e.g., 'k-?' instead of 'k-4') and slight misalignment in the spatial layout of subtrees, but overall topology and connections are preserved.",
+      "vision_time": 41.1,
+      "codegen_time": 30.5
+    },
+    {
+      "sample": "0011.png",
+      "index": 11,
+      "compile_ok": true,
+      "compile_attempts": 1,
+      "score": 2.5,
+      "diagnosis": "The generated image omits the horizontal lines above the T1 and T1' labels that are present in the reference, altering the visual structure of the diagram.",
+      "vision_time": 23.9,
+      "codegen_time": 22.9
+    },
+    {
+      "sample": "0012.png",
+      "index": 12,
+      "compile_ok": true,
+      "compile_attempts": 1,
+      "score": 3.0,
+      "diagnosis": "The generated image adds small black dots at the vertices of the left diagram, which are absent in the reference, and the right diagram's layout has slightly altered angles and spacing, making it visually distinguishable.",
+      "vision_time": 19.4,
+      "codegen_time": 14.7
+    },
+    {
+      "sample": "0013.png",
+      "index": 13,
+      "compile_ok": true,
+      "compile_attempts": 1,
+      "score": 5.0,
+      "diagnosis": "The generated image is visually identical to the reference, with matching shapes, line styles, colors, topology, and spatial layout.",
+      "vision_time": 19.4,
+      "codegen_time": 15.4
+    },
+    {
+      "sample": "0014.png",
+      "index": 14,
+      "compile_ok": true,
+      "compile_attempts": 1,
+      "score": 3.0,
+      "diagnosis": "The generated image omits the prominent vertical line connecting 'Radiation Domination' to its example box, which is visually present in the reference.",
+      "vision_time": 25.3,
+      "codegen_time": 15.5
+    },
+    {
+      "sample": "0015.png",
+      "index": 15,
+      "compile_ok": true,
+      "compile_attempts": 1,
+      "score": 3.0,
+      "diagnosis": "The generated image omits the horizontal dashed line at y=1 and the vertical dashed line at x=1, which are visually prominent in the reference.",
+      "vision_time": 22.5,
+      "codegen_time": 12.8
+    },
+    {
+      "sample": "0016.png",
+      "index": 16,
+      "compile_ok": true,
+      "compile_attempts": 1,
+      "score": 3.0,
+      "diagnosis": "The generated image omits the dotted vertical line from point P to Q, which is visually prominent in the reference.",
+      "vision_time": 18.5,
+      "codegen_time": 15.0
+    },
+    {
+      "sample": "0017.png",
+      "index": 17,
+      "compile_ok": true,
+      "compile_attempts": 1,
+      "score": 3.0,
+      "diagnosis": "The generated image omits the small triangle connecting vertex 'v' to the circle, which is visually prominent in the reference.",
+      "vision_time": 23.7,
+      "codegen_time": 17.1
+    },
+    {
+      "sample": "0018.png",
+      "index": 18,
+      "compile_ok": true,
+      "compile_attempts": 1,
+      "score": 5.0,
+      "diagnosis": "The generated image perfectly matches the reference in all aspects including shapes, colors, line styles, topology, connections, relative positions, spatial layout, and aspect ratio.",
+      "vision_time": 21.0,
+      "codegen_time": 12.4
+    },
+    {
+      "sample": "0019.png",
+      "index": 19,
+      "compile_ok": true,
+      "compile_attempts": 1,
+      "score": 3.0,
+      "diagnosis": "The generated image omits the visually prominent double-line markings on the base edges of the central triangle, which are present in the reference.",
+      "vision_time": 24.8,
+      "codegen_time": 17.8
+    },
+    {
+      "sample": "0020.png",
+      "index": 20,
+      "compile_ok": true,
+      "compile_attempts": 1,
+      "score": 5.0,
+      "diagnosis": "The generated image perfectly matches the reference in all visual aspects including shapes, colors, layout, and text.",
+      "vision_time": 49.5,
+      "codegen_time": 45.9
+    },
+    {
+      "sample": "0021.png",
+      "index": 21,
+      "compile_ok": true,
+      "compile_attempts": 1,
+      "score": 5.0,
+      "diagnosis": "The generated image perfectly matches the reference in all aspects including shapes, labels, connections, and layout.",
+      "vision_time": 15.2,
+      "codegen_time": 13.3
+    },
+    {
+      "sample": "0022.png",
+      "index": 22,
+      "compile_ok": true,
+      "compile_attempts": 1,
+      "score": 3.0,
+      "diagnosis": "The generated image omits the diagonal arrow present in the reference, and the bottom-left ellipsis is misaligned, but all mathematical elements are present with correct layout and typography.",
+      "vision_time": 27.3,
+      "codegen_time": 21.7
+    },
+    {
+      "sample": "0023.png",
+      "index": 23,
+      "compile_ok": true,
+      "compile_attempts": 1,
+      "score": 3.0,
+      "diagnosis": "The generated image has correct topology and connections but differs in node labeling (e.g., v4,2 vs v5,2) and some line styles are solid instead of dotted, with minor spatial layout variations.",
+      "vision_time": 40.3,
+      "codegen_time": 27.7
+    },
+    {
+      "sample": "0024.png",
+      "index": 24,
+      "compile_ok": true,
+      "compile_attempts": 1,
+      "score": 2.5,
+      "diagnosis": "The generated image has the correct elements and topology, but the outer loops are more elongated and petal-like compared to the smoother, more symmetric arcs in the reference.",
+      "vision_time": 25.3,
+      "codegen_time": 15.5
+    },
+    {
+      "sample": "0025.png",
+      "index": 25,
+      "compile_ok": true,
+      "compile_attempts": 1,
+      "score": 3.0,
+      "diagnosis": "The generated image lacks the grid lines present in the reference, which are visually prominent and affect spatial context.",
+      "vision_time": 16.7,
+      "codegen_time": 12.3
+    },
+    {
+      "sample": "0026.png",
+      "index": 26,
+      "compile_ok": true,
+      "compile_attempts": 1,
+      "score": 2.5,
+      "diagnosis": "The generated image has a minor error in the denominator of the first term in U(x,y), showing x^2 instead of x^4, which is easily discernible to the naked eye.",
+      "vision_time": 20.7,
+      "codegen_time": 12.2
+    },
+    {
+      "sample": "0027.png",
+      "index": 27,
+      "compile_ok": true,
+      "compile_attempts": 1,
+      "score": 0.0,
+      "diagnosis": "The generated image contains severely distorted and stretched spring shapes that do not match the reference, including incorrect orientations and missing key connections.",
+      "vision_time": 29.3,
+      "codegen_time": 22.2
+    }
+  ],
+  "progress": "28/28",
+  "compile_rate": "28/28",
+  "avg_fidelity_score": 3.09
+}

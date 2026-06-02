@@ -1,0 +1,68 @@
+\documentclass{scrartcl}
+\usepackage{tikz}
+\usepackage{etoolbox}
+\usepackage{adjustbox}
+
+\newenvironment{mydanger}[1]{%
+  \sbox0{%
+     \begin{tikzpicture}[scale=.3]
+        \draw[rounded corners=.1] (-.05,-1.5)--++(0,2.55)--++(.1,0)--++(0,-2.55);
+        \draw[fill=white,rounded corners=1] (0,1)--(1,0)--(0,-1)--(-1,0)--cycle;
+        \draw[very thick](-.3,-1.5)--(.3,-1.5);
+        \node at (0,0) {\small#1};
+     \end{tikzpicture}
+     \hspace*{3mm}
+  }%       this space ^^^ is here for a reason!
+  \par\medskip  \noindent
+  \hangindent\wd0
+  \parindent\hangindent
+  \hangafter=-2
+  \setbox0=\hbox to0pt{\hss\lower3ex\box0}%
+  \dp0=0pt
+  \box0
+  \small
+  \ignorespaces
+ }{\par\smallskip}
+\newtheorem{theorem}{Theorem}
+\usepackage{lipsum}
+
+\makeatletter
+\patchcmd{\@begintheorem}{\trivlist\item}{\bgroup\myitem}{}{\GenericError{}{unable to patch command}{}{}}
+\patchcmd{\@opargbegintheorem}{\trivlist\item}{\bgroup\myitem}{}{\GenericError{}{unable to patch command}{}{}}
+
+% also remove the spacing before Theorem
+\patchcmd{\@begintheorem}{\hskip\labelsep}{}{}{\GenericError{}{unable to patch command}{}{}}
+\patchcmd{\@opargbegintheorem}{\hskip\labelsep}{}{}{\GenericError{}{unable to patch command}{}{}}
+
+\def\@endtheorem{\egroup}
+\def\@opargendtheorem{\egroup}
+\def\myitem[#1]{\noindent {#1}~}
+\makeatother
+
+
+
+\begin{document}
+
+\makeatletter
+\meaning\@begintheorem
+\makeatother
+
+\begin{mydanger}{A}
+\lipsum[1]
+\end{mydanger}
+
+\vspace{1cm}
+
+\begin{mydanger}{A}
+\begin{theorem}
+\lipsum[1]
+\end{theorem}
+\end{mydanger}
+
+\begin{mydanger}{B}
+\begin{theorem}[Test Theorem]
+\lipsum[1]
+\end{theorem}
+\end{mydanger}
+
+\end{document}

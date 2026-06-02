@@ -1,0 +1,101 @@
+\documentclass[11pt,letterpaper,english]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[usenames,dvipsnames,table]{xcolor}
+\usepackage{amsfonts,amssymb,amsmath, amsthm}
+\usepackage{color}
+\usepackage{pgfplots}
+\usepackage{pgfgantt}
+\usepackage{tikz}
+\usetikzlibrary{arrows}
+\usetikzlibrary{calc}
+\usepackage[colorlinks,urlcolor=black,citecolor=black,linkcolor=black,menucolor=black]{hyperref}
+
+\begin{document}
+
+\begin{tikzpicture}[scale=1.25,
+roundnode/.style={circle, draw=green!60, fill=green!5, very thick, minimum size=7mm},
+squarednode/.style={rectangle, draw=red!60, fill=red!5, very thick, minimum size=5mm},
+]
+%Vertices
+\node[roundnode]      (D11)      at (0,6)                       {$\scriptstyle{D^1_1}$};
+\node[roundnode]      (Dk1)      at (1.5,6)                       {$\scriptstyle{D^{K}_1}$};
+\node[roundnode]      (Dk'1)      at (3,6)                       {$\scriptstyle{D^{K-1}_1}$};
+\node[roundnode]      (D21)      at (6,6)                       {$\scriptstyle{D^2_1}$};
+
+\node[roundnode]      (D12)      at (0,3)                       {$\scriptstyle{D^1_i}$};
+\node[roundnode]      (Dk2)      at (1.5,3)                       {$\scriptstyle{D^{K}_i}$};
+\node[roundnode]      (Dk'2)      at (3,3)                       {$\scriptstyle{D^{K-1}_i}$};
+\node[roundnode]      (D22)      at (6,3)                       {$\scriptstyle{D^2_i}$};
+
+\node[roundnode]      (D13)      at (0,0)                       {$\scriptstyle{D^1_n}$};
+\node[roundnode]      (Dk3)      at (1.5,0)                       {$\scriptstyle{D^{K}_n}$};
+\node[roundnode]      (Dk'3)      at (3,0)                       {$\scriptstyle{D^{K-1}_n}$};
+\node[roundnode]      (D23)      at (6,0)                       {$\scriptstyle{D^2_n}$};
+
+
+%Dots
+\filldraw[color=black!60, fill=black!5, very thick](5,6) circle (0.02);
+\filldraw[color=black!60, fill=black!5, very thick](4,6) circle (0.02);
+\filldraw[color=black!60, fill=black!5, very thick](4.5,6) circle (0.02);
+
+\filldraw[color=black!60, fill=black!5, very thick](5,3) circle (0.02);
+\filldraw[color=black!60, fill=black!5, very thick](4,3) circle (0.02);
+\filldraw[color=black!60, fill=black!5, very thick](4.5,3) circle (0.02);
+
+\filldraw[color=black!60, fill=black!5, very thick](5,0) circle (0.02);
+\filldraw[color=black!60, fill=black!5, very thick](4,0) circle (0.02);
+\filldraw[color=black!60, fill=black!5, very thick](4.5,0) circle (0.02);
+
+\filldraw[color=black!60, fill=black!5, very thick](0,4) circle (0.02);
+\filldraw[color=black!60, fill=black!5, very thick](0,4.75) circle (0.02);
+
+\filldraw[color=black!60, fill=black!5, very thick](2,4) circle (0.02);
+\filldraw[color=black!60, fill=black!5, very thick](2,4.75) circle (0.02);
+
+\filldraw[color=black!60, fill=black!5, very thick](6,4) circle (0.02);
+\filldraw[color=black!60, fill=black!5, very thick](6,4.75) circle (0.02);
+
+\filldraw[color=black!60, fill=black!5, very thick](0,4-3) circle (0.02);
+\filldraw[color=black!60, fill=black!5, very thick](0,4.75-3) circle (0.02);
+
+\filldraw[color=black!60, fill=black!5, very thick](2,4-3) circle (0.02);
+\filldraw[color=black!60, fill=black!5, very thick](2,4.75-3) circle (0.02);
+
+\filldraw[color=black!60, fill=black!5, very thick](6,4-3) circle (0.02);
+\filldraw[color=black!60, fill=black!5, very thick](6,4.75-3) circle (0.02);
+
+
+%Edges
+\draw[blue,->, thick] (D11)--(Dk1);
+\draw[blue,->,thick] (Dk1)--(Dk'1);
+\draw[blue,->,thick] (Dk'1)--(4,6);
+\draw[blue,->, thick] (5,6)--(D21);
+
+
+\draw[blue,->,thick] (D12)--(Dk2);
+\draw[blue,->,thick] (Dk2)--(Dk'2);
+\draw[blue,->,thick] (Dk'2)--(4,3);
+\draw[blue,->,thick] (5,3)--(D22);
+
+\draw[blue,->,thick] (D13)--(Dk3);
+\draw[blue,->,thick] (Dk3)--(Dk'3);
+\draw[blue,->,thick] (Dk'3)--(4,0);
+\draw[blue,->,thick] (5,0)--(D23);
+
+
+%Long lines
+
+\draw[blue,->, thick] (D11)--(Dk2);
+\draw[blue,->, thick] (D11)--(Dk3);
+\draw[blue,->, thick] (D12)--(Dk1);
+\draw[blue,->, thick] (D12)--(Dk3);
+\draw[blue,->, thick] (D13)--(Dk2);
+\draw[blue,->, thick] (D13)--(Dk1);
+
+%Paths
+\path[blue,->,thick, out=120,in=45]    (D21) edge (D11);
+\path[blue,->,thick, out=120,in=45]    (D22) edge (D12);
+\path[blue,->,thick, out=120,in=45]    (D23) edge (D13);
+\end{tikzpicture}
+
+\end{document}

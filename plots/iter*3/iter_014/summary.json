@@ -1,0 +1,14 @@
+{
+  "iteration": 14,
+  "tag": null,
+  "timestamp": "2026-06-02T09:26:47.159568",
+  "input_images": [
+    "metrics_trend.png"
+  ],
+  "total_samples": 1,
+  "reviewed_samples": 1,
+  "compile_ok_count": 1,
+  "avg_score": 3.5,
+  "reviewer_platform": "default_choice",
+  "reviewer_model": "claude-opus-4-7"
+}

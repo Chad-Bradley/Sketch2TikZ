@@ -1,0 +1,35 @@
+\documentclass{article}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\begin{document}
+
+\begin{tikzpicture}
+    
+    % Declare the functions you need
+    \tikzset{
+        declare function={
+            f(\x)=\x*\x + 0.25;
+            g(\x)= f(\x) - 0.15;
+            h(\x)= f(\x) + 0.15;
+        }
+    }
+    
+    \begin{axis}[
+            domain = -.6:1,
+            samples = 50,
+            axis x line = center,
+            axis y line = center,
+            xlabel = {$x$},
+            ylabel = {$y$},
+            try min ticks = 10,
+            scale only axis,
+        ]
+        % easy to resuse
+        \addplot[blue] {f(x)};
+        % \addplot[red] {g(x)};
+        % \addplot[green] {h(x)};
+        
+        \addplot[black] {x};
+    \end{axis}
+\end{tikzpicture}
+\end{document}

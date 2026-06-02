@@ -1,0 +1,39 @@
+\documentclass{article}
+
+% Load TikZ package
+\usepackage{tikz}
+
+% Define colors
+\definecolor{penbody}{RGB}{0,0,0}
+\definecolor{penclip}{RGB}{192,192,192}
+\definecolor{penlid}{RGB}{128,128,128}
+\definecolor{penink}{RGB}{0,0,255}
+
+% Define pen dimensions
+\def\penlength{4cm}
+\def\penwidth{1cm}
+\def\penclipwidth{0.5cm}
+\def\penlidwidth{0.8cm}
+\def\peninkwidth{0.2cm}
+
+% Begin TikZ picture
+\begin{document}
+
+\begin{tikzpicture}
+
+% Draw pen body
+\filldraw[draw=penbody,fill=penbody] (0,0) rectangle (\penlength,\penwidth);
+
+% Draw pen clip
+\filldraw[draw=penclip,fill=penclip] (\penlength-\penclipwidth,\penwidth) rectangle (\penlength,\penwidth+0.5cm);
+
+% Draw pen lid
+\filldraw[draw=penlid,fill=penlid] (0,\penwidth) rectangle (\penlidwidth,\penwidth+0.5cm);
+
+% Draw pen ink
+\filldraw[draw=penink,fill=penink] (\penlength-\peninkwidth,\penwidth/2) circle (0.1cm);
+
+% End TikZ picture
+\end{tikzpicture}
+
+\end{document}

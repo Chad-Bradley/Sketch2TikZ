@@ -1,0 +1,22 @@
+\documentclass[varwidth,border=10]{standalone}
+\usepackage{tikz}
+\usetikzlibrary{calc,angles,quotes,decorations.pathreplacing}
+\begin{document}
+  \begin{tikzpicture}[scale=5, decoration={brace,raise=5pt,amplitude=10pt}]
+    % ---- draw all lines ----
+    \draw[path picture={\fill[blue!10] circle(1);}]
+      (0,0) coordinate (A) -- ++(1,0) coordinate (B) -- ++(0,.7) coordinate(D) -- cycle;
+    \draw ($(A)!1cm!(D)$) coordinate (C) -- (B);
+    \draw[dashed] (C|-A) -- (C);
+    \draw[gray] (B) arc(0:70:1);
+    % ----  put the point names ----
+    \foreach \pt/\ps in {A/below left,B/below right,C/above,D/above right}
+      \path (\pt) node[\ps] {\pt} node[scale=2]{.};
+    % ----  draw the angle ----
+    \pic [draw,angle radius=7mm, angle eccentricity=1.4, "$x$"] {angle = B--A--C};
+    % ----  put all braces and their labels ----
+    \path (B) edge[decorate,"$1$"below=15pt] (A)
+       (C|-A) edge[decorate,"$\sin(x)$"left=15pt] (C)
+          (D) edge[decorate,"$\tan(x)$"right=15pt] (B);
+  \end{tikzpicture}
+\end{document}

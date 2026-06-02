@@ -1,0 +1,141 @@
+{
+  "timestamp": "2026-05-31T12:43:42.710124",
+  "difficulty": "pure_drawing",
+  "num_samples": 13,
+  "skip_judge": false,
+  "samples": [
+    {
+      "sample": "0000.png",
+      "index": 0,
+      "compile_ok": true,
+      "compile_attempts": 1,
+      "score": 2.5,
+      "diagnosis": "The generated image has the correct number of nodes and connections, but the spatial layout is distorted with incorrect relative positions and some lines are misplaced or misaligned compared to the reference.",
+      "vision_time": 22.8,
+      "codegen_time": 16.9
+    },
+    {
+      "sample": "0001.png",
+      "index": 1,
+      "compile_ok": true,
+      "compile_attempts": 1,
+      "score": 3.0,
+      "diagnosis": "The right shape in the generated image is a filled crescent without the black outline present in the reference, making it visually distinct.",
+      "vision_time": 20.6,
+      "codegen_time": 11.1
+    },
+    {
+      "sample": "0002.png",
+      "index": 2,
+      "compile_ok": true,
+      "compile_attempts": 1,
+      "score": 1.5,
+      "diagnosis": "The generated image has excessive connections between nodes, altering the topology and creating a denser, more complex network than the sparse, specific connections in the reference.",
+      "vision_time": 21.4,
+      "codegen_time": 15.0
+    },
+    {
+      "sample": "0003.png",
+      "index": 3,
+      "compile_ok": true,
+      "compile_attempts": 1,
+      "score": 0.0,
+      "diagnosis": "The generated image uses thick black lines and a filled gray square, whereas the reference uses thin gray lines and an unfilled square, resulting in severe stylistic distortion.",
+      "vision_time": 22.6,
+      "codegen_time": 21.7
+    },
+    {
+      "sample": "0004.png",
+      "index": 4,
+      "compile_ok": true,
+      "compile_attempts": 1,
+      "score": 2.5,
+      "diagnosis": "The generated shape has a similar overall cross-like form but lacks the distinct red outline present in the reference image, and its edges are more jagged and irregular.",
+      "vision_time": 21.3,
+      "codegen_time": 19.2
+    },
+    {
+      "sample": "0005.png",
+      "index": 5,
+      "compile_ok": true,
+      "compile_attempts": 1,
+      "score": 2.5,
+      "diagnosis": "The generated image has the correct shapes and topology but lacks the grid lines present in the reference, resulting in a visually incomplete appearance.",
+      "vision_time": 25.3,
+      "codegen_time": 23.3
+    },
+    {
+      "sample": "0006.png",
+      "index": 6,
+      "compile_ok": true,
+      "compile_attempts": 1,
+      "score": 3.0,
+      "diagnosis": "The generated image omits the horizontal lines connecting the boxes in the yy: and xx: rows, which are visually prominent in the reference.",
+      "vision_time": 13.0,
+      "codegen_time": 12.7
+    },
+    {
+      "sample": "0007.png",
+      "index": 7,
+      "compile_ok": true,
+      "compile_attempts": 1,
+      "score": 5.0,
+      "diagnosis": "The generated image perfectly matches the reference in all aspects including shapes, colors, connections, and layout.",
+      "vision_time": 18.2,
+      "codegen_time": 13.7
+    },
+    {
+      "sample": "0008.png",
+      "index": 8,
+      "compile_ok": true,
+      "compile_attempts": 1,
+      "score": 5.0,
+      "diagnosis": "The generated image is an exact visual match to the reference, with identical text, layout, line styles, and spatial relationships.",
+      "vision_time": 16.7,
+      "codegen_time": 16.1
+    },
+    {
+      "sample": "0009.png",
+      "index": 9,
+      "compile_ok": true,
+      "compile_attempts": 1,
+      "score": 1.5,
+      "diagnosis": "The generated image has incorrect line styles and missing green connections in the right-hand diagrams compared to the reference, altering the topology and visual structure.",
+      "vision_time": 31.5,
+      "codegen_time": 28.1
+    },
+    {
+      "sample": "0010.png",
+      "index": 10,
+      "compile_ok": true,
+      "compile_attempts": 1,
+      "score": 4.5,
+      "diagnosis": "The generated image closely matches the reference in shape, topology, and layout, with only minor variations in petal curvature and spacing that are barely discernible to the naked eye.",
+      "vision_time": 17.3,
+      "codegen_time": 14.6
+    },
+    {
+      "sample": "0011.png",
+      "index": 11,
+      "compile_ok": true,
+      "compile_attempts": 1,
+      "score": 0.0,
+      "diagnosis": "The generated image shows disconnected, semi-circular arcs instead of the continuous, overlapping elliptical loops forming a helix in the reference, indicating severe topological and shape distortion.",
+      "vision_time": 30.9,
+      "codegen_time": 19.2
+    },
+    {
+      "sample": "0012.png",
+      "index": 12,
+      "compile_ok": true,
+      "compile_attempts": 1,
+      "score": 5.0,
+      "diagnosis": "The generated image perfectly matches the reference in all aspects including shapes, colors, topology, and spatial layout.",
+      "vision_time": 15.9,
+      "codegen_time": 8.5
+    }
+  ],
+  "progress": "13/13",
+  "compile_rate": "13/13",
+  "avg_fidelity_score": 2.77
+}

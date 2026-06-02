@@ -1,0 +1,18 @@
+\documentclass{article}
+\usepackage{tikz}
+\usetikzlibrary{fadings}
+
+\tikzfading[name=middle,
+            top color=transparent!100,
+            bottom color=transparent!100,
+            middle color=transparent!20]
+
+\begin{document}
+
+\begin{tikzpicture}
+\fill[path fading=middle, red] (0,0) rectangle (4,0.2);
+\foreach \angle in {20,40,...,340}
+  \fill[transform canvas={rotate=-\angle},path fading=middle, red] (0,0) rectangle (4,0.2);
+\end{tikzpicture}
+
+\end{document}

@@ -1,0 +1,36 @@
+\documentclass[]{beamer}
+\def\newblock{\hskip .11em plus .33em minus .07em}
+\usepackage{tikz}
+\usetikzlibrary{arrows,shapes}
+
+\begin{document}
+\begin{frame}
+\begin{block}{Block title goes here}                        
+
+Some text here.
+
+        \begin{tikzpicture}
+        % \draw[style=help lines] (-1cm,0cm) grid[step=1cm] (5cm,5cm); % These don't work for some reason.
+            \node (e0) at (2, 0.0) {$p_{a,i} + p_{n,i} = 1$} ;
+            \node (e1) at (2, -0.5) {$E_i = p_{a,i}*\overline{F_a} + (1 - p_{a,i})*\overline{F_n}$} ;
+            \node (e2) at (2, -1.0) {$S = \sum^N_{i=1}(E_i - D_i)^2$} ;
+            \node (e3) at (1, -2.0) {$\frac{\partial S}{\partial \overline{F_n}} = 0$} ;
+            \node (e4) at (1, -4.0) {$\overline{F_a} = \frac{\overline{D}}{\overline{p_a}} + (1 - \frac{1}{\overline{p_a}})\overline{F_n}$} ;
+            \node (e5) at (6, -2.0) {$\frac{\partial S}{\partial \overline{F_a}} = 0$} ;
+            \node (e6) at (6, -5.0) {$\overline{F_n} = \overline{D} - \frac{covariance(p_a,D)}{variance(p_a)}\overline{p_a}$} ;
+
+        \coordinate (n1) at (5.2, -4.2);
+        \begin{scope}[very thick, -stealth]
+        \draw (e2) to (e3) ;
+        \draw (e2) to (e5) ;
+        \draw (e3) to (e4) ;
+        \draw[-] (e4) to [in=135, out=0] (n1) ;
+        \draw[-] (e5) to [in=135, out=-90] (n1) ;
+        \draw (n1) to [out=-45] (e6) ;
+        \end{scope}
+        \end{tikzpicture}       
+
+\end{block}
+
+\end{frame}
+\end{document}

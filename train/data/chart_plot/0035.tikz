@@ -1,0 +1,18 @@
+\documentclass{standalone}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.7}
+\begin{document}
+
+\begin{tikzpicture}
+\begin{axis}[   ymin=0,
+            axis lines=left,
+            samples at={0},
+                ybar=0pt,
+            bar width=1,
+            bar shift=0pt]
+            \addplot [fill=red!25] plot coordinates {(0,{6!/5!})};                                                                                                                                                                                                             
+            \addplot [fill=gray!25,bar width=.5] plot coordinates {(0,{(12/2)!/5!})};
+\end{axis}
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,59 @@
+\documentclass{article}
+\usepackage{tikz,listings,amssymb}
+\lstset{language=Matlab,basicstyle=\tiny\ttfamily,breaklines=true}
+\usetikzlibrary{shapes.geometric}
+
+
+\begin{document}
+\begin{tikzpicture}
+\node[draw,inner ysep=3pt,
+      top color=blue!60!black,
+      bottom color=blue,
+      text=white,
+      align=flush left,
+      font=\tiny\ttfamily,
+      text width=\textwidth] (a) {Command Window};
+\node[circle,white,draw,inner sep=1.9pt] (c) at ([xshift=-3mm]a.east) {};
+\node[isosceles triangle,
+      white,
+      fill,
+      rotate=-90,
+      anchor=apex,
+      isosceles triangle apex angle=60,
+      inner sep=0.8pt] (t) at ([yshift=0.5pt]c.south) {};
+
+\node[
+      anchor=north west,
+      minimum width=\textwidth-3mm,
+      align=flush left,
+      font=\tiny\ttfamily,
+      text width=\textwidth-3mm,
+      inner sep=0
+     ] (l) at ([xshift=3mm]a.south west)
+    {%
+\begin{lstlisting}[aboveskip=0pt,belowskip=0pt]
+>> help sin
+ sin    Sine of argument in radians.
+    sin(X) is the sine of the elements of X.
+
+    See also asin, sind.
+
+    Overloaded methods:
+       sdpvar/sin
+       codistributed/sin
+       gpuArray/sin
+
+    Reference page in Help browser
+       doc sin
+
+>> 
+\end{lstlisting}%
+};
+
+\filldraw[fill=blue!10,draw=white] ([yshift=-0.3pt]a.south west) rectangle (l.south west);
+\draw ([xshift=0.3pt]a.south west) rectangle ([xshift=2mm+0.7pt]l.south east);
+\node[anchor=south east,inner xsep=0.5pt,inner ysep=1pt] (f) at (l.south west) {$\scriptstyle f\!x$};
+\end{tikzpicture}
+
+
+\end{document}

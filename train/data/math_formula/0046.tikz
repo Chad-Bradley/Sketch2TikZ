@@ -1,0 +1,46 @@
+\documentclass[landscape]{article}
+\usepackage{tikz}
+\usetikzlibrary{calc,arrows}
+% Definition of blocks:
+\tikzset{block/.style    = {draw, thick, rectangle, minimum height = 3em,minimum width = 3em,node distance = 2.4cm},
+  sum/.style      = {draw, circle, node distance = 1.5cm}, % Adder
+  input/.style    = {coordinate}, % Input
+  output/.style   = {coordinate}, % Output
+}
+
+% Defining string as labels of certain blocks.
+\newcommand{\suma}{\Large}
+\newcommand{\inte}{$\displaystyle \int$}
+\newcommand{\derv}{\Large $\frac{d}{dt}$}
+\begin{document}
+
+
+\begin{tikzpicture}[auto, thick, node distance=2cm, >=triangle 45]
+    \draw
+    %% Drawing the blocks of first filter :
+    node [input, name=input1] {} 
+    node [sum, right of=input1] (sum1) {\suma}
+    node [block, right of=sum1] (inte1) {\inte}
+    node [block, right of=inte1] (inte2) {\inte}
+    node [block, right of=inte2] (gain1) {\Large $\frac{1}{V_{c}(t_{f}-t)}$}
+    node [block, right of=gain1] (gain2) {\derv}
+    node [block, right of=gain2] (gain3) {$N'V_{c}$}
+    node [sum, right of=gain3] (sum2) {\suma}
+    node [block, above of=gain1] (gain4) {$0.5N'$};
+
+    % Joining blocks. 
+    % Commands \draw with options like [->] must be written individually
+    \draw[->](input1) -- node {$a_{T}$}(sum1);
+    \draw[->](sum1) -- node {$\ddot{y}$} (inte1);
+    \draw[->](inte1) -- node {$\dot{y}$} (inte2);
+    \draw[->](inte2) -- node {$y$} (gain1);
+    \draw[->](gain1) -- node {$\lambda$} (gain2);
+    \draw[->](gain2) -- node {$\dot{\lambda}$} (gain3);
+    \draw[->](sum1) -- node {$\ddot{y}$} (inte1);
+    \draw[->](gain3) -- node {} (sum2);
+    \draw[->](sum1) |- node {} (gain4);
+    \draw[->](gain4) -| node {} (sum2);
+
+    \draw  (sum2) -- node {1} ++(0,-2cm) -| (sum1) node[pos=0.25] {2} node[pos=0.75] {3};
+\end{tikzpicture}
+\end{document}

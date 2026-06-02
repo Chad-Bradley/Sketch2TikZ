@@ -1,0 +1,91 @@
+\documentclass[11pt]{amsart}
+\usepackage{color}
+\usepackage{color}
+\usepackage{tikz}
+\usepackage{pgffor}
+
+\begin{document}
+
+\begin{tikzpicture}[scale=.5]
+
+\begin{scope}[shift={(0,2.5)}]
+\draw[-] (0,1) -- (1,1);
+\draw[-] (2,1) -- (3,1);
+\draw[-] (0,2) -- (1,2);
+\draw[-] (2,2) -- (3,2);
+\foreach \x/ \y in {1/1}
+    {
+    \draw[-] (\x,\y) .. controls (\x+.33,\y+.33) and (\x+.33,\y+.66) .. (\x,\y+1);
+    \draw[-] (\x+1,\y) .. controls (\x+.66,\y+.33) and (\x+.66,\y+.66) .. (\x+1,\y+1);
+    }
+\foreach \x/ \y in {1/1}
+	{
+\draw[black, ultra thick] (\x+1,\y) .. controls (\x+.66,\y+.33) and (\x+.66,\y+.66) .. (\x+1,\y+1);
+	}
+\draw[->] (4,1.5) -- (5,1.5);
+\end{scope}
+
+\begin{scope}[shift={(6,2.5)}]
+\draw[-] (0,1) -- (1,1);
+\draw[-] (2,1) -- (3,1);
+\draw[-] (4,1) -- (5,1);
+\draw[-] (0,2) -- (1,2);
+\draw[-] (2,2) -- (3,2);
+\draw[-] (4,2) -- (5,2);
+\foreach \x/ \y in {1/1, 3/1}
+    {
+    \draw[-] (\x,\y) .. controls (\x+.33,\y+.33) and (\x+.33,\y+.66) .. (\x,\y+1);
+    \draw[-] (\x+1,\y) .. controls (\x+.66,\y+.33) and (\x+.66,\y+.66) .. (\x+1,\y+1);
+    }
+\foreach \x/ \y in {1/1, 3/1}
+	{
+\draw[black, ultra thick] (\x+1,\y) .. controls (\x+.66,\y+.33) and (\x+.66,\y+.66) .. (\x+1,\y+1);
+	}
+\end{scope}
+
+
+
+
+\begin{scope}[shift={(0,0)}]
+\draw[-] (0,0) -- (3,0);
+\draw[-] (0,1) -- (1,1);
+\draw[-] (2,1) -- (3,1);
+\draw[-] (0,2) -- (1,2);
+\draw[-] (2,2) -- (3,2);
+\foreach \x/ \y in {1/1}
+    {
+    \draw[-] (\x,\y) .. controls (\x+.33,\y+.33) and (\x+.33,\y+.66) .. (\x,\y+1);
+    \draw[-] (\x+1,\y) .. controls (\x+.66,\y+.33) and (\x+.66,\y+.66) .. (\x+1,\y+1);
+    }
+\foreach \x/ \y in {1/1}
+	{
+\draw[black, ultra thick] (\x+1,\y) .. controls (\x+.66,\y+.33) and (\x+.66,\y+.66) .. (\x+1,\y+1);
+	}
+\draw[->] (4,1) -- (5,1);
+\end{scope}
+
+\begin{scope}[shift={(6,0)}]
+\draw[-] (0,0) -- (3,0);
+\draw[-] (4,0) -- (5,0);
+\draw[-] (0,1) -- (1,1);
+\draw[-] (2,1) -- (3,1);
+\draw[-] (4,1) -- (5,1);
+\draw[-] (0,2) -- (1,2);
+\draw[-] (2,2) -- (5,2);
+\foreach \x/ \y in {1/1, 3/0}
+    {
+    \draw[-] (\x,\y) .. controls (\x+.33,\y+.33) and (\x+.33,\y+.66) .. (\x,\y+1);
+    \draw[-] (\x+1,\y) .. controls (\x+.66,\y+.33) and (\x+.66,\y+.66) .. (\x+1,\y+1);
+    }
+\foreach \x/ \y in {3/0}
+	{
+\draw[black, ultra thick] (\x+1,\y) .. controls (\x+.66,\y+.33) and (\x+.66,\y+.66) .. (\x+1,\y+1);
+	}
+\foreach \x/ \y in {1/1}
+	{
+\draw[lightgray, ultra thick] (\x+1,\y) .. controls (\x+.66,\y+.33) and (\x+.66,\y+.66) .. (\x+1,\y+1);
+	}
+\end{scope}
+\end{tikzpicture}
+
+\end{document}

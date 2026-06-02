@@ -1,0 +1,16 @@
+[
+  {
+    "sample": "metrics_trend.png",
+    "score": 3.5,
+    "diagnosis": "Same dual-panel layout, same line trends, same color mapping, and same annotated values. Differences: generated uses serif/LaTeX-style typography vs reference sans-serif; markers on data points are missing or much less visible in the generated version; value labels overlap more densely (e.g., '78%/72%' cluster, '50%/48%' overlap) due to tighter spacing; legend box and overall plot proportions slightly compressed horizontally; gridlines fainter. Structure and data are faithful but visual styling and marker rendering noticeably differ.",
+    "reviewer_platform": "default_choice",
+    "reviewer_model": "claude-opus-4-7",
+    "success": true,
+    "result": {
+      "vision_prompt_fix": "For every line/scatter plot, explicitly enumerate each series' marker shape (circle, square, triangle, diamond, inverted-triangle, plus, x-cross), marker size, marker fill color, and confirm markers are drawn AT every data point; also specify the exact font family (sans-serif vs serif), figure aspect ratio (width:height), legend box position and padding, gridline opacity, and the spatial offset direction of every value label relative to its data point to prevent overlap.",
+      "code_system_fix": "When reproducing matplotlib-style figures, always (1) use \\usepackage{helvet}\\renewcommand{\\familydefault}{\\sfdefault} for sans-serif typography unless the reference is explicitly serif, (2) draw visible markers at every data point using pgfplots 'mark=*|square*|triangle*|diamond*|x|+' with 'mark size=2.5pt' and matching 'mark options={fill=<seriescolor>}', (3) preserve the original figure aspect ratio by setting 'width' and 'height' explicitly in axis options, and (4) place each value label using 'nodes near coords' with per-point 'anchor' overrides (e.g., anchor=south for upper series, anchor=north for lower series) so overlapping labels are offset vertically.",
+      "root_cause": "Vision/code prompts under-specified marker rendering, font family, and label-collision handling, causing serif typography, missing markers, and overlapping annotations."
+    },
+    "error": null
+  }
+]

@@ -1,0 +1,49 @@
+\documentclass{amsart}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{newlfont}
+\usepackage{mathtools}
+\usepackage{tikz}
+
+\tikzset{
+mydot/.style={
+  fill,
+  circle,
+  inner sep=1.5pt
+  }
+}
+
+\begin{document}
+
+\begin{tikzpicture}[>=latex]
+
+
+% the coordinates of the vertices
+\coordinate (O) at (0,0);
+\coordinate (P) at (2,1);
+\coordinate (Q) at (-3,5);
+
+% the axis
+\draw[help lines,->] (-3.5,0) -- (2.5,0);
+\draw[help lines,->] (0,-0.5) -- (0,5.5);
+
+% the edges of the triangle
+\draw (O) -- node[pos=0.60,below] {$a$} (P) -- node[pos=0.45,above] {$b$} (Q) -- node[pos=0.60,left] {$c$} cycle;
+
+
+% labelling the vertices
+\node[mydot,label={right:$P = (\cos\phi, \sin\phi)$}] at (P) {};
+\node[mydot,label={left:$Q = (\cos\theta, \sin\theta)$}] at (Q) {};
+\node[mydot,label={below:$O$}] at (O) {};
+
+% the arcs for the angles
+\begin{scope}[gray]
+\draw[->]
+  (1,0) +(0:0.5cm) arc [radius=1cm,start angle=0,end angle=41] node[midway,right] {$\phi$};
+\draw[->]
+  (0.5,0) +(0:0.25cm) arc [radius=0.75cm,start angle=0,end angle=122] node[midway,above] {$\theta$};
+\end{scope}
+\end{tikzpicture}
+\end{document}

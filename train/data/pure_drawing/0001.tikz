@@ -1,0 +1,29 @@
+\documentclass{article}
+
+% Importing TikZ package
+\usepackage{tikz}
+
+% Defining the fountain color
+\definecolor{fountain}{RGB}{0, 102, 204}
+
+\begin{document}
+
+% Creating a TikZ picture environment
+\begin{tikzpicture}
+
+% Drawing the fountain base
+\filldraw[fountain] (0,0) circle (2);
+
+% Drawing the fountain water
+\filldraw[white] (0,0) circle (1.8);
+
+% Drawing the fountain streams
+\foreach \i in {0,30,...,330}
+    \draw[line width=2pt, fountain] (\i:1.8) -- (\i:2.5);
+
+% Drawing the fountain top
+\filldraw[fountain] (0,2.5) circle (0.5);
+
+\end{tikzpicture}
+
+\end{document}

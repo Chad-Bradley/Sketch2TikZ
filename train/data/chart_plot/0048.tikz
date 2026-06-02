@@ -1,0 +1,52 @@
+\documentclass{article}
+\usepackage{pgfplots}
+\pgfplotsset{compat=newest}
+
+\makeatletter
+\def\pad#1#2{\xpad#1#2.\relax#2\,\%}
+
+\def\xpad#1#2.#3\relax{%
+\count@#1\relax
+\@tempcnta\@ne\relax
+\loop
+\ifnum\count@>\z@
+\advance\count@\m@ne
+\multiply\@tempcnta 10\relax
+\ifnum0#2<\@tempcnta \phantom{0}\fi
+\repeat
+}
+
+\makeatother
+
+\begin{document}
+What I have:
+
+\begin{tikzpicture}
+\begin{axis}[
+    ymode=log,
+    height=4cm, width=8cm,
+    domain=1:10,
+    axis lines=left,
+    clip=false
+]
+\pgfplotsinvokeforeach{0.01, 0.1, 1, 10, 100}{
+    \addplot [black] {#1*x} node [anchor=west] {\pad{2}{#1}};
+}
+\end{axis}
+\end{tikzpicture}
+
+\begin{tikzpicture}
+\begin{axis}[
+    ymode=log,
+    height=4cm, width=8cm,
+    domain=1:10,
+    axis lines=left,
+    clip=false
+]
+\pgfplotsinvokeforeach{0.01, 0.1, 1, 10, 100}{
+    \addplot [black] {#1*x} node [anchor=west] {\pad{3}{#1}};
+}
+\end{axis}
+\end{tikzpicture}
+
+\end{document}

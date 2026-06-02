@@ -1,0 +1,30 @@
+\documentclass{standalone}
+\usepackage{pgfplots}
+\pgfplotsset{compat=newest}
+\newlength{\tempdima}
+\begin{document}
+%\begin{figure}
+\settowidth{\tempdima}{Second:\quad 2}% longest entry
+\begin{tikzpicture}
+\begin{axis}[%
+width=4in,height=3in,at={(0in,0in)},
+scale only axis,
+xmin=0,xmax=10,ymin=0,ymax=5,
+legend style={legend cell align=left,align=left},
+]
+\addplot [color=red]
+  table[row sep=crcr]{%
+0   5\\
+10   0\\
+};
+\addlegendentry{\hbox to \tempdima {First:\hfill 1}};
+\addplot [color=blue]
+  table[row sep=crcr]{%
+0   4\\
+10   1\\
+};
+\addlegendentry{\makebox[\tempdima]{Second:\hfill 2}};
+\end{axis}
+\end{tikzpicture}
+%\end{figure}
+\end{document}

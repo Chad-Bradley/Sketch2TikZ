@@ -1,0 +1,20 @@
+\documentclass{article}
+
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows,positioning,calc}
+
+\tikzset{%
+    block/.style    = {draw, thick, rectangle, node distance=3em, minimum height = 3em,
+        minimum width = 3em, align=center}
+}
+
+\begin{document}
+\begin{tikzpicture}[auto, thick, >=triangle 45]
+
+\draw node [block] (b) {B};
+\draw node [block, above left=of b] (a) {A};
+\draw (a.south) node [below] (a2) {Label};
+\draw[->](a2.south) |- (b);
+
+\end{tikzpicture}
+\end{document}

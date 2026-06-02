@@ -1,0 +1,25 @@
+\documentclass[12pt]{article}
+
+\csname @ifdefinable\endcsname\NameToCsToken{\long\def\NameToCsToken#1#{\romannumeral0\innerNameToCsToken{#1}}}%
+\newcommand\innerNameToCsToken[2]{\expandafter\exchange\expandafter{\csname#2\endcsname}{ #1}}%
+\newcommand\exchange[2]{#2#1}%
+
+\usepackage{pgfplots}
+\usepackage{float}
+\pgfplotsset{compat=1.17}
+\usepackage{tikz}
+\usetikzlibrary{shapes, arrows.meta, automata, positioning, matrix, calc}
+\usepackage[RPvoltages, american,siunitx]{circuitikz}
+\usepackage[margin=1in]{geometry} 
+\begin{document}    
+    \begin{figure}[H]\centering
+        \begin{tikzpicture}
+            \def\inRad{5}\def\outDist{3}%
+            \NameToCsToken\def{angVal1}{90}%
+            \NameToCsToken\def{angVal2}{60};
+            \node[draw, circle, minimum size = \inRad cm](spacer){}; %5cm is diameter, not radius
+            \draw(spacer.\NameToCsToken{angVal1}) -- ++(\NameToCsToken{angVal1}: \outDist cm) coordinate (place1);
+            \draw(place1) arc(\NameToCsToken{angVal1}: \NameToCsToken{angVal2}: \inRad*.5cm + \outDist cm) coordinate (place2) -- (spacer.\NameToCsToken{angVal2});
+        \end{tikzpicture} 
+    \end{figure}
+\end{document}

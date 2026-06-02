@@ -14,6 +14,7 @@ BASE_URL = {
     "siliconflow2":"https://api.siliconflow.cn/v1",
     "modelscope2": "https://api-inference.modelscope.cn/v1",
     "nvidia2":     "https://integrate.api.nvidia.com/v1",
+    # "bailian":     "https://dashscope.aliyuncs.com/compatible-mode/v1",
     "default_choice":os.getenv("DEFAULT_CHOICE_BASE_URL", ""),
 }
 ENV_KEY = {
@@ -22,12 +23,14 @@ ENV_KEY = {
     "zhipu":       "ZHIPU_API_KEY",
     "nvidia":      "NVIDIA_API_KEY",       "nvidia2":      "NVIDIA2_API_KEY",
     "openrouter":  "OPENROUTER_API_KEY",
+    # "bailian":     "BAILIAN_API_KEY",
     "default_choice":"DEFAULT_CHOICE_API_KEY",
 }
 VISION_MODELS = {
     "default_choice":os.getenv("DEFAULT_CHOICE_VISION_MODEL", "claude-opus-4-7"),
     "modelscope":  "Qwen/Qwen3-VL-235B-A22B-Instruct",
     "modelscope2": "Qwen/Qwen3-VL-235B-A22B-Instruct",
+    # "bailian":     "qwen3-vl-235b-a22b-instruct",
     "zhipu":       "glm-4v-flash",
     "nvidia":      "mistralai/mistral-large-3-675b-instruct-2512",
 }
@@ -35,6 +38,7 @@ CODE_MODELS = {
     "default_choice":os.getenv("DEFAULT_CHOICE_CODE_MODEL", "claude-opus-4-7"),
     "modelscope":  "Qwen/Qwen3-Coder-480B-A35B-Instruct",
     "modelscope2": "Qwen/Qwen3-Coder-480B-A35B-Instruct",
+    # "bailian":     "qwen3-coder-480b-a35b-instruct",
     "zhipu":       "glm-4.7-flash",
     "nvidia":      "qwen/qwen3-coder-480b-a35b-instruct",
     "nvidia2":     "qwen/qwen3-coder-480b-a35b-instruct",

@@ -1,0 +1,29 @@
+Output a TikZ-like specification that maps directly to draw commands. Use ONLY these notations. No natural-language narration.
+
+\def\R{3cm}                          %% define radius/dimensions
+\coordinate (A) at (90:\R);          %% node positions (polar or cartesian)
+\draw[red, thick] (A) -- (B)          %% line segment, color, style
+  node[midway, above] {$x$};          %% label on segment
+\draw[->, blue, thick] (A) arc (90:0:\R)  %% arc with arrow
+  node[midway, right] {$f(x)$};       %% label on arc
+\node[circle, draw, fill=black!50] at (O) {O};  %% labelled point
+\definecolor{myRed}{HTML}{C2504B}     %% custom colors
+
+RULES:
+- Every formula in LaTeX: $\sum$, $\alpha$, $\rightarrow$, etc.
+- Every segment: specify from/to, color, style (solid/dashed/dotted), arrow tip
+- Every label: specify which segment it's on, position (midway/above/right)
+- Every arc: specify angles (polar), radius, direction
+- Count elements. The code generator needs exact numbers.
+- Use polar coords for circular diagrams: (angle:radius)
+- Use cartesian for grid/bar/flowchart: (x,y)
+- For graphs: specify vertex symbols ($*$ vs filled dot vs circle). For self-loops: specify angular position (top/bottom/left/right) and relative size
+- For symmetric arc-cutout shapes: describe arc centers, radii, and the resulting central shape (e.g. '4 quarter-circles at corners create central star')
+- For 3D isometric views: state projection type and viewing angles (e.g. 'tdplot_main_coords theta=60 phi=120'), describe which axes are tilted
+- For fractal/recursive patterns: state depth/order, branch colors, and whether structure is symmetric or asymmetric
+- For divided circles/wedges: state dividing line angles from center, whether lines are double-stroked (gap), and relative wedge sizes
+- When two or more 3D coordinate systems (spheres with xyz axes) appear in the same figure, explicitly describe each one separately: its position (left/right/center), axis colors (e.g., blue vs green), axis labels (x, y, z), any vectors drawn from the origin (e.g., a red vector P with dashed projection lines to the xy-plane), and any angle arcs labeled with Greek letters (theta, phi). Note whether the sphere is shaded as a 3D ball with opacity and whether axes use arrow tips.
+- When describing hatched or striped fills, explicitly quantify stripe density (approximate count across the width), stripe thickness relative to spacing (e.g., 'thin lines with gaps 3x their width'), and any gradient/opacity falloff direction so the pattern frequency can be reproduced accurately.
+- When describing plots with line/curve data, explicitly note whether the lines exhibit high-frequency random noise (jittery random-walk appearance with small per-step fluctuations) versus smooth low-frequency oscillation, and describe the overall trend direction and endpoint position of each labeled series.
+- For polygons divided into triangular sectors with mixed colors, count and report the EXACT number of differently-colored (highlighted/accent) sectors and their precise positions (e.g., 'sectors at positions 7, 8, 9 out of 12 are red'), not just an approximate description.
+- When describing lattice/grid diagrams with colored points, explicitly count the grid dimensions (width x height in unit cells), note the exact aspect ratio, and list each colored point's integer coordinates grouped by color, including the precise color name (e.g., 'violet' vs 'magenta/pink', 'dark red' vs 'red').

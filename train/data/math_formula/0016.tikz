@@ -1,0 +1,61 @@
+\documentclass[16pt]{beamer}
+
+\usepackage{arev}
+\renewcommand{\familydefault}{\sfdefault}
+
+\usepackage{tikz}
+\usetikzlibrary{arrows,calc,shapes}
+
+\newcommand\overnote[3][0em,0em]{% %[relative position] %note above %orig text
+    \ensuremath{
+        \overset{
+            \begin{tikzpicture}
+                \coordinate (refpoint) at (0,0);
+                \begin{pgfinterruptboundingbox}
+                    \node[draw=red,fill=white,ellipse, very thick,anchor=south] (content) at ($(0,20pt)+({#1})$) {#2};
+                    \draw[red, very thick, ->,-triangle 45] (content.south) to[out=-90,in=+90] (0pt,10pt) to (0pt,0pt); 
+                \end{pgfinterruptboundingbox}
+            \end{tikzpicture}
+        }{#3}%
+    }%
+}
+
+\newcommand\undernote[3][0em,0em]{% %[relative position] %note above %orig text
+    \ensuremath{
+        \underset{
+            \begin{tikzpicture}
+                \coordinate (refpoint) at (0,0);
+                \begin{pgfinterruptboundingbox}
+                    \node[draw=red,fill=white,ellipse, very thick,anchor=north] (content) at ($(0,-20pt)+({#1})$) {#2};
+                    \draw[red, very thick, ->,-triangle 45] (content.north) to[out=+90,in=-90] (0pt,-10pt) to (0pt,0pt); 
+                \end{pgfinterruptboundingbox}
+            \end{tikzpicture}
+        }{#3}%
+    }%
+}
+
+\begin{document}
+    \begin{frame}
+        \begin{center}
+            $
+                \overnote[-2cm,0cm]{Above a}{a}
+                =
+                \frac{
+                    \sqrt{
+                        b
+                        +
+                        \overnote{Above c}{c}
+                    }
+                }{
+                    \underbrace{
+                        \undernote[-2cm,-0.5cm]{Below d}{d}
+                        +
+                        \undernote[1.5cm,0cm]{Below e}{e}
+                    }_{
+                        \undernote[-0.5cm,-1cm]{Below f}{f}
+                    }
+                }
+            $
+        \end{center}
+    \end{frame}
+\end{document}

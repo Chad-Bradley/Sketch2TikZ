@@ -1,0 +1,35 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsthm,amsmath,amssymb,float,enumitem,caption,subcaption,mdframed,mathrsfs,soul}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{tikz,pgf,pgfplots}
+\pgfplotsset{compat=1.16}
+\usetikzlibrary{decorations.pathreplacing}
+\usetikzlibrary{patterns,patterns.meta,cd,angles,calc,quotes}
+
+\begin{document}
+
+\begin{tikzpicture}[scale=1]
+\foreach \x in {0,1,2,3}{
+\pgfmathtruncatemacro\myresult{0<\x?1:0}
+\pgfmathtruncatemacro\myresultt{\x<3?1:0}
+\ifnum\myresult>0\relax%
+	\draw[dash pattern= on 2pt off 2pt] (\x,0+\x*0.5) rectangle (\x+2,2+\x*0.5);
+\else%
+	\draw (\x,0+\x*0.5) rectangle (\x+2,2+\x*0.5);
+\fi
+\ifnum\myresultt>0\relax%
+%
+\else%
+	\draw (\x,0+\x*0.5) rectangle (\x+2,2+\x*0.5);
+\fi
+\pgfmathtruncatemacro\myresult{\x<3?1:0}
+\ifnum\myresult>0\relax%
+	\foreach \y in {0.25,1.25}
+	\draw[->,yshift=0.45*\x cm] (\x.35,\y)--(\x.85,\y+0.25);
+\else%
+    %do that
+\fi}
+\end{tikzpicture}
+
+\end{document}

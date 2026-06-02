@@ -1,0 +1,16 @@
+\documentclass[tikz]{standalone}
+\begin{document}
+\begin{tikzpicture}
+\node (A) at (0,0) {A};
+\node (B) at (3,0) {B};
+\node (C) at (0, sqrt 7) {C};
+\draw (A) -- (B) -- (C) -- (A);
+\end{tikzpicture}
+
+\begin{tikzpicture}
+\coordinate[label=left: $A$] (A) at (0, 0);
+\coordinate[label=right:$B$] (B) at (3, 0);
+\coordinate[label=left: $C$] (C) at (0, sqrt 7);
+\draw (A) -- (B) -- (C) -- cycle;
+\end{tikzpicture}
+\end{document}

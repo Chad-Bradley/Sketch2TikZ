@@ -1,0 +1,69 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\usepgfplotslibrary{fillbetween}
+\usetikzlibrary{shapes,arrows,positioning}
+\usetikzlibrary{calc, automata, chains, arrows.meta}
+\usetikzlibrary{math}
+\usetikzlibrary{matrix, positioning, fit}
+
+\newcommand{\G}{\mathcal{G}}
+
+\begin{document}
+
+\begin{tikzpicture}[font=\ttfamily,
+      mymatrix/.style={matrix of nodes, nodes=typetag, row sep=1em},
+      mycontainer/.style={draw=gray, inner sep=1ex},
+      typetag/.style={circle,draw=gray, inner sep=1ex, anchor=west},
+      title/.style={draw=none, color=black, inner sep=0pt},myarrowR/.style={-Stealth,thick,bend right,black},
+      myarrowL/.style={-Stealth,thick,bend left,black}
+      ]
+      \matrix[mymatrix] (mx1) {
+        $v_s$ & |[title]|$\quad$ &
+        $v^r_1$ &|[title]|$\quad$ & |[title]|$\cdots$ &|[title]|$\quad$ & $v^r_R$ &|[title]|$\quad$ &$v_e$\\
+      };
+       \matrix[mymatrix, below=4cm of mx1, matrix anchor=center] (mx2) {
+        $v_i$ &|[title]|$\quad$ & |[title]|$\cdots$ &|[title]|$\quad$ & $v_j$\\
+        |[title]|$\vdots$ & |[title]|$\quad$& &|[title]|$\quad$ & |[title]|$\vdots$\\
+        $v_k$ &|[title]|$\quad$ & |[title]|$\cdots$ &|[title]|$\quad$ & $v_l$\\
+      };
+      \node[mycontainer, fit=(mx1)] {};
+      \node[mycontainer, fit=(mx2)] {};
+      \draw[myarrowR,red](mx1-1-1)edge(mx2);
+      
+      \draw[myarrowR,orange](mx1-1-3)edge(mx2);
+      \draw[myarrowR,orange](mx2)edge(mx1-1-3);
+      \draw[myarrowR,orange](mx1-1-5)edge(mx2);
+      \draw[myarrowR,orange](mx2)edge(mx1-1-5);
+      \draw[myarrowL,orange](mx1-1-7)edge(mx2);
+      \draw[myarrowL,orange](mx2)edge(mx1-1-7);
+      \draw[myarrowR,blue](mx2)edge(mx1-1-9);
+      
+      \draw[myarrowR,very thin](mx2-1-1)edge(mx2-1-3);
+      \draw[myarrowR,very thin](mx2-1-3)edge(mx2-1-1);
+      \draw[myarrowR,very thin](mx2-1-3)edge(mx2-1-5);
+      \draw[myarrowR,very thin](mx2-1-5)edge(mx2-1-3);
+      
+      \draw[myarrowR,very thin](mx2-3-1)edge(mx2-3-3);
+      \draw[myarrowR,very thin](mx2-3-3)edge(mx2-3-1);
+      \draw[myarrowR,very thin](mx2-3-3)edge(mx2-3-5);
+      \draw[myarrowR,very thin](mx2-3-5)edge(mx2-3-3);
+      
+      \draw[myarrowR,very thin](mx2-1-1)edge(mx2-2-1);
+      \draw[myarrowR,very thin](mx2-2-1)edge(mx2-1-1);
+      \draw[myarrowR,very thin](mx2-2-1)edge(mx2-3-1);
+      \draw[myarrowR,very thin](mx2-3-1)edge(mx2-2-1);
+      
+      
+      \draw[myarrowR,very thin](mx2-1-5)edge(mx2-2-5);
+      \draw[myarrowR,very thin](mx2-2-5)edge(mx2-1-5);
+      \draw[myarrowR,very thin](mx2-2-5)edge(mx2-3-5);
+      \draw[myarrowR,very thin](mx2-3-5)edge(mx2-2-5);
+      \node[gray,above=2mm of mx1]{$\text{Depot}$};
+      \node[gray,below=2mm of mx2]{Graph $\G^{sp}$};
+    \end{tikzpicture}
+
+\end{document}

@@ -1,0 +1,68 @@
+\documentclass{article}
+
+% Importing TikZ package
+\usepackage{tikz}
+
+% Defining the size of the microwave
+\def\microwaveWidth{4}
+\def\microwaveHeight{6}
+
+% Defining the size of the door
+\def\doorWidth{2}
+\def\doorHeight{3}
+
+% Defining the size of the buttons
+\def\buttonWidth{0.5}
+\def\buttonHeight{0.5}
+
+% Defining the size of the display
+\def\displayWidth{2}
+\def\displayHeight{0.5}
+
+% Defining the size of the turntable
+\def\turntableWidth{2.5}
+\def\turntableHeight{2.5}
+
+% Defining the position of the microwave
+\def\microwaveX{0}
+\def\microwaveY{0}
+
+% Defining the position of the door
+\def\doorX{\microwaveX + \microwaveWidth/2 - \doorWidth/2}
+\def\doorY{\microwaveY + \microwaveHeight/2 - \doorHeight/2}
+
+% Defining the position of the buttons
+\def\buttonX{\microwaveX + \microwaveWidth/2 - \buttonWidth/2}
+\def\buttonY{\microwaveY + \microwaveHeight - \buttonHeight - 0.2}
+
+% Defining the position of the display
+\def\displayX{\microwaveX + \microwaveWidth/2 - \displayWidth/2}
+\def\displayY{\microwaveY + \microwaveHeight - \displayHeight - 0.7}
+
+% Defining the position of the turntable
+\def\turntableX{\microwaveX + \microwaveWidth/2 - \turntableWidth/2}
+\def\turntableY{\microwaveY + \microwaveHeight/2 - \turntableHeight/2}
+
+\begin{document}
+
+% Creating the microwave
+\begin{tikzpicture}
+    % Drawing the microwave
+    \draw[fill=gray!50] (\microwaveX,\microwaveY) rectangle (\microwaveX+\microwaveWidth,\microwaveY+\microwaveHeight);
+    
+    % Drawing the door
+    \draw[fill=white] (\doorX,\doorY) rectangle (\doorX+\doorWidth,\doorY+\doorHeight);
+    
+    % Drawing the buttons
+    \draw[fill=black] (\buttonX,\buttonY) rectangle (\buttonX+\buttonWidth,\buttonY+\buttonHeight);
+    \draw[fill=black] (\buttonX-1.2,\buttonY) rectangle (\buttonX-1.2+\buttonWidth,\buttonY+\buttonHeight);
+    \draw[fill=black] (\buttonX+1.2,\buttonY) rectangle (\buttonX+1.2+\buttonWidth,\buttonY+\buttonHeight);
+    
+    % Drawing the display
+    \draw[fill=white] (\displayX,\displayY) rectangle (\displayX+\displayWidth,\displayY+\displayHeight);
+    
+    % Drawing the turntable
+    \draw[fill=white] (\turntableX,\turntableY) ellipse (\turntableWidth/2 and \turntableHeight/2);
+\end{tikzpicture}
+
+\end{document}

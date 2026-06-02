@@ -1,0 +1,55 @@
+\documentclass{article}
+\usepackage{tikzducks}
+
+\begin{document}
+
+\begin{tikzpicture}[scale=1] 
+\duck
+
+\path[rotate=-20]
+    (0.23,1.7675)coordinate(ECR) ellipse (0.0893 and 0.125);
+
+\path[rotate=-20]
+    (-0.06,1.74)coordinate(ECL) ellipse (0.0786 and 0.1143);
+
+\foreach \x/\y in {0/1,1/2,2/3,3/3.3,4/3,5/2,6/1.4}
+{ \draw[brown!50!black,rotate=-20,line cap=round] (ECR)--++(\x*15+220:0.11cm+\y*0.012cm); };
+
+\foreach \x/\y in {0/1,1/2,2/3,3/3.3,4/3,5/2,6/1.4}
+{ \draw[brown!50!black,rotate=-20,line cap=round] (ECL)--++(\x*15+220:0.11cm+\y*0.009cm); };
+%
+%
+\fill[rotate=-20,yellow!50!brown]
+    (0.23,1.7675) ellipse (0.0893 and 0.125);
+%
+\fill[rotate=-20,yellow!50!brown]
+    (-0.06,1.74) ellipse (0.0786 and 0.1143);
+
+\end{tikzpicture}
+
+\begin{tikzpicture}[scale=5] % changing the scale to 1 (or even somewhat larger values) fails
+\duck
+
+\path[rotate=-20]
+    (0.23,1.7675)coordinate(ECR) ellipse (0.0893 and 0.125);
+
+\path[rotate=-20]
+    (-0.06,1.74)coordinate(ECL) ellipse (0.0786 and 0.1143);
+
+\begin{scope}[ultra thick]
+\foreach \x/\y in {0/1,1/2,2/3,3/3.3,4/3,5/2,6/1.4}
+{ \draw[brown!50!black,rotate=-20,line cap=round] (ECR)--++(\x*15+220:0.11cm+\y*0.012cm); };
+
+\foreach \x/\y in {0/1,1/2,2/3,3/3.3,4/3,5/2,6/1.4}
+{ \draw[brown!50!black,rotate=-20,line cap=round] (ECL)--++(\x*15+220:0.11cm+\y*0.009cm); };
+\end{scope}
+%
+%
+\fill[rotate=-20,yellow!50!brown]
+    (0.23,1.7675) ellipse (0.0893 and 0.125);
+%
+\fill[rotate=-20,yellow!50!brown]
+    (-0.06,1.74) ellipse (0.0786 and 0.1143);
+
+\end{tikzpicture}
+\end{document}

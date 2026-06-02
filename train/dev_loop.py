@@ -46,13 +46,22 @@ def safe_print(*a, **kw):
 
 
 def main():
-    import random
-    all_imgs = sorted(glob.glob(os.path.join(os.path.dirname(__file__), "data", "easy", "????.png")))
+    import argparse, random
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--difficulty",
+                        choices=["easy","medium","difficult","chart_plot","math_formula","math_geometry","pure_drawing"],
+                        default="math_formula",
+                        help="Which train data category to use for optimisation")
+    parser.add_argument("--num-samples", type=int, default=3,
+                        help="Number of random samples to test")
+    args = parser.parse_args()
+
+    all_imgs = sorted(glob.glob(os.path.join(os.path.dirname(__file__), "data", args.difficulty, "????.png")))
     random.seed(int(time.time()))
     random.shuffle(all_imgs)
-    imgs = all_imgs[:3]
+    imgs = all_imgs[:args.num_samples]
 
-    safe_print(f"=== Iterative Prompt Optimisation ===")
+    safe_print(f"=== Iterative Prompt Optimisation [{args.difficulty}] ===")
     safe_print(f"Samples: {len(imgs)}")
     safe_print()
 
@@ -60,7 +69,7 @@ def main():
     for i, png in enumerate(imgs):
         safe_print(f"[{i+1}/{len(imgs)}] {os.path.basename(png)}")
         t0 = time.time()
-        r = pipeline_generate(png, i, output_dir="output")
+        r = pipeline_generate(png, i, output_dir="output", difficulty=args.difficulty)
         elapsed = time.time() - t0
 
         # Find GT code
@@ -140,7 +149,8 @@ def main():
         safe_print()
 
     safe_print("=== Done ===")
-    safe_print("Apply suggested fixes to train/pipeline.py, then re-run to measure improvement.")
+    safe_print(f"Apply suggested fixes to train/prompts/{args.difficulty}.vision.txt and {args.difficulty}.code.txt, ")
+    safe_print(f"then re-run with --difficulty {args.difficulty} to measure improvement.")
 
 
 if __name__ == "__main__":

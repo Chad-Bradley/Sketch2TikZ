@@ -1,0 +1,83 @@
+\documentclass{article}
+
+\usepackage{pgfplots} % to use tikz graphics as given in http://www.mathworks.com/matlabcentral/fileexchange/22022-matlab2tikz
+\pgfplotsset{compat=newest}
+\pgfplotsset{plot coordinates/math parser=false}
+\newlength\figureheight
+\newlength\figurewidth
+
+\begin{document}
+\begin{figure}
+  \setlength\figureheight{3.2cm} 
+  \setlength\figurewidth{3.2cm} 
+\centering
+\begin{tikzpicture}
+\begin{axis}[%
+    width=\figurewidth,
+    height=\figureheight,
+    scale only axis,
+    xmin=1,
+    xmax=3,
+    ymin=1,
+    ymax=6,
+    name=plot2,
+    legend to name=widelegend,
+    legend style={legend columns=2}
+]
+\addplot [
+   color=blue,
+   solid
+]
+table[row sep=crcr]{
+1 2\\
+2 4\\
+3 6\\
+};
+\addlegendentry{This is somewhat};
+
+\addplot [
+   color=green!50!black,
+   solid
+]
+table[row sep=crcr]{
+1 1\\
+2 2\\
+3 3\\
+};
+\addlegendentry{very long legend};
+
+\end{axis}
+
+\begin{axis}[%
+    width=\figurewidth,
+    height=\figureheight,
+    scale only axis,
+    xmin=0,
+    xmax=1,
+    ymin=0,
+    ymax=1,
+    at=(plot2.left of south west),
+    anchor=right of south east,
+    axis x line*=bottom,
+    axis y line*=left
+]
+\end{axis}
+
+\begin{axis}[%
+    width=\figurewidth,
+    height=\figureheight,
+    scale only axis,
+    xmin=0,
+    xmax=1,
+    ymin=0,
+    ymax=1,
+    at=(plot2.right of south east),
+    anchor=left of south west,
+    axis x line*=bottom,
+    axis y line*=left
+]
+\end{axis}
+\end{tikzpicture}
+\ref{widelegend}
+\end{figure}
+\end{document}

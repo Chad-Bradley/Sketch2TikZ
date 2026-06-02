@@ -1,0 +1,13 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{tikz}
+\usetikzlibrary{positioning}
+
+\begin{document}
+\begin{tikzpicture}
+\node[draw] (A) {A};
+\node[draw, above right =4cm of A] (B) {B};
+\node[draw] at (A |- B) {$x$ of A, $y$ of B};
+\node[draw] at (A -| B) {$x$ of B, $y$ of A};
+\end{tikzpicture}
+\end{document}

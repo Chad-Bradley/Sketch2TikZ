@@ -1,0 +1,116 @@
+\documentclass[10pt]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage{blindtext}
+\usepackage{fancyhdr}
+\usepackage{ragged2e}
+\usepackage[labelformat=empty]{caption}
+\usepackage{tikz}
+
+%\usepackage{wrapfig}
+
+\usetikzlibrary{mindmap, shadows, trees, shapes, through, positioning, backgrounds, fadings}
+
+\usepackage{geometry}
+ \geometry{
+ a4paper,
+ total={170mm,257mm},
+ left=15mm,
+ top=20mm,
+ right=15mm
+ }
+
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{\includegraphics[height=1.5cm]{example-image-a}}
+\lhead{XXX}
+% \rfoot{Page \thepage}
+
+\begin{document}
+
+\hfill
+
+\centering
+
+{\huge\textbf{mentales Lexikon\\}}
+
+\bigskip
+
+\textbf{Übung zur Elaboration/Speicherung von Wörtern}\\\smallskip von XXX
+
+\bigskip
+\begin{figure}[h!]
+\begin{tikzpicture}[framed, text centered]
+  
+  \coordinate (1) at (0,0);
+  \coordinate (2) at (0,5);
+
+  \fill[lightgray] (0,0) -- (90:5) arc (90:225:5) -- cycle; 
+  
+  %\fill[left color=lightgray, right color=white] (0,0) -- (225:5) arc (225:315:5) -- cycle; 
+
+  %%% polar gradient fill %%%
+  \begin{scope}
+    \clip (315:0) -- (315:5) arc (315:225:5) -- cycle;
+    \foreach \i in {1,...,100} {
+      \draw[white!\i!lightgray, line width=4pt] 
+        ({225+\i*(315-225)/100}:0) -- ({225+\i*(315-225)/100}:5);
+    }
+  \end{scope}
+  %%% === %%%
+
+  %fill=left!30!white
+
+  \draw[black] (0:5)  -- (1);
+  \draw[black] (45:5) -- (1);
+  \draw[white] (90:5) -- (1);
+  \draw[white] (135:5) -- (1);
+  \draw[white] (180:5) -- (1);
+  \draw[white] (225:5) -- (1);
+  \draw[white] (270:5) -- (1);
+  \draw[black] (315:5) -- (1);
+
+  \node [draw, circle through=(2), very thick] at (1) {};
+
+  \node [align=center] (episodisch) at (22.5:3.3) {episodische\\Informationen};
+  \node [align=center,draw, fill=white] (epi_note) at (22.5:6.7) {Quadratisch. Praktisch. Gut.\footnotemark\\Informationen\\???};
+
+  \node [align=center] (prozedual) at (67.5:3.3) {prozeduale\\Informationen};
+  \node [align=center,draw, fill=white] (proz_note) at (67.5:6.7) {Informationen \\zur Handlung};
+
+  \node [align=center] (graphemisch) at (112.5:3.3) {graphemische\\Informationen};
+  \node [align=center,draw, fill=white] (graph_note) at (112.5:6.7) {Informationen \\zur Schreibweise};
+
+  \node [align=center] (morphologisch) at (157.5:3.3) {morphologische\\Informationen};
+  \node [align=center,draw, fill=white] (morph_note) at (157.5:6.7) {morphologische \\Informationen};
+  
+  \node [align=center] (phonologisch) at (202.5:3.3) {phonologische\\Informationen};
+  \node [align=center,draw, fill=white] (phon_note) at (202.5:6.7) {kwadratisch\\ipa\\lautschrift};
+
+  \node [align=center] (syntaktisch) at (270:3.3) {syntaktische\\Informationen};
+  \node [align=center,draw, fill=white] (syn_note) at (270:6.7) {vor dem Nomen\\Informationen};
+  
+  \node [align=center] (semantisch) at (337.5:3.3) {semantische\\Informationen};
+  \node [align=center,draw, fill=white] (sem_note) at (337.5:6.7) {viereckig\\mit gleich langen Seiten\\Mathematik: in der zweiten Potenz\footnotemark};
+
+  \node [align=center, draw] (lemma) at (0:7.5) {\textbf{Lemma}};
+  \node [align=center, draw, fill=lightgray] (lexem) at (180:7.5) {\textbf{Lexem}};
+  
+  \node [rectangle, fill=white,draw] (quadratisch) at (0,0) {"quadratisch"};
+
+\end{tikzpicture} 
+\caption[test]{Modell eines Lexikoneintrages zum Wort "quadratisch"\footnotemark}
+
+\end{figure}
+
+\bigskip
+
+\justifying
+
+\blindtext[1]
+
+\footnotetext[1]{\raggedright Werbeslogan der Schokoladenmarke Ritter Sport der Alfred Ritter GmbH \& Co. KG}
+\footnotetext[2]{\raggedright Artikel des Wörterbuchs der deutschen Gegenwartssprache, elektronische Version, (1974) abgerufen unter https://www.dwds.de/wb/quadratisch}
+\footnotetext[3]{\raggedright Modell nach Luger (2006) zitiert aus Reber K \& Schönauer-Schneider, W.(2018). Bausteine sprachheilpädagogischen Unterrichts. München: Reinhardt Verlag}
+
+\end{document}

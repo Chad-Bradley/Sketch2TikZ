@@ -1,0 +1,38 @@
+\documentclass[border=10pt,tikz,multi]{standalone}
+\usepackage{tikz-3dplot}
+\begin{document}
+\tdplotsetmaincoords{60}{110}
+\tdplotsetrotatedcoords{-90}{-90}{0}
+\begin{tikzpicture}[scale=3,tdplot_main_coords]
+  \coordinate (O) at (0,0,0);
+  \coordinate (o) at (0,5,0);
+  \draw [->, blue, thin] (O) -- (1.75,0,0) node[anchor=north east]{$x$};
+  \draw [->, blue, thin] (O) -- (0,1.75,0) node[anchor=north west]{$y$};
+  \draw [->, blue, thin] (O) -- (0,0,1.75) node[anchor=south]{$z$};
+  \begin{scope}[tdplot_rotated_coords]
+    \draw [thick,->] (O) -- (1.5,0,0) node[anchor=north east]{$x$};
+    \draw [thick,->] (O) -- (0,1.5,0) node[anchor=north west]{$y$};
+    \draw [thick,->] (O) -- (0,0,1.5) node[anchor=south]{$z$};
+    \def\rvec{1}
+    \def\thetavec{45}
+    \def\phivec{30}
+    \tdplotsetcoord{P}{\rvec}{\thetavec}{\phivec}
+    \shade[tdplot_screen_coords, ball color = white, opacity=.5] (0,0,0) circle (\rvec);
+    \draw[-stealth, color=red] (O) -- (P) node[above right] {$P$};
+    \draw[dashed, color=red] (O) -- (Pxy);
+    \draw[dashed, color=red] (P) -- (Pxy);
+    \tdplotdrawarc[tdplot_rotated_coords]{(O)}{0.2}{0}{\phivec}{anchor=north east}{$\phi$}
+    \tdplotsetrotatedthetaplanecoords{\phivec}
+    \tdplotdrawarc[tdplot_rotated_coords]{(O)}{0.5}{0}{\thetavec}{anchor=south west}{$\theta$}
+  \end{scope}
+  \tdplotsetrotatedcoords{-90}{-90}{0}
+  \tdplotsetrotatedcoordsorigin{(o)}
+  \begin{scope}[tdplot_rotated_coords]
+    \draw [thin, green, ->] (o) -- (1.5,0,0) node[anchor=north east]{$x$};
+    \draw [thin, green, ->] (o) -- (0,1.5,0) node[anchor=north west]{$y$};
+    \draw [thin, green, ->] (o) -- (0,0,1.5) node[anchor=south]{$z$};
+    \def\rvec{1}
+    \shade[tdplot_screen_coords, ball color = white, opacity=.5] (0,0,0) circle (\rvec);
+  \end{scope}
+\end{tikzpicture}
+\end{document}

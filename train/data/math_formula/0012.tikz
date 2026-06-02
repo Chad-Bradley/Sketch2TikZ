@@ -1,0 +1,42 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{float,tikz, extarrows, tikz-cd}
+\usetikzlibrary{decorations.pathmorphing,calc}
+\tikzset{snake it/.style={decorate, decoration=snake}}
+\usepackage{color}
+\usepackage{tcolorbox}
+\usepackage[compat=1.0.0]{tikz-feynman}
+
+\begin{document}
+
+\begin{tikzpicture}
+    \draw[thick] (-1.8,1.4) circle (14pt) (-1.8,-1.4) circle (14pt)  (1.8,1.4) circle (14pt) (1.8,-1.4) circle (14pt);
+    \filldraw[green, fill opacity=0.3] (-1.8,1.4) circle (14pt) (-1.8,-1.4) circle (14pt)  (1.8,1.4) circle (14pt) (1.8,-1.4) circle (14pt);
+     \draw[thick]  (-4,1.4) circle (14pt) (-4,-1.4) circle  (14pt)  (4,1.4) circle (14pt) (4,-1.4) circle  (14pt) ;
+        \filldraw[yellow, fill opacity=0.3]   (-4,1.4) circle (14pt) (-4,-1.4) circle  (14pt)  (4,1.4) circle (14pt) (4,-1.4) circle  (14pt) ;
+    \draw[thick] (-90:14pt) ++(-1.8,1.4)  --($ (90:14pt)+(-1.8,-1.4)$); 
+    \draw[thick] (-90:14pt) ++(1.8,1.4)  --($ (90:14pt)+(1.8,-1.4)$); 
+ \draw[thick] (180:14pt) ++(-1.8,1.4)  --($ (0:14pt)+(-4,1.4)$); 
+\draw[thick] (0:14pt) ++(1.8,1.4)  --($ (180:14pt)+(4,1.4)$); 
+\draw[thick] (180:14pt) ++(-1.8,-1.4)  --($ (0:14pt)+(-4,-1.4)$); 
+\draw[thick] (0:14pt) ++(1.8,-1.4)  --($ (180:14pt)+(4,-1.4)$); 
+\draw[ dashed] (1,0)  --($ (-1,0)$); 
+    \node at (-1.8,1.4) {$N_{c1}$};
+    \node at (-1.8,-1.4) {$N_{c1}$};
+    \node at (1.8,1.4) {$N_{c2}$};
+    \node at (1.8,-1.4) {$N_{c2}$};
+     \node at (-4,1.4) {$N_{f1}$};
+    \node at (-4,-1.4) {$N_{f1}$};
+    \node at (4,1.4) {$N_{f2}$};
+    \node at (4,-1.4) {$N_{f2}$};
+    \node at (4,-1.4) {$N_{f2}$};
+     \node at (-1.4,0) {$\Phi_1$};
+      \node at (1.4,0) {$\Phi_2$};
+       \node at (-2.9,1.7) {$\psi_1$};
+        \node at (-2.9,-1.7) {$\chi_1$};
+           \node at (2.9,1.7) {$\psi_2$};
+        \node at (2.9,-1.7) {$\chi_2$}; 
+\end{tikzpicture}
+
+\end{document}

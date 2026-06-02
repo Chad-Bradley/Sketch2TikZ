@@ -1,0 +1,41 @@
+\documentclass{article}
+
+% Importing the TikZ package
+\usepackage{tikz}
+
+% Defining the colors used in the illustration
+\definecolor{skin}{RGB}{255, 213, 170}
+\definecolor{hair}{RGB}{51, 25, 0}
+\definecolor{shirt}{RGB}{0, 102, 204}
+\definecolor{shorts}{RGB}{255, 255, 255}
+\definecolor{ball}{RGB}{255, 204, 0}
+
+\begin{document}
+
+% Creating the TikZ picture environment
+\begin{tikzpicture}
+
+% Drawing the woman's body
+\filldraw[skin] (0,0) circle (1);
+\filldraw[shirt] (-0.8,0) rectangle (0.8,1.5);
+\filldraw[shorts] (-0.8,-0.5) rectangle (0.8,0);
+\filldraw[hair] (-0.5,1) rectangle (0.5,1.5);
+
+% Drawing the ball
+\filldraw[ball] (2,0) circle (0.5);
+
+% Drawing the woman's arms and hands
+\draw[shirt, line width=10pt, cap=round] (-0.8,0.75) -- (-2,1.5);
+\draw[shirt, line width=10pt, cap=round] (0.8,0.75) -- (2,1.5);
+\filldraw[skin] (-2,1.5) circle (0.5);
+\filldraw[skin] (2,1.5) circle (0.5);
+
+% Drawing the woman's legs and feet
+\draw[shorts, line width=10pt, cap=round] (-0.4,-0.5) -- (-1.5,-2);
+\draw[shorts, line width=10pt, cap=round] (0.4,-0.5) -- (1.5,-2);
+\filldraw[skin] (-1.5,-2) circle (0.5);
+\filldraw[skin] (1.5,-2) circle (0.5);
+
+\end{tikzpicture}
+
+\end{document}

@@ -1,0 +1,38 @@
+\documentclass{article}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.14} % with 1.11 or higher you don't need axis cs: in coordinates
+\begin{document}
+\begin{tikzpicture}
+\begin{axis}[
+width=8cm,    
+xmin=18.18,  
+xmax=90.18,   
+ymin=0,  
+ymax=36,   
+enlargelimits=0.01,   
+xmajorgrids, 
+ymajorgrids,  
+colorbar sampled,  
+only marks,  
+view={0}{90}, % view the plot from the top
+set layers=standard,  
+mark layer=axis background,
+]
+\addplot3[scatter,  
+mark=diamond*,      
+point meta=\thisrow{count},  
+]
+table {
+mean    Amplitude   count
+54.18   27.54   50053
+58.68   25.2    50053
+64.98   15.66   50053
+57.24   0.72    12112800
+};
+
+\draw[yellow!30!orange,thick](\pgfkeysvalueof{/pgfplots/xmin},4.96219281663516,0) -- (\pgfkeysvalueof{/pgfplots/xmax},4.96219281663516,0)
+coordinate[pos=0.8] (co);  % Cut-off-Linie
+\end{axis}
+\draw [latex-] (co) -- ++(3.5cm,2cm) node[right] {Cut off line};
+\end{tikzpicture} 
+\end{document}

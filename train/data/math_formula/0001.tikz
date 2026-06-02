@@ -1,0 +1,37 @@
+\documentclass{article}
+
+\usepackage{tikz}
+\usetikzlibrary{calc}
+
+\begin{document}
+\begin{tikzpicture}[thick]
+  \path ( 1,4)        node[coordinate] (a1) {}
+        (10,5)        node[coordinate] (b1) {}
+        (a1) ++(0,-2) node[coordinate] (a2) {}
+        (b1) ++(0,-2) node[coordinate] (b2) {};
+
+  \path[draw,green] (a1) -- (b1);
+
+  \path[draw,red] (a2) --
+    node[coordinate,pos=0.05] (c1) {}
+    node[coordinate,pos=0.2 ] (c2) {}
+    node[coordinate,pos=0.4 ] (c3) {}
+    (b2);
+
+  \draw[densely dashed] (a1)
+    .. controls +(0,0) and  (c1)   .. (c2)
+    .. controls  (c3)  and +(-2,2) .. (b1);
+
+  \foreach \point/\text in {a1/a , b1/b , c2/c}
+    \draw[dotted]
+        let \p1 = (\point)
+      in
+           (0  ,\y1) node[anchor=east ] {$f(\text)$}
+        -- (\p1)
+        -- (\x1,0  ) node[anchor=north] {$\text$};
+
+  \draw[->] (-1.5, 0  ) -- (11,0  ) node[anchor=south east] {\textsf{x}};
+  \draw[->] (   0,-1.5) -- ( 0,6.5) node[anchor=north west] {\textsf{y}};
+
+\end{tikzpicture}
+\end{document}

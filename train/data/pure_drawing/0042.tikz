@@ -1,0 +1,21 @@
+\documentclass{article}
+\usepackage{tikz}
+\usepackage{lipsum}
+\input{insbox.tex}
+
+\begin{document}
+
+\InsertBoxR{0}{\begin{tikzpicture}
+\draw (0,0) circle(2);
+\end{tikzpicture}}
+ \lipsum[30]
+\newpage
+
+\InsertBoxR{3}{\begin{tikzpicture}
+\draw (0,0) circle(2);
+\end{tikzpicture}}
+\lipsum[10]
+\noindent
+\lipsum[5]
+
+\end{document}

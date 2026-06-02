@@ -1,0 +1,47 @@
+\documentclass[tikz,border=3.14mm]{standalone}
+\usepackage{tikz-3dplot} 
+\begin{document}
+\pgfkeys{/hexagonal prism/.cd,
+rotation angle/.initial=0,
+height/.initial=4,
+diameter/.initial=2
+}
+\tikzset{pics/.cd, 
+hexi/.style={code={
+\pgfmathsetmacro{\myangle}{mod(\pgfkeysvalueof{/hexagonal prism/rotation angle},60)}
+\pgfmathsetmacro{\phieff}{(\tdplotmainphi-mod(\tdplotmainphi+690,60)+30)}
+\draw[fill=gray!60] ({\pgfkeysvalueof{/hexagonal prism/diameter}*cos(0+\myangle+\phieff)},{\pgfkeysvalueof{/hexagonal prism/diameter}*sin(0+\myangle+\phieff)},0) --
+ ({\pgfkeysvalueof{/hexagonal prism/diameter}*cos(-60+\myangle+\phieff)},{\pgfkeysvalueof{/hexagonal prism/diameter}*sin(-60+\myangle+\phieff)},0) 
+ --({\pgfkeysvalueof{/hexagonal prism/diameter}*cos(-60+\myangle+\phieff)},{\pgfkeysvalueof{/hexagonal prism/diameter}*sin(-60+\myangle+\phieff)},\pgfkeysvalueof{/hexagonal prism/height}) --
+ ({\pgfkeysvalueof{/hexagonal prism/diameter}*cos(0+\myangle+\phieff)},{\pgfkeysvalueof{/hexagonal prism/diameter}*sin(0+\myangle+\phieff)},\pgfkeysvalueof{/hexagonal prism/height}) -- cycle;
+\draw[fill=gray!20] ({\pgfkeysvalueof{/hexagonal prism/diameter}*cos(-60+\myangle+\phieff)},{\pgfkeysvalueof{/hexagonal prism/diameter}*sin(-60+\myangle+\phieff)},0) --
+ ({\pgfkeysvalueof{/hexagonal prism/diameter}*cos(-120+\myangle+\phieff)},{\pgfkeysvalueof{/hexagonal prism/diameter}*sin(-120+\myangle+\phieff)},0) 
+ --({\pgfkeysvalueof{/hexagonal prism/diameter}*cos(-120+\myangle+\phieff)},{\pgfkeysvalueof{/hexagonal prism/diameter}*sin(-120+\myangle+\phieff)},\pgfkeysvalueof{/hexagonal prism/height}) --
+ ({\pgfkeysvalueof{/hexagonal prism/diameter}*cos(-60+\myangle+\phieff)},{\pgfkeysvalueof{/hexagonal prism/diameter}*sin(-60+\myangle+\phieff)},\pgfkeysvalueof{/hexagonal prism/height}) -- cycle;
+\draw[fill=gray!10] ({\pgfkeysvalueof{/hexagonal prism/diameter}*cos(-120+\myangle+\phieff)},{\pgfkeysvalueof{/hexagonal prism/diameter}*sin(-120+\myangle+\phieff)},0) --
+ ({\pgfkeysvalueof{/hexagonal prism/diameter}*cos(-180+\myangle+\phieff)},{\pgfkeysvalueof{/hexagonal prism/diameter}*sin(-180+\myangle+\phieff)},0) 
+ --({\pgfkeysvalueof{/hexagonal prism/diameter}*cos(-180+\myangle+\phieff)},{\pgfkeysvalueof{/hexagonal prism/diameter}*sin(-180+\myangle+\phieff)},\pgfkeysvalueof{/hexagonal prism/height}) --
+ ({\pgfkeysvalueof{/hexagonal prism/diameter}*cos(-120+\myangle+\phieff)},{\pgfkeysvalueof{/hexagonal prism/diameter}*sin(-120+\myangle+\phieff)},\pgfkeysvalueof{/hexagonal prism/height}) -- cycle;
+\ifdim\tdplotmaintheta pt<90pt
+ \draw[fill=gray!15] ({\pgfkeysvalueof{/hexagonal prism/diameter}*cos(0+\myangle)},{\pgfkeysvalueof{/hexagonal prism/diameter}*sin(0+\myangle)},\pgfkeysvalueof{/hexagonal prism/height}) --
+  ({\pgfkeysvalueof{/hexagonal prism/diameter}*cos(-60+\myangle)},{\pgfkeysvalueof{/hexagonal prism/diameter}*sin(-60+\myangle)},\pgfkeysvalueof{/hexagonal prism/height}) -- 
+  ({\pgfkeysvalueof{/hexagonal prism/diameter}*cos(-120+\myangle)},{\pgfkeysvalueof{/hexagonal prism/diameter}*sin(-120+\myangle)},\pgfkeysvalueof{/hexagonal prism/height}) -- 
+  ({\pgfkeysvalueof{/hexagonal prism/diameter}*cos(-180+\myangle)},{\pgfkeysvalueof{/hexagonal prism/diameter}*sin(-180+\myangle)},\pgfkeysvalueof{/hexagonal prism/height}) --
+  ({\pgfkeysvalueof{/hexagonal prism/diameter}*cos(-240+\myangle)},{\pgfkeysvalueof{/hexagonal prism/diameter}*sin(-240+\myangle)},\pgfkeysvalueof{/hexagonal prism/height}) -- 
+  ({\pgfkeysvalueof{/hexagonal prism/diameter}*cos(-300+\myangle)},{\pgfkeysvalueof{/hexagonal prism/diameter}*sin(-300+\myangle)},\pgfkeysvalueof{/hexagonal prism/height}) --  cycle;
+\else
+ \draw[fill=gray!85] ({\pgfkeysvalueof{/hexagonal prism/diameter}*cos(0+\myangle)},{\pgfkeysvalueof{/hexagonal prism/diameter}*sin(0+\myangle)},0) --
+  ({\pgfkeysvalueof{/hexagonal prism/diameter}*cos(-60+\myangle)},{\pgfkeysvalueof{/hexagonal prism/diameter}*sin(-60+\myangle)},0) -- 
+  ({\pgfkeysvalueof{/hexagonal prism/diameter}*cos(-120+\myangle)},{\pgfkeysvalueof{/hexagonal prism/diameter}*sin(-120+\myangle)},0) -- 
+  ({\pgfkeysvalueof{/hexagonal prism/diameter}*cos(-180+\myangle)},{\pgfkeysvalueof{/hexagonal prism/diameter}*sin(-180+\myangle)},0) --
+  ({\pgfkeysvalueof{/hexagonal prism/diameter}*cos(-240+\myangle)},{\pgfkeysvalueof{/hexagonal prism/diameter}*sin(-240+\myangle)},0) -- 
+  ({\pgfkeysvalueof{/hexagonal prism/diameter}*cos(-300+\myangle)},{\pgfkeysvalueof{/hexagonal prism/diameter}*sin(-300+\myangle)},0) --  cycle;
+\fi
+}}}
+\tdplotsetmaincoords{70}{110}
+\begin{tikzpicture}[tdplot_main_coords,font=\sffamily]
+% \path[tdplot_screen_coords,use as bounding box] (-3,-1) rectangle (3,5);
+ \pic {hexi};
+ \pic[shift={(5,0,0)},/hexagonal prism/height=3] {hexi};
+\end{tikzpicture}
+\end{document}

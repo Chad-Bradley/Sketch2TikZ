@@ -1,0 +1,14 @@
+\documentclass[border=5pt,tikz]{standalone}
+    \begin{document}
+        \begin{tikzpicture}[rotate=-90]
+            \foreach \x in {0,1,...,5}
+            {
+                \foreach \y in {0,...,\x}
+                {
+                    \pgfmathsetmacro\binom{factorial(\x)/(factorial(\y)*factorial(\x-\y))}
+                    \pgfmathsetmacro\shift{\x/2}
+                        \node[xshift=-\shift cm] at (\x,\y) {\pgfmathprintnumber\binom};
+                }
+            }
+        \end{tikzpicture}
+    \end{document}

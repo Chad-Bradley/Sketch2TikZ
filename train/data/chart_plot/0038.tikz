@@ -1,0 +1,38 @@
+\documentclass[12pt,titlepage]{report}
+\usepackage{pgfplots}
+
+\usepackage{filecontents}
+\begin{filecontents*}{data.dat}
+1e-06   1.22229e-07 
+2e-06   1.22234e-07 
+3e-06   1.22239e-07 
+4e-06   1.22246e-07 
+5e-06   1.22255e-07 
+6e-06   1.22266e-07 
+7e-06   1.22279e-07 
+8e-06   1.22294e-07 
+9e-06   1.22311e-07 
+1e-05   1.2233e-07  
+\end{filecontents*}
+
+\begin{document}
+
+\begin{tikzpicture}
+\begin{axis}[%
+%width=\figurewidth,
+%height=\figureheight,
+scale only axis,
+xmin=0,
+xmax=1.5e-05,
+ymin=1.22224e-07,
+ymax=1.2234e-07,
+ytick =data,
+ytick scale label code/.code={$\times 10^{#1}$},
+/pgf/number format/precision=5
+]
+\addplot [color=red,line width=4.0pt,only marks,mark=*,mark options={solid},forget plot]
+  table {data.dat};
+\end{axis}  
+\end{tikzpicture}
+
+\end{document}

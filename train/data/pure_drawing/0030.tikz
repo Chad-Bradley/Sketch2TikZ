@@ -1,0 +1,38 @@
+\documentclass{article}
+
+% Load TikZ package
+\usepackage{tikz}
+
+% Define stove dimensions
+\def\stovewidth{4}
+\def\stoveheight{2}
+\def\burnerwidth{0.8}
+\def\burnerheight{0.4}
+
+% Define stove color
+\definecolor{stovecolor}{RGB}{255, 153, 51}
+
+% Begin TikZ picture environment
+\begin{document}
+
+\begin{tikzpicture}
+
+% Draw stove body
+\fill[stovecolor] (0,0) rectangle (\stovewidth,\stoveheight);
+
+% Draw burners
+\fill[black] (0.5*\stovewidth-0.5*\burnerwidth,0.5*\stoveheight-0.5*\burnerheight) rectangle ++(\burnerwidth,\burnerheight);
+\fill[black] (0.5*\stovewidth-1.5*\burnerwidth,0.5*\stoveheight-0.5*\burnerheight) rectangle ++(\burnerwidth,\burnerheight);
+\fill[black] (0.5*\stovewidth+0.5*\burnerwidth,0.5*\stoveheight-0.5*\burnerheight) rectangle ++(\burnerwidth,\burnerheight);
+\fill[black] (0.5*\stovewidth+1.5*\burnerwidth,0.5*\stoveheight-0.5*\burnerheight) rectangle ++(\burnerwidth,\burnerheight);
+
+% Draw burner knobs
+\fill[white] (0.5*\stovewidth-0.5*\burnerwidth-0.2,0.5*\stoveheight-0.5*\burnerheight+0.2) circle (0.1);
+\fill[white] (0.5*\stovewidth-1.5*\burnerwidth-0.2,0.5*\stoveheight-0.5*\burnerheight+0.2) circle (0.1);
+\fill[white] (0.5*\stovewidth+0.5*\burnerwidth-0.2,0.5*\stoveheight-0.5*\burnerheight+0.2) circle (0.1);
+\fill[white] (0.5*\stovewidth+1.5*\burnerwidth-0.2,0.5*\stoveheight-0.5*\burnerheight+0.2) circle (0.1);
+
+% End TikZ picture environment
+\end{tikzpicture}
+
+\end{document}

@@ -1,0 +1,102 @@
+\documentclass[review]{elsarticle}
+\usepackage[T1]{fontenc}
+\usepackage[ansinew]{inputenc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{tikz}
+\usepackage{tikz-dimline}
+\pgfplotsset{
+compat=1.5,
+legend image code/.code={
+\draw[mark repeat=2,mark phase=2]
+plot coordinates {
+(0cm,0cm)
+(0.15cm,0cm)        %% default is (0.3cm,0cm)
+(0.3cm,0cm)         %% default is (0.6cm,0cm)
+};
+}
+}
+\usepackage{pgfplots}
+\usepgfplotslibrary{groupplots,dateplot}
+\usetikzlibrary{patterns,shapes.arrows,calc,external,decorations,shapes,positioning}
+\tikzset{>=latex}
+\pgfplotsset{compat=newest}
+
+\begin{document}
+
+\begin{tikzpicture}
+
+    \coordinate (NULL) at (0,0);
+    \coordinate (B) at (5,5);
+    \coordinate (C) at ($0.5*(B)$);
+    \coordinate (D1) at ($0.125*(B)$);
+    \coordinate (D2) at ($0.71*(B)$);
+
+    \coordinate (D11) at ($0.1*(B)$);
+
+    \coordinate (L) at ($1.1*(B|-NULL)+0.96*(B-|NULL)$);
+
+    % fill
+    \filldraw[fill=black!10!white, line width=0.1pt] (NULL) -- (B|-NULL) -- ($(B|-NULL) + 0.16*(B-|NULL)$) -- ($(B|-NULL) + 0.16*(B-|NULL)$) arc (33.5:56.4:15) -- (B-|NULL) -- (NULL);
+
+    % grid 
+    \draw[line width=1pt] (0,0) rectangle (B);
+    \draw[line width=0.5pt] (C |- NULL) -- (C |- B);
+    \draw[line width=0.5pt] (C -| NULL) -- (C -| B);
+    \draw[fill=red, draw=red] (C) circle (0.1);
+
+    \draw[dashed] ($(C)+(C-|NULL)$) -- ($(C)+(B-|NULL)$);
+    \draw[dashed] ($(C)+(C|-NULL)$) -- ($(C)+(B|-NULL)$);
+    \draw[dashed] ($(C)-(C-|NULL)$) -- ($(C)-(B-|NULL)$);
+    \draw[dashed] ($(C)-(C|-NULL)$) -- ($(C)-(B|-NULL)$);
+    \draw[dashed] ($3*(C|-NULL)-(NULL|-C)$) -- ($-1*(C)$) -- ($3*(C-|NULL)-(NULL-|C)$) -- ($3*(C)$) -- cycle;
+
+    % gamma
+    \node[left, xshift=-0.8cm] at (D2 -| C) {$\color{blue}\Delta\Gamma_{i,j}$};
+
+    % coordinates
+    \draw[fill=red, draw=red] (C) circle (0.1) node[below left] {$(i, j)$};
+    \draw[fill=red, draw=red] ($(C)+(B-|NULL)$) circle (0.1) node[below right] {$(i, j+1)$};
+    \draw[fill=red, draw=red] ($(C)+(B|-NULL)$) circle (0.1) node[below right] {$(i+1, j)$};
+    \draw[fill=red, draw=red] ($(C)-(B|-NULL)$) circle (0.1) node[below left] {$(i-1, j)$};
+    \draw[fill=red, draw=red] ($(C)-(B-|NULL)$) circle (0.1) node[below right] {$(i, j-1)$};
+    \draw[fill=red, draw=red] ($-1*(C)$) circle (0.1) node[below left] {$(i-1, j-1)$};
+    \draw[fill=red, draw=red] ($3*(C)$) circle (0.1) node[below right] {$(i+1, j+1)$};
+    \draw[fill=red, draw=red] ($3*(C-|NULL)-(NULL-|C)$) circle (0.1) node[below left] {$(i-1, j-1)$};
+    \draw[fill=red, draw=red] ($3*(C-|NULL)-(NULL-|C)$) circle (0.1) node[below left] {$(i-1, j+1)$};
+    \draw[fill=red, draw=red] ($3*(C|-NULL)-(NULL|-C)$) circle (0.1) node[below right] {$(i+1, j-1)$};
+
+    % interface
+    \draw[red, line width=1pt] ($1.1*(B|-NULL)$) arc (30:60:15);
+
+    % reconstruction
+    \draw[blue, line width=1pt] (B -| D11) -- (D11 -| B);
+
+    % subcell reconstruction
+    \draw[blue, line width=1pt, dash dot] (B -| D1) -- (D2 -| C);
+    \draw[blue, line width=1pt, dash dot] (D2 -| C) -- (C -| D2);
+    \draw[blue, line width=1pt, dash dot] (D1 -| B) -- (C -| D2);
+
+    % apertures
+    \coordinate (DIST) at (0.5,0.5);
+    \dimline[extension start length=1cm, extension end length=1cm,extension style={black}, label style={above=0.5ex}] {(-0.5,0)}{($(NULL|-B) - (0.5,0)$)}{$A_{i-\frac{1}{2},j}=1.0$};
+    \dimline[extension start length=-1cm, extension end length=-1cm,extension style={black}, label style={below=0.5ex}] {(0.0,-0.5)}{($(NULL-|B) - (0.0,0.5)$)}{$A_{i,j-\frac{1}{2}}=1.0$};
+    \dimline[extension start length=0.5cm, extension end length=0.5cm,extension style={black}, label style={above=0.5ex}] {($(NULL|-B) + (DIST -| NULL)$)}{($(NULL|-B) + (DIST -| NULL) + (D11|-NULL)$)}{$A_{i+\frac{1}{2},j}$};
+    \dimline[extension start length=-0.5cm, extension end length=-0.5cm,extension style={black}, label style={below=0.5ex}] {($(NULL-|B) + (DIST |- NULL)$)}{($(NULL-|B) + (DIST|- NULL) + (D11-|NULL)$)}{$A_{i+\frac{1}{2},j}$};
+    
+    % volume fraction
+    \node[below left, xshift=-0.8cm, yshift=-0.8cm] at (C) {$\alpha_{i,j}$};
+
+    % phi
+    \node[above right] at (NULL) {$\phi > 0$};
+    \node[below left] at (B) {$\phi < 0$};
+
+    % legend
+
+    % coordinate system
+    \draw[->, line width=1pt] (-1,-1) -- (-1,0) node[left] {$y$};
+    \draw[->, line width=1pt] (-1,-1) -- (0,-1) node[below] {$x$};
+
+\end{tikzpicture}
+
+\end{document}

@@ -1,0 +1,28 @@
+\documentclass[tikz]{standalone}
+\begin{document}
+\begin{tikzpicture}[
+        full/.style = {circle,draw,fill,inner sep=1pt},
+        empty/.style = {circle,draw,fill=white,inner sep=1pt}
+    ]
+    % To be added
+    \draw[help lines] (0,0) -- (45:7);
+    \draw (0,0)+(0:0.9) arc(0:45:0.9);
+    \node at (22.5:0.6) {$45^\circ$};
+    %
+    \draw[thick,->] (0,0)--(5,0) node[below]{$p_1$};
+    \draw[thick,->] (0,0)--(0,5) node[left]{$p_2$};
+    \draw[blue,-] (1,5)--(1,1.1) node[empty] {};
+    \draw[blue,-] (1,1) node[full] {} --(3.5,3.4) node[full] {};
+    \draw[blue,-] (3.5,3.5) node[empty] {} --(5,3.5);
+    \draw[dotted] (0,1) node[left]{$c$}--(1,1);
+    \draw[dotted] (1,0) node[below]{$c$}--(1,1);
+    \draw[dotted] (0,3.5) node [left]{$\frac{A+Bc}{2}$}--(3.5,3.5);
+    \draw[dotted] (3.5,0) node [below]{$\frac{A+Bc}{2}$}--(3.5,3.5);
+    % Another discontinuous one
+    \draw[green] (0,2) -- (3,2) node[empty] (A) {};
+    \draw[green] (3,1.5) node[full] (B) {} -- (4,1) node[empty] (C) {};
+    \draw[green] (4,2) node[full] (D) {} -- (5,5);
+    \draw[dotted] (A) -- (B) (C) -- (D);
+    \draw[<-] (A) -- +(-0.7,1) node[above] {\tiny Very discontinuous!};
+\end{tikzpicture}
+\end{document}

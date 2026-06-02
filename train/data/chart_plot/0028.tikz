@@ -1,0 +1,196 @@
+\documentclass{article}
+\usepackage{amssymb}
+\usepackage{xcolor}
+\usepackage{pgfplots}
+\pgfplotsset{compat=newest}
+\usepackage{tikz}
+\usetikzlibrary{patterns}
+\usetikzlibrary{decorations.pathmorphing}
+\usetikzlibrary{decorations.pathreplacing,decorations.markings}
+\usetikzlibrary{shapes}
+\tikzset{
+	grid with coordinates/.style={
+		to path={%
+			\pgfextra{%
+				\edef\grd@@target{(\tikztotarget)}%
+				\tikz@scan@one@point\grd@save@target\grd@@target\relax
+				\edef\grd@@start{(\tikztostart)}%
+				\tikz@scan@one@point\grd@save@start\grd@@start\relax
+				\draw[minor help lines] (\tikztostart) grid (\tikztotarget);
+				\draw[major help lines] (\tikztostart) grid (\tikztotarget);
+				\grd@start
+				\pgfmathsetmacro{\grd@xa}{\the\pgf@x/1cm}
+				\pgfmathsetmacro{\grd@ya}{\the\pgf@y/1cm}
+				\grd@target
+				\pgfmathsetmacro{\grd@xb}{\the\pgf@x/1cm}
+				\pgfmathsetmacro{\grd@yb}{\the\pgf@y/1cm}
+				\pgfmathsetmacro{\grd@xc}{\grd@xa + \pgfkeysvalueof{/tikz/grid with coordinates/major step}}
+				\pgfmathsetmacro{\grd@yc}{\grd@ya + \pgfkeysvalueof{/tikz/grid with coordinates/major step}}
+				\foreach \x in {\grd@xa,\grd@xc,...,\grd@xb}
+				\node[anchor=north] at (\x,\grd@ya) {\pgfmathprintnumber{\x}};
+				\foreach \y in {\grd@ya,\grd@yc,...,\grd@yb}
+				\node[anchor=east] at (\grd@xa,\y) {\pgfmathprintnumber{\y}};
+			}
+		}
+	},
+	minor help lines/.style={
+		help lines,
+		step=\pgfkeysvalueof{/tikz/grid with coordinates/minor step}
+	},
+	major help lines/.style={
+		help lines,
+		line width=\pgfkeysvalueof{/tikz/grid with coordinates/major line width},
+		step=\pgfkeysvalueof{/tikz/grid with coordinates/major step}
+	},
+	grid with coordinates/.cd,
+	minor step/.initial=.2,
+	major step/.initial=1,
+	major line width/.initial=0.25mm,
+}
+\pgfdeclarepatternformonly{north east lines wide}
+{\pgfqpoint{-1pt}{-1pt}}
+{\pgfqpoint{10pt}{10pt}}
+{\pgfqpoint{5pt}{5pt}}
+{
+	\pgfsetlinewidth{.8pt}
+	\pgfpathmoveto{\pgfqpoint{0pt}{0pt}}
+	\pgfpathlineto{\pgfqpoint{9.1pt}{9.1pt}}
+	\pgfusepath{stroke}
+}
+\tikzset{
+	% style to apply some styles to each segment of a path
+	on each segment/.style={
+		decorate,
+		decoration={
+			show path construction,
+			moveto code={},
+			lineto code={
+				\path[#1]
+				(\tikzinputsegmentfirst) -- (\tikzinputsegmentlast);
+			},
+			curveto code={
+				\path[#1] (\tikzinputsegmentfirst)
+				.. controls
+				(\tikzinputsegmentsupporta) and (\tikzinputsegmentsupportb)
+				..
+				(\tikzinputsegmentlast);
+			},
+			closepath code={
+				\path[#1]
+				(\tikzinputsegmentfirst) -- (\tikzinputsegmentlast);
+			},
+		},
+	},
+	% style to add an arrow in the middle of a path
+	mid arrow/.style={postaction={decorate,decoration={
+				markings,
+				mark=at position .5 with {\arrow[#1]{stealth}}
+	}}},
+	rmid arrow/.style={postaction={decorate,decoration={
+				markings,
+				mark=at position .5 with {\arrowreversed[#1]{stealth}}
+	}}},
+	end arrow/.style={postaction={decorate,decoration={
+				markings,
+				mark=at position 1 with {\arrow[#1]{stealth}}
+	}}},
+	start arrow/.style={postaction={decorate,decoration={
+				markings,
+				mark=at position 0 with {\arrow[#1]{stealth}}
+	}}},
+	mid3 arrow/.style={postaction={decorate,decoration={
+				markings,
+				mark=at position .3 with {\arrow[#1]{stealth}}
+	}}},
+	rmid3 arrow/.style={postaction={decorate,decoration={
+				markings,
+				mark=at position .7 with {\arrowreversed[#1]{stealth}}
+	}}},
+	mid4 arrow/.style={postaction={decorate,decoration={
+				markings,
+				mark=at position .4 with {\arrow[#1]{stealth}}
+	}}},
+	rmid4 arrow/.style={postaction={decorate,decoration={
+				markings,
+				mark=at position .4 with {\arrowreversed[#1]{stealth}}
+	}}},
+}
+\tikzset{every state/.style={minimum size=0pt}}
+\tikzset{
+	mark position/.style args={#1(#2)}{
+		postaction={
+			decorate,
+			decoration={
+				markings,
+				mark=at position #1 with \coordinate (#2);
+			}
+		}
+	}
+}
+\usetikzlibrary{3d}
+\usepackage{xcolor}
+\usetikzlibrary{decorations}
+\pgfdeclaredecoration{ignore}{final}{
+	\state{final}{}
+}
+\pgfdeclaremetadecoration{middle}{initial}{
+	\state{initial}[
+	width={0pt},
+	next state=middle
+	]
+	{\decoration{moveto}}
+	
+	\state{middle}[
+	width={\pgfdecorationsegmentlength*\pgfmetadecoratedpathlength},
+	next state=final
+	]
+	{\decoration{curveto}}
+	
+	\state{final}{\decoration{ignore}}
+}
+\tikzset{middle segment/.style={decoration={middle},decorate, segment length=#1}}
+
+\begin{document}
+
+\begin{tikzpicture}
+			\draw[line width=1pt] (1.2,2.7)--(1.2,2.4)--(1.5,2.4)--(1.5,2.1)--(2.1,2.1)--(2.1,1.5)--(2.4,1.5)--(2.4,0.9)--(2.7,0.9);
+			\draw[<-] (0,2.4)--(2.2,0.2); 
+			\draw[line width=2pt] (0.45,1.95)--(0.6,1.8);
+			\draw[decoration={aspect=0.03, segment length=0.4mm, amplitude=0.12mm,coil},decorate] (0.6,1.8)--(0.75,1.65);
+			\draw[line width=2pt] (0.75,1.65)--(0.9,1.5);
+			\draw[decoration={aspect=0.03, segment length=0.4mm, amplitude=0.12mm,coil},decorate] (0.9,1.5)--(1.2,1.2);
+			\draw[line width=2pt] (1.2,1.2)--(1.5,0.9);
+			\draw[decoration={aspect=0.03, segment length=0.4mm, amplitude=0.12mm,coil},decorate] (1.5,0.9)--(1.65,0.75);
+			\draw[line width=2pt] (1.65,0.75)--(1.95,0.45);
+			\draw[decoration={aspect=0.03, segment length=0.4mm, amplitude=0.12mm,coil},decorate] (1.95,0.45)--(2.1,0.3);
+			\draw[dotted] (1.2,2.7)--(0.45,1.95);
+			\draw[dotted] (1.2,2.4)--(0.6,1.8);
+			\draw[dotted] (1.5,2.4)--(0.75,1.65);
+			\draw[dotted] (1.5,2.1)--(0.9,1.5);
+			\draw[dotted] (1.8,2.1)--(1.05,1.35);
+			\draw[dotted] (2.1,2.1)--(1.2,1.2);
+			\draw[dotted] (2.1,1.8)--(1.35,1.05);
+			\draw[dotted] (2.1,1.5)--(1.5,0.9);
+			\draw[dotted] (2.4,1.5)--(1.65,0.75);
+			\draw[dotted] (2.4,1.2)--(1.8,0.6);
+			\draw[dotted] (2.4,0.9)--(1.95,0.45);
+			\draw[dotted] (2.7,0.9)--(2.1,0.3);
+			\node at (2.7,0.9)[circle,fill,inner sep=1.1pt]{};
+			\node at (2.7,0.9)[rectangle,fill,inner sep=1.34pt]{};
+			\node at (2.4,1.2)[rectangle,fill,inner sep=1.34pt]{};
+			\node at (2.4,1.5)[rectangle,fill,inner sep=1.34pt]{};
+			\node at (2.4,1.5)[circle,fill,inner sep=1.1pt]{};
+			\node at (2.1,1.8)[rectangle,fill,inner sep=1.34pt]{};
+			\node at (2.1,2.1)[rectangle,fill,inner sep=1.34pt]{};
+			\node at (2.1,2.1)[circle,fill,inner sep=1.1pt]{};
+			\node at (1.8,2.1)[circle,fill,inner sep=1.1pt]{};
+			\node at (1.5,2.4)[circle,fill,inner sep=1.1pt]{};
+			\node at (1.5,2.4)[rectangle,fill,inner sep=1.34pt]{};
+			\node at (1.2,2.7)[rectangle,fill,inner sep=1.34pt]{};
+			\node at (1.2,2.7)[circle,fill,inner sep=1.1pt]{};
+			\node[scale=0.7] at (2.9,0.6)  {$(m,n)$};
+			\node[scale=0.7] at (1,2.95)  {$(m',n')$};
+			\node[scale=0.7] at (-0.6,2.1) {scaled $\mathrm{x}$};
+	\end{tikzpicture}
+
+\end{document}
