@@ -21,7 +21,7 @@ JUDGE_PROMPT = (
 
 # Generate
 print(f"Generating {IMAGE}...")
-r = generate(IMAGE, 0, output_dir="output", difficulty="chart_plot")
+r = generate(IMAGE, 0, output_dir="output", difficulty="easy")
 print(f"Compile: {r.compile_ok}")
 
 if not r.compile_ok:

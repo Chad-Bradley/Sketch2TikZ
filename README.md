@@ -98,7 +98,7 @@ API keys: copy `.env.example` to `.env`, fill in at least one platform.
 python -m test.runner --difficulty easy --num-samples 10
 
 # Iterative prompt optimization (uses train data with GT code)
-python -m train.dev_loop
+python -m train.dev_loop --difficulty easy
 
 # Ad-hoc visual quality check on a specific sample
 python -m train._ask_ai
@@ -106,10 +106,11 @@ python -m train._ask_ai
 
 | Flag | Effect |
 |------|--------|
-| `--difficulty {easy,medium,difficult}` | Test set (default: easy) |
+| `--difficulty {easy,medium,difficult,chart_plot,math_formula,math_geometry,pure_drawing}` | Test set (default: easy) |
 | `--num-samples N` | Samples to test (default: 10, max 50) |
 | `--skip-judge` | Compile-only mode, skip vision judge |
-
+| `--resume` | Resume from last completed sample |
+| `--start-from N` | Skip samples before index N |
 ## Platforms
 
 Multi-platform architecture with a configurable primary endpoint. Additional providers serve as fallback chain.

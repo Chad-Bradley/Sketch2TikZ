@@ -50,7 +50,7 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--difficulty",
                         choices=["easy","medium","difficult","chart_plot","math_formula","math_geometry","pure_drawing"],
-                        default="math_formula",
+                        default="easy",
                         help="Which train data category to use for optimisation")
     parser.add_argument("--num-samples", type=int, default=3,
                         help="Number of random samples to test")
